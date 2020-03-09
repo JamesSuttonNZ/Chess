@@ -17,7 +17,7 @@ public class Chess {
 		//create pieces and assign to players
 		setupPieces();
 		//run game loop
-		GameLoop();
+//		GameLoop();
 	}
 
 	private void GameLoop() {
@@ -136,6 +136,10 @@ public class Chess {
 		for(int col = 0; col < 8; col++) {
 			new Pawn(black, board.getSquare(6,col));
 		}
+	}
+
+	public Board getBoard() {
+		return board;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package Chess;
 
+import java.awt.Graphics;
 import java.util.Arrays;
 
 import Chess.Pieces.Piece;
@@ -9,10 +10,19 @@ public class Board {
 	public Square[][] board = new Square[8][8];
 	public Board() {
 		
+		//create board
+		boolean white = true;
+		int y = 100;
 		for(int row = 0; row < 8; row++) {
+			int x = 100;
 			for(int col = 0; col < 8; col++) {
-				board[row][col] = new Square(row, col);
+				board[row][col] = new Square(white, row, col, x, y);
+				x += 100;
+				if(col != 7) {
+					white = !white;
+				}
 			}
+			y += 100;
 		}
 		
 	}
@@ -23,6 +33,14 @@ public class Board {
 				System.out.print(board[row][col].toString()+" ");
 			}
 			System.out.println();
+		}
+	}
+	
+	public void drawBoard(Graphics g) {
+		for(int row = 0; row < 8; row++) {
+			for(int col = 0; col < 8; col++) {
+				board[row][col].drawSquare(g);
+			}
 		}
 	}
 

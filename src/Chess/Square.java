@@ -1,16 +1,22 @@
 package Chess;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import Chess.Pieces.Piece;
 
 public class Square {
 	
-	public int row;
-	public int col;
+	public int row, col, x, y;
+	public boolean white;
 	public Piece piece;
 
-	public Square(int row, int col) {
+	public Square(boolean white, int row, int col, int x, int y) {
+		this.white = white;
 		this.row = row;
 		this.col = col;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public Piece getPiece() {
@@ -47,6 +53,15 @@ public class Square {
 		else {
 			return ""+x[col]+(row+1);
 		}
+	}
+
+	public void drawSquare(Graphics g) {
+		if(white) {
+			g.setColor(new Color(225,200,175));
+		} else {
+			g.setColor(new Color(150,100,100));
+		}
+		g.fillRect(x, y, 100, 100);
 	}
 
 }

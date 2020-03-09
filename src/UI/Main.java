@@ -13,7 +13,9 @@ public class Main {
 			public void run() {
 				JFrame frame = new MainFrame("Sutt's Oldschool Arcade");
 				frame.setVisible(true);
-				frame.setSize(500, 500);
+//				frame.setResizable(false);
+//				frame.setSize(1200, 1000);
+				frame.pack();
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setLocationRelativeTo(null);
 			}
