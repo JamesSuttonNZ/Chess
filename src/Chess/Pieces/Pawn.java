@@ -1,5 +1,6 @@
 package Chess.Pieces;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,14 +21,14 @@ public class Pawn extends Piece {
 		//get image
 		if(owner.getName() == "White") {
 			try {
-				sprite = ImageIO.read(new File("Resources/Chess Piece Images/knightW.png"));
+				sprite = ImageIO.read(new File("Resources/Chess Piece Images/pawnW.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				sprite = ImageIO.read(new File("Resources/Chess Piece Images/knightB.png"));
+				sprite = ImageIO.read(new File("Resources/Chess Piece Images/pawnB.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,5 +65,11 @@ public class Pawn extends Piece {
 	
 	public String toString() {
 		return owner.getName()+" Pawn";
+	}
+
+	@Override
+	public Image getSprite() {
+		// TODO Auto-generated method stub
+		return sprite;
 	}
 }

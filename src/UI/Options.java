@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class Options extends JPanel {
 	
 	public Options(MainFrame mf) {
-		setPreferredSize(new Dimension(200,1000));
+		setPreferredSize(new Dimension(200,800));
 		
 		setBorder(BorderFactory.createTitledBorder("Options:"));
 		

@@ -11,13 +11,18 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.*;
 
 import Chess.Chess;
+import Chess.Square;
+import Chess.Pieces.Piece;
 
 public class ChessPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
 	public Chess chess;
+	public Piece selectedPiece;
 	
 	public ChessPanel(Chess chess) {
-		setPreferredSize(new Dimension(1000,1000));
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		setPreferredSize(new Dimension(800,800));
 		this.chess = chess;
 	}
 	
@@ -25,15 +30,18 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		drawLetters(g);
 		
-		drawNumbers(g);
 		
-		drawChessboard(g);
+//		drawLetters(g);
+		
+//		drawNumbers(g);
+		
+		drawSquares(g);
+		drawPieces(g);
 		
 	}
 
-
+	
 	private void drawLetters(Graphics g) {
 		//draw letters
 		g.setFont(new Font("SansSerif", Font.BOLD, 50));
@@ -51,12 +59,10 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 
 	private void drawNumbers(Graphics g) {
-		int x;
-		int y;
 		//draw numbers
-		x = 25;
+		int x = 25;
 		int x2 = 925;
-		y = 175;
+		int y = 175;
 		for(int i = 0; i < 8; i++) {
 			g.drawString(Integer.toString(i+1), x, y);
 			g.drawString(Integer.toString(i+1), x2, y);
@@ -65,53 +71,66 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 
 
-	private void drawChessboard(Graphics g) {
+	private void drawSquares(Graphics g) {
 		chess.getBoard().drawBoard(g);
+	}
+	
+	private void drawPieces(Graphics g) {
+		chess.drawPieces(g);
 	}
 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
 	}
 
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Point p = e.getPoint();
+		int row = p.y/100;
+		int col = p.x/100;
+		Square s = chess.getBoard().getSquare(row, col);
+		selectedPiece = s.getPiece();
+		repaint();
 	}
 
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mouseReleased(MouseEvent e) {
 		
 	}
 
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseDragged(MouseEvent e) {
+		if(selectedPiece != null) {
+			Point p = e.getPoint();
+			selectedPiece.setX(p.x-50);
+			selectedPiece.setY(p.y-50);
+			repaint();
+		}
 	}
 
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

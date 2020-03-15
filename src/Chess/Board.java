@@ -12,9 +12,9 @@ public class Board {
 		
 		//create board
 		boolean white = true;
-		int y = 100;
+		int y = 0;
 		for(int row = 0; row < 8; row++) {
-			int x = 100;
+			int x = 0;
 			for(int col = 0; col < 8; col++) {
 				board[row][col] = new Square(white, row, col, x, y);
 				x += 100;

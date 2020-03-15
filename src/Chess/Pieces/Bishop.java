@@ -1,5 +1,6 @@
 package Chess.Pieces;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +44,12 @@ public class Bishop extends Piece {
 	public boolean move(char x, int y, Board board) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Image getSprite() {
+		// TODO Auto-generated method stub
+		return sprite;
 	}
 	
 }

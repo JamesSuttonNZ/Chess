@@ -11,13 +11,13 @@ public class Main {
 
 			@Override
 			public void run() {
-				JFrame frame = new MainFrame("Sutt's Oldschool Arcade");
-				frame.setVisible(true);
-//				frame.setResizable(false);
+				JFrame frame = new MainFrame("Oldschool Arcade");
+				frame.setResizable(false);
 //				frame.setSize(1200, 1000);
 				frame.pack();
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setLocationRelativeTo(null);
+				frame.setVisible(true);
 			}
 			
 		});
