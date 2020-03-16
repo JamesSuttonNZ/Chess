@@ -7,7 +7,12 @@ import Chess.Pieces.Piece;
 
 public class Board {
 	
+	//8x8 board of squares
 	public Square[][] board = new Square[8][8];
+	
+	/**
+	 * setup board
+	 */
 	public Board() {
 		
 		//create board
@@ -36,6 +41,9 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * draw squares
+	 */
 	public void drawBoard(Graphics g) {
 		for(int row = 0; row < 8; row++) {
 			for(int col = 0; col < 8; col++) {

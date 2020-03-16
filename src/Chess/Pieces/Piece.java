@@ -10,15 +10,16 @@ import Chess.Square;
 public abstract class Piece {
 	
 	public Player owner;
-	public Square pos;
+	public Square currentSquare;
 	public int x,y;
+	public boolean taken = false;
 	
-	public Piece(Player owner, Square pos) {
+	public Piece(Player owner, Square currentSquare) {
 		this.owner = owner;
-		this.pos = pos;
-		this.x = pos.getX();
-		this.y = pos.getY();
-		pos.setPiece(this);
+		this.currentSquare = currentSquare;
+		this.x = currentSquare.getX();
+		this.y = currentSquare.getY();
+		currentSquare.setPiece(this);
 		owner.addPiece(this);
 	}
 
@@ -31,15 +32,23 @@ public abstract class Piece {
 	}
 
 	public Square getPos() {
-		return pos;
+		return currentSquare;
 	}
 
 	public void setPos(Square pos) {
-		this.pos = pos;
+		this.currentSquare = pos;
+		this.x = pos.getX();
+		this.y = pos.getY();
 	}
 	
-	
-	
+	public boolean isTaken() {
+		return taken;
+	}
+
+	public void setTaken(boolean taken) {
+		this.taken = taken;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -63,6 +72,10 @@ public abstract class Piece {
 	public abstract String toString();
 
 	public void drawPiece(Graphics g) {
-		g.drawImage(this.getSprite(), x, y, 100, 100, null);
-	}	
+		if(!taken) {
+			g.drawImage(this.getSprite(), x, y, 100, 100, null);
+		}
+	}
+
+	public abstract void movePiece(Square newSquare);	
 }

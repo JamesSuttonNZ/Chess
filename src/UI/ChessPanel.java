@@ -17,6 +17,7 @@ import Chess.Pieces.Piece;
 public class ChessPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
 	public Chess chess;
+	public Square selectedSquare;
 	public Piece selectedPiece;
 	
 	public ChessPanel(Chess chess) {
@@ -37,6 +38,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 //		drawNumbers(g);
 		
 		drawSquares(g);
+		
 		drawPieces(g);
 		
 	}
@@ -106,15 +108,26 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		Point p = e.getPoint();
 		int row = p.y/100;
 		int col = p.x/100;
-		Square s = chess.getBoard().getSquare(row, col);
-		selectedPiece = s.getPiece();
+		selectedSquare = chess.getBoard().getSquare(row, col);
+		selectedPiece = selectedSquare.getPiece();
+		if(selectedPiece != null) {
+			selectedSquare.setPressed(true);
+		}
 		repaint();
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		if(selectedPiece != null) {
+			Point p = e.getPoint();
+			int row = p.y/100;
+			int col = p.x/100;
+			Square newSquare = chess.getBoard().getSquare(row, col);
+			selectedPiece.movePiece(newSquare);
+			selectedSquare.setPressed(false);
+			repaint();
+		}
 	}
 
 

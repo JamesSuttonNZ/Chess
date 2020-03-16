@@ -8,7 +8,7 @@ import Chess.Pieces.Piece;
 public class Square {
 	
 	public int row, col, x, y;
-	public boolean white;
+	public boolean white, pressed;
 	public Piece piece;
 
 	public Square(boolean white, int row, int col, int x, int y) {
@@ -26,8 +26,6 @@ public class Square {
 	public void setPiece(Piece piece) {
 		this.piece = piece;
 	}
-	
-	
 	
 	public int getRow() {
 		return row;
@@ -60,6 +58,14 @@ public class Square {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public boolean isPressed() {
+		return pressed;
+	}
+
+	public void setPressed(boolean pressed) {
+		this.pressed = pressed;
+	}
 
 	public String toString() {
 		char[] x = {'A','B','C','D','E','F','G','H'};
@@ -72,12 +78,19 @@ public class Square {
 	}
 
 	public void drawSquare(Graphics g) {
+		g.setColor(new Color(255,200,125));
+		g.fillRect(x, y, 100, 100);
 		if(white) {
 			g.setColor(new Color(225,200,175));
 		} else {
 			g.setColor(new Color(150,100,100));
 		}
-		g.fillRect(x, y, 100, 100);
+		if(pressed) {
+			g.fillRect(x+5, y+5, 90, 90);
+		}
+		else {
+			g.fillRect(x, y, 100, 100);
+		}
 	}
 
 }

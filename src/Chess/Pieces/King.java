@@ -51,5 +51,11 @@ public class King extends Piece {
 		// TODO Auto-generated method stub
 		return sprite;
 	}
+
+	@Override
+	public void movePiece(Square newSquare) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

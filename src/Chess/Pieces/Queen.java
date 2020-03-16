@@ -52,4 +52,10 @@ public class Queen extends Piece {
 		return sprite;
 	}
 
+	@Override
+	public void movePiece(Square newSquare) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
