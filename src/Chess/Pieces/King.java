@@ -42,20 +42,67 @@ public class King extends Piece {
 
 	@Override
 	public boolean move(char x, int y, Board board) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public Image getSprite() {
-		// TODO Auto-generated method stub
 		return sprite;
 	}
 
 	@Override
 	public void movePiece(Square newSquare) {
-		// TODO Auto-generated method stub
-		
+		if(newSquare == currentSquare) {
+			super.setPos(currentSquare);
+		}
+		else {
+			
+			//get move amount
+			int moveRow = newSquare.getRow() - currentSquare.getRow();
+			int moveCol = newSquare.getCol() - currentSquare.getCol();
+			
+			//get piece at new square
+			Piece newSquarePiece = newSquare.getPiece();
+			
+			//allowed move check
+			if(Math.abs(moveRow) <= 1 && Math.abs(moveCol) <= 1) {
+				if(owner.getName() == "White") {
+					moveCheck(newSquare, newSquarePiece, "Black");
+				}
+				else {
+					moveCheck(newSquare, newSquarePiece, "White");
+				}
+			}
+			else {
+				//reset position
+				super.setPos(currentSquare);
+			}
+		}
+	}
+	
+	private void moveCheck(Square newSquare, Piece newSquarePiece, String player) {
+		//taking other players piece
+		if(newSquarePiece != null && newSquarePiece.getOwner().getName() == player) {
+			//take occupying piece
+			newSquarePiece.setTaken(true);
+			updatePosition(newSquare);
+		}
+		//take empty square
+		else if(newSquarePiece == null) {
+			updatePosition(newSquare);
+		}
+		//reset position
+		else {
+			super.setPos(currentSquare);
+		}
+	}
+
+	private void updatePosition(Square newSquare) {
+		//remove piece from old square
+		currentSquare.setPiece(null);
+		//move piece
+		newSquare.setPiece(this);
+		super.setPos(newSquare);
 	}
 	
 }

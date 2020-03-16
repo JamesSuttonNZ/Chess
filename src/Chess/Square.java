@@ -10,13 +10,20 @@ public class Square {
 	public int row, col, x, y;
 	public boolean white, pressed;
 	public Piece piece;
-
+	public Color color;
+	
 	public Square(boolean white, int row, int col, int x, int y) {
 		this.white = white;
 		this.row = row;
 		this.col = col;
 		this.x = x;
 		this.y = y;
+		if(white) {
+			color = new Color(225,200,175);
+		}
+		else {
+			color = new Color(150,100,100);
+		}
 	}
 	
 	public Piece getPiece() {
@@ -78,13 +85,11 @@ public class Square {
 	}
 
 	public void drawSquare(Graphics g) {
-		g.setColor(new Color(255,200,125));
-		g.fillRect(x, y, 100, 100);
-		if(white) {
-			g.setColor(new Color(225,200,175));
-		} else {
-			g.setColor(new Color(150,100,100));
+		if(pressed) {
+			g.setColor(new Color(255,200,125));
+			g.fillRect(x, y, 100, 100);
 		}
+		g.setColor(color);
 		if(pressed) {
 			g.fillRect(x+5, y+5, 90, 90);
 		}
