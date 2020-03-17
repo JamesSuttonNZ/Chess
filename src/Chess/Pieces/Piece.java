@@ -2,6 +2,7 @@ package Chess.Pieces;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import Chess.Board;
 import Chess.Player;
@@ -77,5 +78,13 @@ public abstract class Piece {
 		}
 	}
 
-	public abstract void movePiece(Square newSquare);	
+	public abstract void movePiece(Square newSquare);
+
+	public abstract void cancelMove();
+
+	public abstract boolean validMove(Square[][] board, Square selectedSquare, Square newSquare);
+
+	public abstract void highlightMoves(Square[][] board, Square selectedSquare);
+
+	public abstract ArrayList<Square> validMoves(Square[][] board, Square selectedSquare);	
 }

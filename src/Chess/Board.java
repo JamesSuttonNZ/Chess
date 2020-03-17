@@ -1,6 +1,8 @@
 package Chess;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import Chess.Pieces.Piece;
@@ -62,6 +64,22 @@ public class Board {
 		int col = val.indexOf(x);
 		Square s = getSquare(y-1,col);
 		return s.getPiece();
+	}
+
+	public ArrayList<Square> getValidMoves(Square selectedSquare, Piece selectedPiece) {
+		ArrayList<Square> validMoves = selectedPiece.validMoves(board, selectedSquare);
+		
+		selectedPiece.highlightMoves(board, selectedSquare);
+		return validMoves;
+	}
+
+	public void movePiece(Square selectedSquare, Square newSquare, Piece selectedPiece) {
+		if(selectedPiece.validMove(board, selectedSquare, newSquare)) {
+			selectedPiece.movePiece(newSquare);
+		}
+		else {
+			selectedPiece.cancelMove();
+		}
 	}
 
 }

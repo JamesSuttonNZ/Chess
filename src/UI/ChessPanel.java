@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -19,6 +20,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public Chess chess;
 	public Square selectedSquare;
 	public Piece selectedPiece;
+	public ArrayList<Square> validMoves;
 	
 	public ChessPanel(Chess chess) {
 		addMouseListener(this);
@@ -40,6 +42,11 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		drawSquares(g);
 		
 		drawPieces(g);
+		
+		//draw selected piece on top
+		if(selectedPiece != null) {
+			selectedPiece.drawPiece(g);
+		}
 		
 	}
 
@@ -105,13 +112,24 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		//get clicked point
 		Point p = e.getPoint();
 		int row = p.y/100;
 		int col = p.x/100;
+		//clicked square
 		selectedSquare = chess.getBoard().getSquare(row, col);
+		//clicked piece
 		selectedPiece = selectedSquare.getPiece();
+		
+		//highlight if moveable piece
 		if(selectedPiece != null) {
 			selectedSquare.setPressed(true);
+			
+			//draw green circle at square that can be moved to
+			validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
+			for(Square s : validMoves) {
+				s.setValid(true);
+			}
 		}
 		repaint();
 	}
@@ -120,12 +138,21 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(selectedPiece != null) {
+			
+			//get clicked square
 			Point p = e.getPoint();
 			int row = p.y/100;
 			int col = p.x/100;
 			Square newSquare = chess.getBoard().getSquare(row, col);
-			selectedPiece.movePiece(newSquare);
+			if(validMoves.contains(newSquare)) {
+				selectedPiece.movePiece(newSquare);
+			}else {
+				selectedPiece.cancelMove();
+			}
 			selectedSquare.setPressed(false);
+			for(Square s : validMoves) {
+				s.setValid(false);
+			}
 			repaint();
 		}
 	}

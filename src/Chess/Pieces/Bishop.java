@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -104,5 +105,79 @@ public class Bishop extends Piece {
 		newSquare.setPiece(this);
 		super.setPos(newSquare);
 	}
+
+	@Override
+	public void cancelMove() {
+		super.setPos(currentSquare);
+	}
+
+	@Override
+	public boolean validMove(Square[][] board, Square selectedSquare, Square newSquare) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void highlightMoves(Square[][] board, Square selectedSquare) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
+		ArrayList<Square> vm = new ArrayList<Square>();
+		//recurse northwest
+		recursiveCheck(board, selectedSquare, -1, -1, vm);
+		//recurse northeast
+		recursiveCheck(board, selectedSquare, 1, -1, vm);
+		//recurse southeast
+		recursiveCheck(board, selectedSquare, 1, 1, vm);
+		//recurse southwest
+		recursiveCheck(board, selectedSquare, -1, 1, vm);
+		return vm;
+	}
 	
+	public void recursiveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm) {
+		int row = currentSquare.getRow();
+		int col = currentSquare.getCol();
+		
+		Piece p = currentSquare.getPiece();
+		
+		if(p != null && p.getOwner().getName() != owner.getName()) {
+			return;
+		}
+		
+		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
+			currentSquare = board[row+moveRow][col+moveCol];
+			if(valid(currentSquare)) {
+				vm.add(currentSquare);
+				recursiveCheck(board,currentSquare,moveRow,moveCol,vm);
+			}
+			else {
+				return;
+			}
+		}
+		else {
+			return;
+		}
+	}
+	
+	public boolean valid(Square s) {
+		//get piece at new square
+		Piece p = s.getPiece();
+		
+		if(p != null && p.getOwner().getName() != owner.getName()) {
+			return true;
+		}
+//		else if(p != null && p.getOwner().getName() == owner.getName()) {
+//			return false;
+//		}
+		//take empty square
+		else if(p == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
