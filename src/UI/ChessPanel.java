@@ -106,7 +106,18 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		if(selectedPiece != null) {
+			selectedPiece.cancelMove();
+			selectedPiece = null;
+			selectedSquare.setPressed(false);
+			selectedSquare = null;
+			for(Square s : validMoves) {
+				s.setValid(false);
+			}
+			validMoves = null;
+			repaint();
+		}
+		
 	}
 
 

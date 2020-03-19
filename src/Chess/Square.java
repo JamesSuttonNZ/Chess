@@ -110,7 +110,7 @@ public class Square {
 		}
 		if(valid && piece == null) {
 			g.setColor(new Color(175,225,0));
-			g.fillOval(x+35, y+35, 30, 30);
+			g.fillOval(x+40, y+40, 20, 20);
 		}
 	}
 

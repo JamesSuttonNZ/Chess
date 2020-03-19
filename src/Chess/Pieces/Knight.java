@@ -127,24 +127,44 @@ public class Knight extends Piece{
 	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
 		ArrayList<Square> vm = new ArrayList<Square>();
 		//recurse left
-		recursiveCheck(board, selectedSquare, 0, -1, vm);
+		recursiveCheck(board, selectedSquare, 2, 1, vm, 1);
 		//recurse right
-		recursiveCheck(board, selectedSquare, 0, 1, vm);
+		recursiveCheck(board, selectedSquare, 2, -1, vm, 1);
 		//recurse up
-		recursiveCheck(board, selectedSquare, -1, 0, vm);
+		recursiveCheck(board, selectedSquare, -2, 1, vm, 1);
 		//recurse down
-		recursiveCheck(board, selectedSquare, 1, 0, vm);
+		recursiveCheck(board, selectedSquare, -2, -1, vm, 1);
+		//
+		recursiveCheck(board, selectedSquare, 1, 2, vm, 1);
+		//recurse right
+		recursiveCheck(board, selectedSquare, -1, 2, vm, 1);
+		//recurse up
+		recursiveCheck(board, selectedSquare, 1, -2, vm, 1);
+		//recurse down
+		recursiveCheck(board, selectedSquare, -1, -2, vm, 1);
 		return vm;
 	}
 	
-	public void recursiveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm) {
+	public void recursiveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
+		if(moves == 0) {
+			return;
+		}
+		
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
 		
+		Piece p = currentSquare.getPiece();
+		
+		if(p != null && p.getOwner().getName() != owner.getName()) {
+			return;
+		}
+		
 		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
 			currentSquare = board[row+moveRow][col+moveCol];
+			//check diagonal
 			if(valid(currentSquare)) {
 				vm.add(currentSquare);
+				recursiveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 			}
 			else {
 				return;
