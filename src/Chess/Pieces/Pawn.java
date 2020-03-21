@@ -110,21 +110,9 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public boolean validMove(Square[][] board, Square selectedSquare, Square newSquare) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void highlightMoves(Square[][] board, Square selectedSquare) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
 		ArrayList<Square> vm = new ArrayList<Square>();
-		if(owner.getName() == "White") {
+		if(owner.getName() == "Black") {
 			if(!moved) {
 				recursiveCheck(board, selectedSquare, 1, 0, vm, 2);
 			}

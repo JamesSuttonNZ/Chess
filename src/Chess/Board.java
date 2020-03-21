@@ -68,18 +68,7 @@ public class Board {
 
 	public ArrayList<Square> getValidMoves(Square selectedSquare, Piece selectedPiece) {
 		ArrayList<Square> validMoves = selectedPiece.validMoves(board, selectedSquare);
-		
-		selectedPiece.highlightMoves(board, selectedSquare);
 		return validMoves;
-	}
-
-	public void movePiece(Square selectedSquare, Square newSquare, Piece selectedPiece) {
-		if(selectedPiece.validMove(board, selectedSquare, newSquare)) {
-			selectedPiece.movePiece(newSquare);
-		}
-		else {
-			selectedPiece.cancelMove();
-		}
 	}
 
 }

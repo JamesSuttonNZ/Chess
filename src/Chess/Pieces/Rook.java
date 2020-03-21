@@ -42,12 +42,6 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public boolean move(char x, int y, Board board) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Image getSprite() {
 		return sprite;
 	}
@@ -84,48 +78,6 @@ public class Rook extends Piece{
 	@Override
 	public void cancelMove() {
 		super.setPos(currentSquare);
-	}
-
-	@Override
-	public boolean validMove(Square[][] board, Square selectedSquare, Square newSquare) {
-		
-//		if(newSquare == currentSquare) {
-//			return false;
-//		}
-//		else {
-//			
-//			//get move amount
-//			int moveRow = newSquare.getRow() - currentSquare.getRow();
-//			int moveCol = newSquare.getCol() - currentSquare.getCol();
-//			
-//			//get piece at new square
-//			Piece newSquarePiece = newSquare.getPiece();
-//			
-//			//cant take owned piece
-//			
-//			
-//			//allowed move check
-//			if((moveRow == 0 && moveCol != 0) || (moveRow != 0 && moveCol == 0) ) {
-//				if(owner.getName() == "White") {
-//					moveCheck(newSquare, newSquarePiece, "Black");
-//				}
-//				else {
-//					moveCheck(newSquare, newSquarePiece, "White");
-//				}
-//			}
-//			else {
-//				//reset position
-//				super.setPos(currentSquare);
-//			}
-//			
-//		}
-		return false;
-	}
-
-	@Override
-	public void highlightMoves(Square[][] board, Square selectedSquare) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

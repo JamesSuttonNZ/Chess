@@ -42,11 +42,6 @@ public class King extends Piece {
 	}
 
 	@Override
-	public boolean move(char x, int y, Board board) {
-		return false;
-	}
-
-	@Override
 	public Image getSprite() {
 		return sprite;
 	}
@@ -109,18 +104,6 @@ public class King extends Piece {
 	@Override
 	public void cancelMove() {
 		super.setPos(currentSquare);
-	}
-
-	@Override
-	public boolean validMove(Square[][] board, Square selectedSquare, Square newSquare) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void highlightMoves(Square[][] board, Square selectedSquare) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

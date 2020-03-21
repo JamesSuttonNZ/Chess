@@ -33,13 +33,11 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		
-		
-//		drawLetters(g);
-		
-//		drawNumbers(g);
-		
 		drawSquares(g);
+		
+		drawLetters(g);
+		
+		drawNumbers(g);
 		
 		drawPieces(g);
 		
@@ -53,14 +51,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	
 	private void drawLetters(Graphics g) {
 		//draw letters
-		g.setFont(new Font("SansSerif", Font.BOLD, 50));
-		int x = 125;
-		int y = 75;
-		int y2 = 975;
-		char c = 'A';
+		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		g.setColor(Color.WHITE);
+		int x = 85;
+		int y = 795;
+		char c = 'a';
 		for(int i = 0; i < 8; i++) {
 			g.drawString(Character.toString(c), x, y);
-			g.drawString(Character.toString(c), x, y2);
 			x += 100;
 			c++;
 		}
@@ -69,13 +66,12 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	private void drawNumbers(Graphics g) {
 		//draw numbers
-		int x = 25;
-		int x2 = 925;
-		int y = 175;
+		g.setColor(Color.WHITE);
+		int x = 0;
+		int y = 720;
 		for(int i = 0; i < 8; i++) {
 			g.drawString(Integer.toString(i+1), x, y);
-			g.drawString(Integer.toString(i+1), x2, y);
-			y += 100;
+			y -= 100;
 		}
 	}
 

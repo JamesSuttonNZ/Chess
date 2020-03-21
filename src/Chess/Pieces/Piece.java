@@ -66,25 +66,21 @@ public abstract class Piece {
 		this.y = y;
 	}
 
-	public abstract boolean move(char x, int y, Board board);
-	
-	public abstract Image getSprite();
-	
-	public abstract String toString();
+
 
 	public void drawPiece(Graphics g) {
 		if(!taken) {
 			g.drawImage(this.getSprite(), x, y, 100, 100, null);
 		}
 	}
-
+	
+	public abstract Image getSprite();
+	
+	public abstract String toString();
+	
 	public abstract void movePiece(Square newSquare);
-
+	
 	public abstract void cancelMove();
-
-	public abstract boolean validMove(Square[][] board, Square selectedSquare, Square newSquare);
-
-	public abstract void highlightMoves(Square[][] board, Square selectedSquare);
 
 	public abstract ArrayList<Square> validMoves(Square[][] board, Square selectedSquare);	
 }

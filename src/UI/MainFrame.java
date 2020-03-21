@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 		
 		options = new Options(this);
 		
-		c.add(options, BorderLayout.WEST);
+		c.add(options, BorderLayout.EAST);
 		
 		JPanel jp = new JPanel();
 		jp.setPreferredSize(new Dimension(800,800));
