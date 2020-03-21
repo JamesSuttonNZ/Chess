@@ -11,7 +11,7 @@ public class Main {
 
 			@Override
 			public void run() {
-				JFrame frame = new MainFrame("Oldschool Arcade");
+				JFrame frame = new MainFrame("Chess");
 				frame.setResizable(false);
 //				frame.setSize(1200, 1000);
 				frame.pack();

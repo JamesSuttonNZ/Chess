@@ -24,7 +24,7 @@ public class Options extends JPanel {
 		JButton newGame = new JButton("New Game");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mf.chess();
+				mf.getChessPanel().newGame();
 			}
 		});
 		JButton saveGame = new JButton("Save Game");

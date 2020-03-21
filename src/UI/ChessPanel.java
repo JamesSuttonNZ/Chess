@@ -22,11 +22,11 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public Piece selectedPiece;
 	public ArrayList<Square> validMoves;
 	
-	public ChessPanel(Chess chess) {
+	public ChessPanel() {
+		setPreferredSize(new Dimension(800,800));
+		this.chess = new Chess();;
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		setPreferredSize(new Dimension(800,800));
-		this.chess = chess;
 	}
 	
 	
@@ -35,10 +35,6 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		
 		drawSquares(g);
 		
-		drawLetters(g);
-		
-		drawNumbers(g);
-		
 		drawPieces(g);
 		
 		//draw selected piece on top
@@ -46,6 +42,11 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			selectedPiece.drawPiece(g);
 		}
 		
+	}
+	
+	public void newGame() {
+		this.chess = new Chess();
+		repaint();
 	}
 
 	
@@ -67,7 +68,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	private void drawNumbers(Graphics g) {
 		//draw numbers
 		g.setColor(Color.WHITE);
-		int x = 0;
+		int x = 2;
 		int y = 720;
 		for(int i = 0; i < 8; i++) {
 			g.drawString(Integer.toString(i+1), x, y);
@@ -130,12 +131,19 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		
 		//highlight if moveable piece
 		if(selectedPiece != null) {
-			selectedSquare.setPressed(true);
 			
-			//draw green circle at square that can be moved to
-			validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
-			for(Square s : validMoves) {
-				s.setValid(true);
+			//white piece and whites turn or black piece and blacks turn
+			if(selectedPiece.getOwner().isWhite() == chess.isWhitesTurn()) {
+				selectedSquare.setPressed(true);
+				
+				//draw green circle at square that can be moved to
+				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
+				for(Square s : validMoves) {
+					s.setValid(true);
+				}
+			}
+			else {
+				selectedPiece = null;
 			}
 		}
 		repaint();
@@ -153,6 +161,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			Square newSquare = chess.getBoard().getSquare(row, col);
 			if(validMoves.contains(newSquare)) {
 				selectedPiece.movePiece(newSquare);
+				chess.setWhitesTurn(!chess.isWhitesTurn());
 			}else {
 				selectedPiece.cancelMove();
 			}

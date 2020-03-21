@@ -11,7 +11,7 @@ import Chess.Chess;
 
 public class MainFrame extends JFrame {
 	
-	public ChessPanel chessPanel;
+	public ChessPanel chessPanel = new ChessPanel();;
 	public Options options;
 	public Container c;
 	
@@ -26,18 +26,19 @@ public class MainFrame extends JFrame {
 		
 		c.add(options, BorderLayout.EAST);
 		
-		JPanel jp = new JPanel();
-		jp.setPreferredSize(new Dimension(800,800));
-		c.add(jp, BorderLayout.CENTER);
+		chessPanel = new ChessPanel();
+		
+		c.add(chessPanel, BorderLayout.CENTER);
 		
 	}
 
-	public void chess() {
-		Chess chess = new Chess();
-		chessPanel = new ChessPanel(chess);
-		
-		c.add(chessPanel, BorderLayout.CENTER);
-		setVisible(true);
+	public ChessPanel getChessPanel() {
+		return chessPanel;
 	}
+
+	public void setChessPanel(ChessPanel chessPanel) {
+		this.chessPanel = chessPanel;
+	}
+
 
 }
