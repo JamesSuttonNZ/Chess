@@ -1,5 +1,3 @@
-# Oldschool-Arcade
+#  Chess
 
-Oldschool Arcade
-
-A java app which implements games such as Chess, Pacman, Snake, Pong etc. as a learning exercise.
+A GUI Chess game made in Java as a learning exercise.
