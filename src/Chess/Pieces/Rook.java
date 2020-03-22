@@ -47,11 +47,11 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public void movePiece(Square newSquare) {
-		moveCheck(newSquare, owner.getName());
+	public Piece movePiece(Square newSquare) {
+		return moveCheck(newSquare, owner.getName());
 	}
 	
-	private void moveCheck(Square newSquare, String player) {
+	private Piece moveCheck(Square newSquare, String player) {
 		//get piece at new square
 		Piece newSquarePiece = newSquare.getPiece();
 		
@@ -65,6 +65,8 @@ public class Rook extends Piece{
 		else if(newSquarePiece == null) {
 			updatePosition(newSquare);
 		}
+		
+		return newSquarePiece;
 	}
 
 	private void updatePosition(Square newSquare) {

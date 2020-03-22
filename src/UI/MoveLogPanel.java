@@ -21,6 +21,15 @@ public class MoveLogPanel extends JPanel {
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			
+		JButton undo = new JButton("Undo Move");
+		undo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mf.getChessPanel().undoMove();
+			}
+		});
+		
+		add(undo);
 	}
 	
 	

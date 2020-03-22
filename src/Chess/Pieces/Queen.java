@@ -47,33 +47,26 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public void movePiece(Square newSquare) {
-		if(newSquare == currentSquare) {
-			super.setPos(currentSquare);
+	public Piece movePiece(Square newSquare) {
+		return moveCheck(newSquare, owner.getName());
+	}
+	
+	private Piece moveCheck(Square newSquare, String player) {
+		//get piece at new square
+		Piece newSquarePiece = newSquare.getPiece();
+		
+		//taking other players piece
+		if(newSquarePiece != null && newSquarePiece.getOwner().getName() != player) {
+			//take occupying piece
+			newSquarePiece.setTaken(true);
+			updatePosition(newSquare);
 		}
-		else {
-			
-			//get move amount
-			int moveRow = newSquare.getRow() - currentSquare.getRow();
-			int moveCol = newSquare.getCol() - currentSquare.getCol();
-			
-			//get piece at new square
-			Piece newSquarePiece = newSquare.getPiece();
-			
-			//allowed move check
-			if((moveRow == 0 && moveCol != 0) || (moveRow != 0 && moveCol == 0) || Math.abs(moveRow) == Math.abs(moveCol)) {
-				if(owner.getName() == "White") {
-					moveCheck(newSquare, newSquarePiece, "Black");
-				}
-				else {
-					moveCheck(newSquare, newSquarePiece, "White");
-				}
-			}
-			else {
-				//reset position
-				super.setPos(currentSquare);
-			}
+		//take empty square
+		else if(newSquarePiece == null) {
+			updatePosition(newSquare);
 		}
+		
+		return newSquarePiece;
 	}
 	
 	private void moveCheck(Square newSquare, Piece newSquarePiece, String player) {

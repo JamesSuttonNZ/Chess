@@ -85,6 +85,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		chess.drawPieces(g);
 	}
 
+	public void undoMove() {
+		boolean undone = chess.getBoard().undoMove();
+		if(undone) {
+			chess.setWhitesTurn(!chess.isWhitesTurn());
+		}
+		repaint();
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -136,12 +143,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			if(selectedPiece.getOwner().isWhite() == chess.isWhitesTurn()) {
 				selectedSquare.setPressed(true);
 				
-				//draw green circle at square that can be moved to
+				//set valid moves and draw green circle at valid squares
 				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
 				for(Square s : validMoves) {
 					s.setValid(true);
 				}
 			}
+			//wrong color piece selected
 			else {
 				selectedPiece = null;
 			}
@@ -152,15 +160,19 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		//if piece selected
 		if(selectedPiece != null) {
 			
-			//get clicked square
+			//get dropped square
 			Point p = e.getPoint();
 			int row = p.y/100;
 			int col = p.x/100;
 			Square newSquare = chess.getBoard().getSquare(row, col);
+			
+			//check move to new square is valid
 			if(validMoves.contains(newSquare)) {
-				selectedPiece.movePiece(newSquare);
+				chess.getBoard().movePiece(selectedPiece,selectedSquare,newSquare);
 				chess.setWhitesTurn(!chess.isWhitesTurn());
 			}else {
 				selectedPiece.cancelMove();
@@ -176,6 +188,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		//if piece selected, stick to cursor
 		if(selectedPiece != null) {
 			Point p = e.getPoint();
 			selectedPiece.setX(p.x-50);

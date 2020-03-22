@@ -3,8 +3,10 @@ package Chess.Pieces;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import Chess.Board;
+import Chess.Move;
 import Chess.Player;
 import Chess.Square;
 
@@ -14,6 +16,7 @@ public abstract class Piece {
 	public Square currentSquare;
 	public int x,y;
 	public boolean taken = false;
+	public Stack<Move> moves = new Stack<Move>();
 	
 	public Piece(Player owner, Square currentSquare) {
 		this.owner = owner;
@@ -66,7 +69,21 @@ public abstract class Piece {
 		this.y = y;
 	}
 
+	public Square getCurrentSquare() {
+		return currentSquare;
+	}
 
+	public void setCurrentSquare(Square currentSquare) {
+		this.currentSquare = currentSquare;
+	}
+
+	public Stack<Move> getMoves() {
+		return moves;
+	}
+
+	public void setMoves(Stack<Move> moves) {
+		this.moves = moves;
+	}
 
 	public void drawPiece(Graphics g) {
 		if(!taken) {
@@ -78,7 +95,7 @@ public abstract class Piece {
 	
 	public abstract String toString();
 	
-	public abstract void movePiece(Square newSquare);
+	public abstract Piece movePiece(Square newSquare);
 	
 	public abstract void cancelMove();
 

@@ -15,7 +15,6 @@ import Chess.Square;
 public class Pawn extends Piece {
 	
 	public BufferedImage sprite = null;
-	public boolean moved = false;
 	
 	public Pawn(Player owner, Square currentSquare) {
 		super(owner, currentSquare);
@@ -38,33 +37,6 @@ public class Pawn extends Piece {
 		}
 	}
 	
-	public boolean move(char x, int y, Board board) {
-		String val = "ABCDEFGH";
-		Character.toUpperCase(x);
-		int col = val.indexOf(x);
-		int row = y-1;
-		if(owner.getName() == "White") {
-			if(col == currentSquare.getCol() && (row-currentSquare.getRow() == 1 || row-currentSquare.getRow() == 2)) {
-				board.getSquare(row, col).setPiece(this);
-				currentSquare.setPiece(null);
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else{
-			if(col == currentSquare.getCol() && (row-currentSquare.getRow() == -1 || row-currentSquare.getRow() == -2)) {
-				board.getSquare(row, col).setPiece(this);
-				currentSquare.setPiece(null);
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	
 	public String toString() {
 		return owner.getName()+" Pawn";
 	}
@@ -75,12 +47,18 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public void movePiece(Square newSquare) {
-		moveCheck(newSquare, owner.getName());
-		moved = true;
+	public Piece movePiece(Square newSquare) {
+		return moveCheck(newSquare, owner.getName());
+		
+//		int dist = Math.abs(newSquare.getRow()-currentSquare.getRow());
+//		
+//		if(!moved && dist == 2) {
+//			
+//		}
+		
 	}
 	
-	private void moveCheck(Square newSquare, String player) {
+	private Piece moveCheck(Square newSquare, String player) {
 		//get piece at new square
 		Piece newSquarePiece = newSquare.getPiece();
 		
@@ -94,6 +72,8 @@ public class Pawn extends Piece {
 		else if(newSquarePiece == null) {
 			updatePosition(newSquare);
 		}
+		
+		return newSquarePiece;
 	}
 
 	private void updatePosition(Square newSquare) {
@@ -113,29 +93,29 @@ public class Pawn extends Piece {
 	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
 		ArrayList<Square> vm = new ArrayList<Square>();
 		if(owner.getName() == "Black") {
-			if(!moved) {
-				recursiveCheck(board, selectedSquare, 1, 0, vm, 2);
+			if(moves.size() == 0) {
+				recursiveMoveCheck(board, selectedSquare, 1, 0, vm, 2);
 			}
 			else {
-				recursiveCheck(board, selectedSquare, 1, 0, vm, 1);
+				recursiveMoveCheck(board, selectedSquare, 1, 0, vm, 1);
 			}
-			recursiveCheck(board, selectedSquare, 1, 1, vm, 1);
-			recursiveCheck(board, selectedSquare, 1, -1, vm, 1);
+			recursiveMoveCheck(board, selectedSquare, 1, 1, vm, 1);
+			recursiveMoveCheck(board, selectedSquare, 1, -1, vm, 1);
 		}
 		else {
-			if(!moved) {
-				recursiveCheck(board, selectedSquare, -1, 0, vm, 2);
+			if(moves.size() == 0) {
+				recursiveMoveCheck(board, selectedSquare, -1, 0, vm, 2);
 			}
 			else {
-				recursiveCheck(board, selectedSquare, -1, 0, vm, 1);
+				recursiveMoveCheck(board, selectedSquare, -1, 0, vm, 1);
 			}
-			recursiveCheck(board, selectedSquare, -1, 1, vm, 1);
-			recursiveCheck(board, selectedSquare, -1, -1, vm, 1);
+			recursiveMoveCheck(board, selectedSquare, -1, 1, vm, 1);
+			recursiveMoveCheck(board, selectedSquare, -1, -1, vm, 1);
 		}
 		return vm;
 	}
 	
-	public void recursiveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
+	public void recursiveMoveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
 		if(moves == 0) {
 			return;
 		}
@@ -155,7 +135,7 @@ public class Pawn extends Piece {
 			if(moveRow != 0 && moveCol != 0) {
 				if(valid(currentSquare)) {
 					vm.add(currentSquare);
-					recursiveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+					recursiveMoveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 				}
 				else {
 					return;
@@ -164,7 +144,7 @@ public class Pawn extends Piece {
 			else {
 				if(validForward(currentSquare)) {
 					vm.add(currentSquare);
-					recursiveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+					recursiveMoveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 				}
 				else {
 					return;

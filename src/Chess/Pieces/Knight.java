@@ -47,38 +47,16 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public void movePiece(Square newSquare) {
-		if(newSquare == currentSquare) {
-			super.setPos(currentSquare);
-		}
-		else {
-			
-			//get move amount
-			int moveRow = newSquare.getRow() - currentSquare.getRow();
-			int moveCol = newSquare.getCol() - currentSquare.getCol();
-			
-			//get piece at new square
-			Piece newSquarePiece = newSquare.getPiece();
-			
-			//allowed move check
-			if((Math.abs(moveRow) == 2 && Math.abs(moveCol) == 1) || (Math.abs(moveRow) == 1 && Math.abs(moveCol) == 2)) {
-				if(owner.getName() == "White") {
-					moveCheck(newSquare, newSquarePiece, "Black");
-				}
-				else {
-					moveCheck(newSquare, newSquarePiece, "White");
-				}
-			}
-			else {
-				//reset position
-				super.setPos(currentSquare);
-			}
-		}
+	public Piece movePiece(Square newSquare) {
+		return moveCheck(newSquare, owner.getName());
 	}
 	
-	private void moveCheck(Square newSquare, Piece newSquarePiece, String player) {
+	private Piece moveCheck(Square newSquare, String player) {
+		//get piece at new square
+		Piece newSquarePiece = newSquare.getPiece();
+		
 		//taking other players piece
-		if(newSquarePiece != null && newSquarePiece.getOwner().getName() == player) {
+		if(newSquarePiece != null && newSquarePiece.getOwner().getName() != player) {
 			//take occupying piece
 			newSquarePiece.setTaken(true);
 			updatePosition(newSquare);
@@ -87,10 +65,8 @@ public class Knight extends Piece{
 		else if(newSquarePiece == null) {
 			updatePosition(newSquare);
 		}
-		//reset position
-		else {
-			super.setPos(currentSquare);
-		}
+		
+		return newSquarePiece;
 	}
 
 	private void updatePosition(Square newSquare) {
