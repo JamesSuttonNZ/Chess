@@ -71,12 +71,12 @@ public class Board {
 //	}
 
 	public ArrayList<Square> getValidMoves(Square selectedSquare, Piece selectedPiece) {
-		ArrayList<Square> validMoves = selectedPiece.validMoves(board, selectedSquare);
+		ArrayList<Square> validMoves = selectedPiece.validMoves(this, selectedSquare);
 		return validMoves;
 	}
 
 	public void movePiece(Piece selectedPiece, Square selectedSquare, Square newSquare) {
-		Piece takenPiece = selectedPiece.movePiece(newSquare);
+		Piece takenPiece = selectedPiece.movePiece(this, newSquare);
 		Move m = new Move(selectedPiece, takenPiece, selectedSquare, newSquare);
 		moves.add(m);
 		selectedPiece.getMoves().add(m);
@@ -87,15 +87,26 @@ public class Board {
 			Move last = moves.pop();
 			
 			//return moved piece to previous square
-			last.getMovedPiece().movePiece(last.getFrom());
+			last.getMovedPiece().setPos(last.getFrom());
+			last.getTo().setPiece(null);
+			last.getFrom().setPiece(last.getMovedPiece());
+			
 			last.getMovedPiece().getMoves().pop();
 			if(last.getTakenPiece() != null) {
 				last.getTakenPiece().setTaken(false);
-				last.getTakenPiece().movePiece(last.getTo());
+				last.getTakenPiece().getCurrentSquare().setPiece(last.getTakenPiece());
 			}
 			return true;
 		}
 		return false;
+	}
+
+	public Stack<Move> getMoves() {
+		return moves;
+	}
+
+	public void setMoves(Stack<Move> moves) {
+		this.moves = moves;
 	}
 
 }

@@ -13,6 +13,10 @@ public class Move {
 		this.from = from;
 		this.to = to;
 	}
+	
+	public int getRowsMoved() {
+		return from.getRow()-to.getRow();
+	}
 
 	public Piece getMovedPiece() {
 		return movedPiece;

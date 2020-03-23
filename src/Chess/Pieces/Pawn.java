@@ -5,10 +5,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.imageio.ImageIO;
 
 import Chess.Board;
+import Chess.Move;
 import Chess.Player;
 import Chess.Square;
 
@@ -47,18 +49,12 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public Piece movePiece(Square newSquare) {
-		return moveCheck(newSquare, owner.getName());
-		
-//		int dist = Math.abs(newSquare.getRow()-currentSquare.getRow());
-//		
-//		if(!moved && dist == 2) {
-//			
-//		}
+	public Piece movePiece(Board board, Square newSquare) {
+		return moveCheck(board, newSquare, owner.getName());
 		
 	}
 	
-	private Piece moveCheck(Square newSquare, String player) {
+	private Piece moveCheck(Board board, Square newSquare, String player) {
 		//get piece at new square
 		Piece newSquarePiece = newSquare.getPiece();
 		
@@ -70,7 +66,20 @@ public class Pawn extends Piece {
 		}
 		//take empty square
 		else if(newSquarePiece == null) {
-			updatePosition(newSquare);
+			int colMove = newSquare.getCol() - currentSquare.getCol();
+			if(colMove != 0) {
+				Square adjSquare = board.getSquare(currentSquare.getRow(), currentSquare.getCol()+colMove);
+				Piece p = adjSquare.getPiece();
+				if(p != null) {
+					p.setTaken(true);
+					adjSquare.setPiece(null);
+					updatePosition(newSquare);
+					return p;
+				}
+			}
+			else {
+				updatePosition(newSquare);
+			}
 		}
 		
 		return newSquarePiece;
@@ -90,7 +99,7 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
+	public ArrayList<Square> validMoves(Board board, Square selectedSquare) {
 		ArrayList<Square> vm = new ArrayList<Square>();
 		if(owner.getName() == "Black") {
 			if(moves.size() == 0) {
@@ -115,7 +124,7 @@ public class Pawn extends Piece {
 		return vm;
 	}
 	
-	public void recursiveMoveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
+	public void recursiveMoveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
 		if(moves == 0) {
 			return;
 		}
@@ -130,10 +139,11 @@ public class Pawn extends Piece {
 		}
 		
 		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
-			currentSquare = board[row+moveRow][col+moveCol];
+			currentSquare = board.getSquare(row+moveRow, col+moveCol);
 			//check diagonal
 			if(moveRow != 0 && moveCol != 0) {
-				if(valid(currentSquare)) {
+				Square adjacentSquare = board.getSquare(row, col+moveCol);
+				if(valid(currentSquare,adjacentSquare,board)) {
 					vm.add(currentSquare);
 					recursiveMoveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 				}
@@ -141,6 +151,7 @@ public class Pawn extends Piece {
 					return;
 				}
 			}
+			//check forward
 			else {
 				if(validForward(currentSquare)) {
 					vm.add(currentSquare);
@@ -156,12 +167,28 @@ public class Pawn extends Piece {
 		}
 	}
 	
-	public boolean valid(Square s) {
+	public boolean valid(Square s, Square adjacentSquare, Board board) {
 		//get piece at new square
 		Piece p = s.getPiece();
 		
 		if(p != null && p.getOwner().getName() != owner.getName()) {
 			return true;
+		}
+		//en passant
+		else if(p == null){
+			Piece adjP = adjacentSquare.getPiece();
+			if(adjP != null) {
+				if(adjP instanceof Pawn) {
+					Stack<Move> boardMoves = board.getMoves();
+					Stack<Move> adjMoves = adjP.getMoves();
+					if(boardMoves.size() > 0 && adjMoves.size() > 0) {
+						if(boardMoves.peek() == adjMoves.peek() && Math.abs(boardMoves.peek().getRowsMoved()) == 2) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
 		}
 		else {
 			return false;

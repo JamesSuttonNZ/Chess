@@ -95,9 +95,9 @@ public abstract class Piece {
 	
 	public abstract String toString();
 	
-	public abstract Piece movePiece(Square newSquare);
+	public abstract Piece movePiece(Board board, Square newSquare);
 	
 	public abstract void cancelMove();
 
-	public abstract ArrayList<Square> validMoves(Square[][] board, Square selectedSquare);	
+	public abstract ArrayList<Square> validMoves(Board board, Square selectedSquare);	
 }

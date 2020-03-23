@@ -47,7 +47,7 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public Piece movePiece(Square newSquare) {
+	public Piece movePiece(Board board, Square newSquare) {
 		return moveCheck(newSquare, owner.getName());
 	}
 	
@@ -100,7 +100,7 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public ArrayList<Square> validMoves(Square[][] board, Square selectedSquare) {
+	public ArrayList<Square> validMoves(Board board, Square selectedSquare) {
 		ArrayList<Square> vm = new ArrayList<Square>();
 		//recurse left
 		recursiveCheck(board, selectedSquare, 0, -1, vm);
@@ -121,7 +121,7 @@ public class Queen extends Piece {
 		return vm;
 	}
 	
-	public void recursiveCheck(Square[][] board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm) {
+	public void recursiveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm) {
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
 		
@@ -132,7 +132,7 @@ public class Queen extends Piece {
 		}
 		
 		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
-			currentSquare = board[row+moveRow][col+moveCol];
+			currentSquare = board.getSquare(row+moveRow, col+moveCol);
 			if(valid(currentSquare)) {
 				vm.add(currentSquare);
 				recursiveCheck(board,currentSquare,moveRow,moveCol,vm);
