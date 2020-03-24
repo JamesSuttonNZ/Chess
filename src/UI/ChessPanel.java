@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Chess.Chess;
+import Chess.Move;
 import Chess.Square;
 import Chess.Pieces.Piece;
 
@@ -20,11 +21,11 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public Chess chess;
 	public Square selectedSquare;
 	public Piece selectedPiece;
-	public ArrayList<Square> validMoves;
+	public ArrayList<Move> validMoves;
 	
 	public ChessPanel() {
 		setPreferredSize(new Dimension(800,800));
-		this.chess = new Chess();;
+		this.chess = new Chess();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -115,9 +116,6 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			selectedPiece = null;
 			selectedSquare.setPressed(false);
 			selectedSquare = null;
-			for(Square s : validMoves) {
-				s.setValid(false);
-			}
 			validMoves = null;
 			repaint();
 		}
@@ -145,11 +143,8 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				
 				//set valid moves and draw green circle at valid squares
 				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
-				for(Square s : validMoves) {
-					s.setValid(true);
-				}
 			}
-			//wrong color piece selected
+			//wrong colour piece selected
 			else {
 				selectedPiece = null;
 			}
@@ -171,16 +166,25 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			Square newSquare = chess.getBoard().getSquare(row, col);
 			
 			//check move to new square is valid
-			if(validMoves.contains(newSquare)) {
-				chess.getBoard().movePiece(selectedPiece,selectedSquare,newSquare);
-				chess.setWhitesTurn(!chess.isWhitesTurn());
-			}else {
+			boolean valid = false;
+			for(Move m : validMoves) {
+				if(m.getTo() == newSquare) {
+					valid = true;
+					m.executeMove(chess);
+					break;
+				}	
+			}
+			if(!valid) {
 				selectedPiece.cancelMove();
 			}
 			selectedSquare.setPressed(false);
-			for(Square s : validMoves) {
-				s.setValid(false);
+			
+			for(Move m : validMoves) {
+				m.setInvalid();
 			}
+			
+			validMoves = null;
+			
 			repaint();
 		}
 	}

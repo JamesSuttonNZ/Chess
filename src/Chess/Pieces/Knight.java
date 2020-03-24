@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import Chess.Board;
+import Chess.Move;
 import Chess.Player;
 import Chess.Square;
 
@@ -47,83 +48,53 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public Piece movePiece(Board board, Square newSquare) {
-		return moveCheck(newSquare, owner.getName());
-	}
-	
-	private Piece moveCheck(Square newSquare, String player) {
-		//get piece at new square
-		Piece newSquarePiece = newSquare.getPiece();
-		
-		//taking other players piece
-		if(newSquarePiece != null && newSquarePiece.getOwner().getName() != player) {
-			//take occupying piece
-			newSquarePiece.setTaken(true);
-			updatePosition(newSquare);
-		}
-		//take empty square
-		else if(newSquarePiece == null) {
-			updatePosition(newSquare);
-		}
-		
-		return newSquarePiece;
-	}
-
-	private void updatePosition(Square newSquare) {
-		//remove piece from old square
-		currentSquare.setPiece(null);
-		//move piece
-		newSquare.setPiece(this);
-		super.setPos(newSquare);
-	}
-
-	@Override
 	public void cancelMove() {
 		super.setPos(currentSquare);
 	}
 
 	@Override
-	public ArrayList<Square> validMoves(Board board, Square selectedSquare) {
-		ArrayList<Square> vm = new ArrayList<Square>();
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
+		ArrayList<Move> vm = new ArrayList<Move>();
 		//recurse left
-		recursiveCheck(board, selectedSquare, 2, 1, vm, 1);
+		moveCheck(board, selectedSquare, 2, 1, vm, 1);
 		//recurse right
-		recursiveCheck(board, selectedSquare, 2, -1, vm, 1);
+		moveCheck(board, selectedSquare, 2, -1, vm, 1);
 		//recurse up
-		recursiveCheck(board, selectedSquare, -2, 1, vm, 1);
+		moveCheck(board, selectedSquare, -2, 1, vm, 1);
 		//recurse down
-		recursiveCheck(board, selectedSquare, -2, -1, vm, 1);
+		moveCheck(board, selectedSquare, -2, -1, vm, 1);
 		//
-		recursiveCheck(board, selectedSquare, 1, 2, vm, 1);
+		moveCheck(board, selectedSquare, 1, 2, vm, 1);
 		//recurse right
-		recursiveCheck(board, selectedSquare, -1, 2, vm, 1);
+		moveCheck(board, selectedSquare, -1, 2, vm, 1);
 		//recurse up
-		recursiveCheck(board, selectedSquare, 1, -2, vm, 1);
+		moveCheck(board, selectedSquare, 1, -2, vm, 1);
 		//recurse down
-		recursiveCheck(board, selectedSquare, -1, -2, vm, 1);
+		moveCheck(board, selectedSquare, -1, -2, vm, 1);
 		return vm;
 	}
 	
-	public void recursiveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Square> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
 		if(moves == 0) {
 			return;
 		}
 		
+		//row and col of current square
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
 		
-		Piece p = currentSquare.getPiece();
-		
-		if(p != null && p.getOwner().getName() != owner.getName()) {
-			return;
-		}
-		
+		//check if gone off board
 		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
+			
+			//move square
 			currentSquare = board.getSquare(row+moveRow, col+moveCol);
-			//check diagonal
-			if(valid(currentSquare)) {
-				vm.add(currentSquare);
-				recursiveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+			Piece p = currentSquare.getPiece();
+			if(p == null) {
+				vm.add(new Move(this,p,this.getPos(),currentSquare));
+				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+			}
+			else if(p != null && p.getOwner().getName() != owner.getName()) {
+				vm.add(new Move(this,p,this.getPos(),currentSquare));
 			}
 			else {
 				return;
@@ -131,25 +102,6 @@ public class Knight extends Piece{
 		}
 		else {
 			return;
-		}
-	}
-	
-	public boolean valid(Square s) {
-		//get piece at new square
-		Piece p = s.getPiece();
-		
-		if(p != null && p.getOwner().getName() != owner.getName()) {
-			return true;
-		}
-//		else if(p != null && p.getOwner().getName() == owner.getName()) {
-//			return false;
-//		}
-		//take empty square
-		else if(p == null) {
-			return true;
-		}
-		else {
-			return false;
 		}
 	}
 	

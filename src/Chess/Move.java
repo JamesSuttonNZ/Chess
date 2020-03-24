@@ -12,6 +12,11 @@ public class Move {
 		this.takenPiece = takenPiece;
 		this.from = from;
 		this.to = to;
+		to.setValid(true);
+	}
+	
+	public void setInvalid() {
+		to.setValid(false);
 	}
 	
 	public int getRowsMoved() {
@@ -48,6 +53,33 @@ public class Move {
 
 	public void setTo(Square to) {
 		this.to = to;
+	}
+	
+	public void executeMove(Chess chess) {
+		//remove piece from old square
+		from.setPiece(null);
+		//set piece to new square;
+		movedPiece.setPos(to);
+		if(takenPiece != null) {
+			takenPiece.setTaken(true);
+		}
+		movedPiece.getMoves().add(this);
+		chess.getBoard().getMoves().add(this);
+		chess.setWhitesTurn(!chess.isWhitesTurn());
+	}
+
+	public void undoMove() {
+		//return moved piece to previous square
+		movedPiece.setPos(from);;
+		//set to square piece to null
+		to.setPiece(null);
+		//remove move from piece
+		movedPiece.getMoves().pop();
+		
+		if(takenPiece != null) {
+			takenPiece.setTaken(false);
+			takenPiece.getCurrentSquare().setPiece(takenPiece);
+		}
 	}
 	
 }

@@ -41,6 +41,7 @@ public abstract class Piece {
 
 	public void setPos(Square pos) {
 		this.currentSquare = pos;
+		pos.setPiece(this);
 		this.x = pos.getX();
 		this.y = pos.getY();
 	}
@@ -95,9 +96,7 @@ public abstract class Piece {
 	
 	public abstract String toString();
 	
-	public abstract Piece movePiece(Board board, Square newSquare);
-	
 	public abstract void cancelMove();
 
-	public abstract ArrayList<Square> validMoves(Board board, Square selectedSquare);	
+	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare);	
 }

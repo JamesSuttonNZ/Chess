@@ -38,15 +38,6 @@ public class Board {
 		
 	}
 	
-//	public void printBoard() {
-//		for(int row = 7; row >= 0; row--) {
-//			for(int col = 0; col < 8; col++) {
-//				System.out.print(board[row][col].toString()+" ");
-//			}
-//			System.out.println();
-//		}
-//	}
-	
 	/**
 	 * draw squares
 	 */
@@ -62,40 +53,15 @@ public class Board {
 		return board[row][col];
 	}
 
-//	public Piece getPiece(char x, int y) {
-//		String val = "ABCDEFGH";
-//		Character.toUpperCase(x);
-//		int col = val.indexOf(x);
-//		Square s = getSquare(y-1,col);
-//		return s.getPiece();
-//	}
-
-	public ArrayList<Square> getValidMoves(Square selectedSquare, Piece selectedPiece) {
-		ArrayList<Square> validMoves = selectedPiece.validMoves(this, selectedSquare);
+	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece) {
+		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare);
 		return validMoves;
-	}
-
-	public void movePiece(Piece selectedPiece, Square selectedSquare, Square newSquare) {
-		Piece takenPiece = selectedPiece.movePiece(this, newSquare);
-		Move m = new Move(selectedPiece, takenPiece, selectedSquare, newSquare);
-		moves.add(m);
-		selectedPiece.getMoves().add(m);
 	}
 	
 	public boolean undoMove() {
 		if(moves.size() > 0) {
 			Move last = moves.pop();
-			
-			//return moved piece to previous square
-			last.getMovedPiece().setPos(last.getFrom());
-			last.getTo().setPiece(null);
-			last.getFrom().setPiece(last.getMovedPiece());
-			
-			last.getMovedPiece().getMoves().pop();
-			if(last.getTakenPiece() != null) {
-				last.getTakenPiece().setTaken(false);
-				last.getTakenPiece().getCurrentSquare().setPiece(last.getTakenPiece());
-			}
+			last.undoMove();
 			return true;
 		}
 		return false;
