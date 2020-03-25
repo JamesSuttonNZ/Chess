@@ -27,7 +27,9 @@ public class PawnPromotion extends Move {
 		
 		//set piece to new square;
 		movedPiece.setPos(to);
-		
+		if(takenPiece != null) {
+			takenPiece.setTaken(true);
+		}
 		cp.repaint();
 		
 		Object[] choices = {"Queen", "Rook", "Bishop", "Knight"};
@@ -57,9 +59,6 @@ public class PawnPromotion extends Move {
 		
 		movedPiece.setTaken(true);
 		
-		if(takenPiece != null) {
-			takenPiece.setTaken(true);
-		}
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
 		chess.setWhitesTurn(!chess.isWhitesTurn());
