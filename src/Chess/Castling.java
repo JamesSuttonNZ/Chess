@@ -41,4 +41,8 @@ public class Castling extends Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 
+	public void redoMove(Chess chess) {
+		executeMove(chess);
+	}
+
 }

@@ -12,8 +12,10 @@ import javax.imageio.ImageIO;
 import Chess.Board;
 import Chess.EnPassant;
 import Chess.Move;
+import Chess.PawnPromotion;
 import Chess.Player;
 import Chess.Square;
+import UI.ChessPanel;
 
 public class Pawn extends Piece {
 	
@@ -55,32 +57,32 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel cp) {
 		ArrayList<Move> vm = new ArrayList<Move>();
 		if(owner.getName() == "Black") {
 			if(moves.size() == 0) {
-				moveCheck(board, selectedSquare, 1, 0, vm, 2);
+				moveCheck(board, selectedSquare, 1, 0, vm, 2, cp);
 			}
 			else {
-				moveCheck(board, selectedSquare, 1, 0, vm, 1);
+				moveCheck(board, selectedSquare, 1, 0, vm, 1, cp);
 			}
-			moveCheck(board, selectedSquare, 1, 1, vm, 1);
-			moveCheck(board, selectedSquare, 1, -1, vm, 1);
+			moveCheck(board, selectedSquare, 1, 1, vm, 1, cp);
+			moveCheck(board, selectedSquare, 1, -1, vm, 1, cp);
 		}
 		else {
 			if(moves.size() == 0) {
-				moveCheck(board, selectedSquare, -1, 0, vm, 2);
+				moveCheck(board, selectedSquare, -1, 0, vm, 2, cp);
 			}
 			else {
-				moveCheck(board, selectedSquare, -1, 0, vm, 1);
+				moveCheck(board, selectedSquare, -1, 0, vm, 1, cp);
 			}
-			moveCheck(board, selectedSquare, -1, 1, vm, 1);
-			moveCheck(board, selectedSquare, -1, -1, vm, 1);
+			moveCheck(board, selectedSquare, -1, 1, vm, 1, cp);
+			moveCheck(board, selectedSquare, -1, -1, vm, 1, cp);
 		}
 		return vm;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves, ChessPanel cp) {
 		
 		//stop if moves used up
 		if(moves == 0) {
@@ -104,7 +106,12 @@ public class Pawn extends Piece {
 			if(moveRow != 0 && moveCol != 0) {
 				//diag take
 				if(p != null && p.getOwner().getName() != owner.getName()) {
-					vm.add(new Move(this, p, this.getPos(), currentSquare));
+					if(owner.isWhite() && currentSquare.getRow() == 0 || !owner.isWhite() && currentSquare.getRow() == 7) {
+						vm.add(new PawnPromotion(this, p, this.getPos(), currentSquare, cp));
+					}
+					else {
+						vm.add(new Move(this, p, this.getPos(), currentSquare));
+					}
 				}
 				//en passant
 				else if(enPassant(p,adjP,board)) {
@@ -115,8 +122,13 @@ public class Pawn extends Piece {
 			else {
 				//empty square
 				if(p == null) {
-					vm.add(new Move(this, null, this.getPos(), currentSquare));
-					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+					if(owner.isWhite() && currentSquare.getRow() == 0 || !owner.isWhite() && currentSquare.getRow() == 7) {
+						vm.add(new PawnPromotion(this, p, this.getPos(), currentSquare, cp));
+					}
+					else {
+						vm.add(new Move(this, p, this.getPos(), currentSquare));
+						moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1, cp);
+					}
 				}
 				else {
 					return;

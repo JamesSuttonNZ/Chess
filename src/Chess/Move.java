@@ -84,4 +84,8 @@ public class Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 	
+	public void redoMove(Chess chess) {
+		executeMove(chess);
+	}
+	
 }

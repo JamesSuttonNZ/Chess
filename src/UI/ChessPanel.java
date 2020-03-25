@@ -144,7 +144,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				selectedSquare.setPressed(true);
 				
 				//set valid moves and draw green circle at valid squares
-				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
+				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece, this);
 			}
 			//wrong colour piece selected
 			else {

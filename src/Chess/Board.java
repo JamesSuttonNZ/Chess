@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 import Chess.Pieces.Piece;
+import UI.ChessPanel;
 
 public class Board {
 	
@@ -56,8 +57,8 @@ public class Board {
 		return board[row][col];
 	}
 
-	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece) {
-		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare);
+	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece, ChessPanel chessPanel) {
+		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare, chessPanel);
 		return validMoves;
 	}
 	
@@ -73,7 +74,7 @@ public class Board {
 	public boolean redoMove(Chess chess) {
 		if(undone.size() > 0) {
 			Move last = undone.pop();
-			last.executeMove(chess);
+			last.redoMove(chess);
 			return true;
 		}
 		return false;

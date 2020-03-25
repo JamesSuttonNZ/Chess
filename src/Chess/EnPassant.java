@@ -40,5 +40,9 @@ public class EnPassant extends Move {
 		chess.getBoard().getUndone().add(this);
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
-
+	
+	public void redoMove(Chess chess) {
+		executeMove(chess);
+	}
+	
 }

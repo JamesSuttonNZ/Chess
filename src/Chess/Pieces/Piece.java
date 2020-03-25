@@ -9,6 +9,7 @@ import Chess.Board;
 import Chess.Move;
 import Chess.Player;
 import Chess.Square;
+import UI.ChessPanel;
 
 public abstract class Piece {
 	
@@ -98,5 +99,5 @@ public abstract class Piece {
 	
 	public abstract void cancelMove();
 
-	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare);	
+	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel chessPanel);	
 }

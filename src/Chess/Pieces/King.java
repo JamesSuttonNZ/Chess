@@ -13,6 +13,7 @@ import Chess.Castling;
 import Chess.Move;
 import Chess.Player;
 import Chess.Square;
+import UI.ChessPanel;
 
 public class King extends Piece {
 
@@ -54,28 +55,28 @@ public class King extends Piece {
 	}
 
 	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel cp) {
 		ArrayList<Move> vm = new ArrayList<Move>();
 		//recurse left
-		moveCheck(board, selectedSquare, 0, -1, vm, 1);
+		moveCheck(board, selectedSquare, 0, -1, vm, 1, cp);
 		//recurse right
-		moveCheck(board, selectedSquare, 0, 1, vm, 1);
+		moveCheck(board, selectedSquare, 0, 1, vm, 1, cp);
 		//recurse up
-		moveCheck(board, selectedSquare, -1, 0, vm, 1);
+		moveCheck(board, selectedSquare, -1, 0, vm, 1, cp);
 		//recurse down
-		moveCheck(board, selectedSquare, 1, 0, vm, 1);
+		moveCheck(board, selectedSquare, 1, 0, vm, 1, cp);
 		//recurse northwest
-		moveCheck(board, selectedSquare, -1, -1, vm, 1);
+		moveCheck(board, selectedSquare, -1, -1, vm, 1, cp);
 		//recurse northeast
-		moveCheck(board, selectedSquare, 1, -1, vm, 1);
+		moveCheck(board, selectedSquare, 1, -1, vm, 1, cp);
 		//recurse southeast
-		moveCheck(board, selectedSquare, 1, 1, vm, 1);
+		moveCheck(board, selectedSquare, 1, 1, vm, 1, cp);
 		//recurse southwest
-		moveCheck(board, selectedSquare, -1, 1, vm, 1);
+		moveCheck(board, selectedSquare, -1, 1, vm, 1, cp);
 		return vm;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves, ChessPanel cp) {
 		
 		//row and col of current square
 		int row = currentSquare.getRow();
@@ -93,7 +94,7 @@ public class King extends Piece {
 					vm.add(new Move(this,p,this.getPos(),currentSquare));
 				}
 				if(moveRow == 0 && moveCol == 1 || moveRow == 0 && moveCol == -1) {
-					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1,cp);
 				}
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName() && moves > 0) {

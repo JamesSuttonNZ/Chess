@@ -12,6 +12,7 @@ import Chess.Board;
 import Chess.Move;
 import Chess.Player;
 import Chess.Square;
+import UI.ChessPanel;
 
 public class Knight extends Piece{
 	
@@ -53,28 +54,28 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel cp) {
 		ArrayList<Move> vm = new ArrayList<Move>();
 		//recurse left
-		moveCheck(board, selectedSquare, 2, 1, vm, 1);
+		moveCheck(board, selectedSquare, 2, 1, vm, 1,cp);
 		//recurse right
-		moveCheck(board, selectedSquare, 2, -1, vm, 1);
+		moveCheck(board, selectedSquare, 2, -1, vm, 1,cp);
 		//recurse up
-		moveCheck(board, selectedSquare, -2, 1, vm, 1);
+		moveCheck(board, selectedSquare, -2, 1, vm, 1,cp);
 		//recurse down
-		moveCheck(board, selectedSquare, -2, -1, vm, 1);
+		moveCheck(board, selectedSquare, -2, -1, vm, 1,cp);
 		//
-		moveCheck(board, selectedSquare, 1, 2, vm, 1);
+		moveCheck(board, selectedSquare, 1, 2, vm, 1,cp);
 		//recurse right
-		moveCheck(board, selectedSquare, -1, 2, vm, 1);
+		moveCheck(board, selectedSquare, -1, 2, vm, 1,cp);
 		//recurse up
-		moveCheck(board, selectedSquare, 1, -2, vm, 1);
+		moveCheck(board, selectedSquare, 1, -2, vm, 1,cp);
 		//recurse down
-		moveCheck(board, selectedSquare, -1, -2, vm, 1);
+		moveCheck(board, selectedSquare, -1, -2, vm, 1,cp);
 		return vm;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves,ChessPanel cp) {
 		if(moves == 0) {
 			return;
 		}
@@ -91,7 +92,7 @@ public class Knight extends Piece{
 			Piece p = currentSquare.getPiece();
 			if(p == null) {
 				vm.add(new Move(this,p,this.getPos(),currentSquare));
-				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1,cp);
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName()) {
 				vm.add(new Move(this,p,this.getPos(),currentSquare));
