@@ -1,6 +1,7 @@
 package Chess;
 
 import Chess.Pieces.Piece;
+import UI.ChessPanel;
 
 public class Castling extends Move {
 	
@@ -12,7 +13,7 @@ public class Castling extends Move {
 		this.rookStartPos = rookStartPos;
 	}
 	
-	public void executeMove(Chess chess) {
+	public void executeMove(Chess chess, ChessPanel cp) {
 		//remove piece from old square
 		from.setPiece(null);
 		//set piece to new square
@@ -41,8 +42,8 @@ public class Castling extends Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 
-	public void redoMove(Chess chess) {
-		executeMove(chess);
+	public void redoMove(Chess chess, ChessPanel cp) {
+		executeMove(chess, cp);
 	}
 
 }

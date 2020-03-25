@@ -1,6 +1,7 @@
 package Chess;
 
 import Chess.Pieces.Piece;
+import UI.ChessPanel;
 
 public class Move {
 
@@ -55,7 +56,7 @@ public class Move {
 		this.to = to;
 	}
 	
-	public void executeMove(Chess chess) {
+	public void executeMove(Chess chess, ChessPanel cp) {
 		//remove piece from old square
 		from.setPiece(null);
 		//set piece to new square;
@@ -84,8 +85,8 @@ public class Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 	
-	public void redoMove(Chess chess) {
-		executeMove(chess);
+	public void redoMove(Chess chess, ChessPanel cp) {
+		executeMove(chess, cp);
 	}
 	
 }

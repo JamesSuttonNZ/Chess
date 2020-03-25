@@ -57,8 +57,8 @@ public class Board {
 		return board[row][col];
 	}
 
-	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece, ChessPanel chessPanel) {
-		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare, chessPanel);
+	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece) {
+		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare);
 		return validMoves;
 	}
 	
@@ -71,10 +71,10 @@ public class Board {
 		return false;
 	}
 	
-	public boolean redoMove(Chess chess) {
+	public boolean redoMove(Chess chess, ChessPanel cp) {
 		if(undone.size() > 0) {
 			Move last = undone.pop();
-			last.redoMove(chess);
+			last.redoMove(chess, cp);
 			return true;
 		}
 		return false;

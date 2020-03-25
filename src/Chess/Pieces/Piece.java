@@ -97,5 +97,5 @@ public abstract class Piece {
 	
 	public abstract void cancelMove();
 
-	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel chessPanel);	
+	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare);	
 }

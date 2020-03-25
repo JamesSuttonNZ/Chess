@@ -13,15 +13,13 @@ import UI.ChessPanel;
 
 public class PawnPromotion extends Move {
 	
-	public ChessPanel cp;
 	public Piece p;
 
-	public PawnPromotion(Piece movedPiece, Piece takenPiece, Square from, Square to, ChessPanel cp) {
+	public PawnPromotion(Piece movedPiece, Piece takenPiece, Square from, Square to) {
 		super(movedPiece, takenPiece, from, to);
-		this.cp = cp;
 	}
 	
-	public void executeMove(Chess chess) {
+	public void executeMove(Chess chess, ChessPanel cp) {
 		//remove piece from old square
 		from.setPiece(null);
 		
@@ -82,7 +80,7 @@ public class PawnPromotion extends Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 	
-	public void redoMove(Chess chess) {
+	public void redoMove(Chess chess, ChessPanel cp) {
 		//remove piece from old square
 		from.setPiece(null);
 		

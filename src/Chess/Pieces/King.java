@@ -55,28 +55,28 @@ public class King extends Piece {
 	}
 
 	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel cp) {
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
 		ArrayList<Move> vm = new ArrayList<Move>();
 		//recurse left
-		moveCheck(board, selectedSquare, 0, -1, vm, 1, cp);
+		moveCheck(board, selectedSquare, 0, -1, vm, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, 0, 1, vm, 1, cp);
+		moveCheck(board, selectedSquare, 0, 1, vm, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, -1, 0, vm, 1, cp);
+		moveCheck(board, selectedSquare, -1, 0, vm, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, 1, 0, vm, 1, cp);
+		moveCheck(board, selectedSquare, 1, 0, vm, 1);
 		//recurse northwest
-		moveCheck(board, selectedSquare, -1, -1, vm, 1, cp);
+		moveCheck(board, selectedSquare, -1, -1, vm, 1);
 		//recurse northeast
-		moveCheck(board, selectedSquare, 1, -1, vm, 1, cp);
+		moveCheck(board, selectedSquare, 1, -1, vm, 1);
 		//recurse southeast
-		moveCheck(board, selectedSquare, 1, 1, vm, 1, cp);
+		moveCheck(board, selectedSquare, 1, 1, vm, 1);
 		//recurse southwest
-		moveCheck(board, selectedSquare, -1, 1, vm, 1, cp);
+		moveCheck(board, selectedSquare, -1, 1, vm, 1);
 		return vm;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves, ChessPanel cp) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
 		
 		//row and col of current square
 		int row = currentSquare.getRow();
@@ -94,7 +94,7 @@ public class King extends Piece {
 					vm.add(new Move(this,p,this.getPos(),currentSquare));
 				}
 				if(moveRow == 0 && moveCol == 1 || moveRow == 0 && moveCol == -1) {
-					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1,cp);
+					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 				}
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName() && moves > 0) {

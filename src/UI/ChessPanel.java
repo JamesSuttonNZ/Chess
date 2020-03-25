@@ -92,7 +92,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 
 	public void redoMove() {
-		chess.getBoard().redoMove(chess);
+		chess.getBoard().redoMove(chess, this);
 		repaint();
 	}
 
@@ -149,7 +149,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				selectedSquare.setPressed(true);
 				
 				//set valid moves and draw green circle at valid squares
-				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece, this);
+				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
 			}
 			//wrong colour piece selected
 			else {
@@ -177,7 +177,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			for(Move m : validMoves) {
 				if(m.getTo() == newSquare) {
 					valid = true;
-					m.executeMove(chess);
+					m.executeMove(chess, this);
 					chess.getBoard().getUndone().clear();
 					break;
 				}	

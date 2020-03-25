@@ -54,28 +54,28 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare, ChessPanel cp) {
+	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
 		ArrayList<Move> vm = new ArrayList<Move>();
 		//recurse left
-		moveCheck(board, selectedSquare, 2, 1, vm, 1,cp);
+		moveCheck(board, selectedSquare, 2, 1, vm, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, 2, -1, vm, 1,cp);
+		moveCheck(board, selectedSquare, 2, -1, vm, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, -2, 1, vm, 1,cp);
+		moveCheck(board, selectedSquare, -2, 1, vm, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, -2, -1, vm, 1,cp);
+		moveCheck(board, selectedSquare, -2, -1, vm, 1);
 		//
-		moveCheck(board, selectedSquare, 1, 2, vm, 1,cp);
+		moveCheck(board, selectedSquare, 1, 2, vm, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, -1, 2, vm, 1,cp);
+		moveCheck(board, selectedSquare, -1, 2, vm, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, 1, -2, vm, 1,cp);
+		moveCheck(board, selectedSquare, 1, -2, vm, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, -1, -2, vm, 1,cp);
+		moveCheck(board, selectedSquare, -1, -2, vm, 1);
 		return vm;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves,ChessPanel cp) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
 		if(moves == 0) {
 			return;
 		}
@@ -92,7 +92,7 @@ public class Knight extends Piece{
 			Piece p = currentSquare.getPiece();
 			if(p == null) {
 				vm.add(new Move(this,p,this.getPos(),currentSquare));
-				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1,cp);
+				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName()) {
 				vm.add(new Move(this,p,this.getPos(),currentSquare));
