@@ -28,7 +28,7 @@ public class Castling extends Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 
-	public void undoMove() {
+	public void undoMove(Chess chess) {
 		//return moved piece to previous square
 		movedPiece.setPos(from);
 		takenPiece.setPos(rookStartPos);
@@ -36,6 +36,9 @@ public class Castling extends Move {
 		to.setPiece(null);
 		//remove move from piece
 		movedPiece.getMoves().pop();
+		
+		chess.getBoard().getUndone().add(this);
+		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 
 }

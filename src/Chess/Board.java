@@ -16,6 +16,9 @@ public class Board {
 	//Move list
 	public Stack<Move> moves = new Stack<Move>();
 	
+	//Undone Moves
+	public Stack<Move> undone = new Stack<Move>();
+	
 	/**
 	 * setup board
 	 */
@@ -58,10 +61,19 @@ public class Board {
 		return validMoves;
 	}
 	
-	public boolean undoMove() {
+	public boolean undoMove(Chess chess) {
 		if(moves.size() > 0) {
 			Move last = moves.pop();
-			last.undoMove();
+			last.undoMove(chess);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean redoMove(Chess chess) {
+		if(undone.size() > 0) {
+			Move last = undone.pop();
+			last.executeMove(chess);
 			return true;
 		}
 		return false;
@@ -73,6 +85,14 @@ public class Board {
 
 	public void setMoves(Stack<Move> moves) {
 		this.moves = moves;
+	}
+
+	public Stack<Move> getUndone() {
+		return undone;
+	}
+
+	public void setUndone(Stack<Move> undone) {
+		this.undone = undone;
 	}
 
 }

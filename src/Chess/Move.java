@@ -68,7 +68,7 @@ public class Move {
 		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 
-	public void undoMove() {
+	public void undoMove(Chess chess) {
 		//return moved piece to previous square
 		movedPiece.setPos(from);;
 		//set to square piece to null
@@ -80,6 +80,8 @@ public class Move {
 			takenPiece.setTaken(false);
 			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
+		chess.getBoard().getUndone().add(this);
+		chess.setWhitesTurn(!chess.isWhitesTurn());
 	}
 	
 }

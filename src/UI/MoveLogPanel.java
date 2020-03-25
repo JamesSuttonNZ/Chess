@@ -29,7 +29,16 @@ public class MoveLogPanel extends JPanel {
 			}
 		});
 		
+		JButton redo = new JButton("Redo Move");
+		redo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mf.getChessPanel().redoMove();
+			}
+		});
+		
 		add(undo);
+		add(redo);
 	}
 	
 	

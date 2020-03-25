@@ -87,10 +87,12 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 
 	public void undoMove() {
-		boolean undone = chess.getBoard().undoMove();
-		if(undone) {
-			chess.setWhitesTurn(!chess.isWhitesTurn());
-		}
+		chess.getBoard().undoMove(chess);
+		repaint();
+	}
+
+	public void redoMove() {
+		chess.getBoard().redoMove(chess);
 		repaint();
 	}
 
@@ -171,6 +173,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				if(m.getTo() == newSquare) {
 					valid = true;
 					m.executeMove(chess);
+					chess.getBoard().getUndone().clear();
 					break;
 				}	
 			}
