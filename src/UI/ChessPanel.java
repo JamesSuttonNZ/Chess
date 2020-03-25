@@ -118,7 +118,12 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			selectedPiece = null;
 			selectedSquare.setPressed(false);
 			selectedSquare = null;
-			validMoves = null;
+			if(validMoves.size() > 0) {
+				for(Move m : validMoves) {
+					m.setInvalid();
+				}
+				validMoves.clear();
+			}
 			repaint();
 		}
 		
@@ -186,7 +191,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				m.setInvalid();
 			}
 			
-			validMoves = null;
+			validMoves.clear();;
 			
 			repaint();
 		}
