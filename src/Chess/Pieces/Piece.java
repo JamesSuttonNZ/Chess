@@ -22,9 +22,7 @@ public abstract class Piece {
 	public Piece(Player owner, Square currentSquare) {
 		this.owner = owner;
 		this.currentSquare = currentSquare;
-		this.x = currentSquare.getX();
-		this.y = currentSquare.getY();
-		currentSquare.setPiece(this);
+		setPos(currentSquare);
 		owner.addPiece(this);
 	}
 
