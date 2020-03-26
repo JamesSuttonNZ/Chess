@@ -101,7 +101,11 @@ public class PawnPromotion extends Move {
 	}
 	
 	public String toString() {
-		return to.toString()+"="+p.toString();
+		if(takenPiece == null) {
+			return to.toString()+"="+p.toString();
+		}
+		char[] x = {'a','b','c','d','e','f','g','h'};
+		return x[from.getCol()]+"x"+to.toString()+"="+p.toString();
 	}
 
 }
