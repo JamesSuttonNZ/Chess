@@ -53,6 +53,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				chessPanel.newGame();
+				options.getMoveLog().setText("");
 			}
 		});
 		
