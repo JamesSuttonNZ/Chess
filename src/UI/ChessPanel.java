@@ -99,9 +99,9 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 
 	public void redoMove() {
-////		chess.getBoard().redoMove(chess, this);
-//		logMoves();
-//		repaint();
+		chess.getBoard().redoMove(chess, this);
+		logMoves();
+		repaint();
 	}
 
 	@Override
@@ -219,12 +219,12 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		//if piece selected, stick to cursor
 		if(selectedPiece != null) {
 			Point p = e.getPoint();
-//			if(p.x >= 0 && p.x <= 800) {
+			if(p.x >= 0 && p.x <= 800) {
 				selectedPiece.setX(p.x-50);
-//			}
-//			if(p.y >= 0 && p.y <= 800) {
+			}
+			if(p.y >= 0 && p.y <= 800) {
 				selectedPiece.setY(p.y-50);
-//			}
+			}
 			repaint();
 		}
 	}
