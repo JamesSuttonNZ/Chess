@@ -40,7 +40,7 @@ public class Bishop extends Piece {
 	}
 	
 	public String toString() {
-		return owner.getName()+" Bishop";
+		return "B";
 	}
 
 	@Override

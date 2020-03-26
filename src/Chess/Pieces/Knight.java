@@ -40,7 +40,7 @@ public class Knight extends Piece{
 	}
 	
 	public String toString() {
-		return owner.getName()+" Knight";
+		return "N";
 	}
 
 	@Override

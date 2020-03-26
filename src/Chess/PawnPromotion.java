@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import Chess.Pieces.Bishop;
 import Chess.Pieces.Knight;
+import Chess.Pieces.Pawn;
 import Chess.Pieces.Piece;
 import Chess.Pieces.Queen;
 import Chess.Pieces.Rook;
@@ -97,6 +98,10 @@ public class PawnPromotion extends Move {
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
 		chess.setWhitesTurn(!chess.isWhitesTurn());
+	}
+	
+	public String toString() {
+		return to.toString()+"="+p.toString();
 	}
 
 }

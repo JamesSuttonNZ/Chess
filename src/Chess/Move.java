@@ -1,5 +1,6 @@
 package Chess;
 
+import Chess.Pieces.Pawn;
 import Chess.Pieces.Piece;
 import UI.ChessPanel;
 
@@ -87,6 +88,17 @@ public class Move {
 	
 	public void redoMove(Chess chess, ChessPanel cp) {
 		executeMove(chess, cp);
+	}
+	
+	public String toString() {
+		if(takenPiece == null) {
+			return movedPiece.toString()+to.toString();
+		}
+		if(movedPiece instanceof Pawn) {
+			char[] x = {'a','b','c','d','e','f','g','h'};
+			return x[from.getCol()]+"x"+to.toString();
+		}
+		return movedPiece.toString()+"x"+to.toString();
 	}
 	
 }

@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
+import javax.swing.JTextArea;
+
 import Chess.Pieces.Piece;
+import UI.ChessOptions;
 import UI.ChessPanel;
 
 public class Board {
@@ -94,6 +97,24 @@ public class Board {
 
 	public void setUndone(Stack<Move> undone) {
 		this.undone = undone;
+	}
+
+	public void logMoves(ChessOptions options) {
+		JTextArea ml = options.getMoveLog();
+		ml.setText("");
+		boolean turn = true;
+		int turnNum = 1;
+		for(Move m : moves) {
+			if(turn) {
+				ml.append(turnNum+".   "+m.toString());
+				turn = !turn;
+			}
+			else {
+				ml.append("     "+m.toString()+"\n");
+				turn = !turn;
+				turnNum++;
+			}
+		}
 	}
 
 }

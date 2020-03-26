@@ -22,8 +22,10 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public Square selectedSquare;
 	public Piece selectedPiece;
 	public ArrayList<Move> validMoves;
+	public ChessOptions options;
 	
-	public ChessPanel() {
+	public ChessPanel(ChessOptions options) {
+		this.options = options;
 		setPreferredSize(new Dimension(800,800));
 		this.chess = new Chess();
 		addMouseListener(this);
@@ -48,6 +50,10 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public void newGame() {
 		this.chess = new Chess();
 		repaint();
+	}
+	
+	public void logMoves() {
+		chess.getBoard().logMoves(options);
 	}
 
 	
@@ -88,11 +94,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	public void undoMove() {
 		chess.getBoard().undoMove(chess);
+		logMoves();
 		repaint();
 	}
 
 	public void redoMove() {
 		chess.getBoard().redoMove(chess, this);
+		logMoves();
 		repaint();
 	}
 
@@ -178,6 +186,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				if(m.getTo() == newSquare) {
 					valid = true;
 					m.executeMove(chess, this);
+					logMoves();
 					chess.getBoard().getUndone().clear();
 					break;
 				}	

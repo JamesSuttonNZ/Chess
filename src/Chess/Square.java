@@ -87,13 +87,8 @@ public class Square {
 	}
 
 	public String toString() {
-		char[] x = {'A','B','C','D','E','F','G','H'};
-		if(piece != null) {
-			return ""+x[col]+(row+1)+" "+piece.toString();
-		}
-		else {
-			return ""+x[col]+(row+1);
-		}
+		char[] x = {'a','b','c','d','e','f','g','h'};
+		return ""+x[col]+(8-row);
 	}
 
 	public void drawSquare(Graphics g) {

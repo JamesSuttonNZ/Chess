@@ -16,8 +16,8 @@ import Chess.Chess;
 
 public class MainFrame extends JFrame {
 	
-	public ChessPanel chessPanel = new ChessPanel();;
-	public MoveLogPanel options;
+	public ChessPanel chessPanel;
+	public ChessOptions options;
 	
 	public JMenuBar menuBar = new JMenuBar();
 	
@@ -36,10 +36,10 @@ public class MainFrame extends JFrame {
 		
 		c = getContentPane();
 		
-		options = new MoveLogPanel(this);
+		options = new ChessOptions(this);
 		c.add(options, BorderLayout.EAST);
 		
-		chessPanel = new ChessPanel();
+		chessPanel = new ChessPanel(options);
 		c.add(chessPanel, BorderLayout.CENTER);
 		
 		setJMenuBar(menuBar);

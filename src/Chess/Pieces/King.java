@@ -41,7 +41,7 @@ public class King extends Piece {
 	}
 	
 	public String toString() {
-		return owner.getName()+" King";
+		return "K";
 	}
 
 	@Override

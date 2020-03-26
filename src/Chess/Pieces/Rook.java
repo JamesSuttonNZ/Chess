@@ -40,7 +40,7 @@ public class Rook extends Piece{
 	}
 	
 	public String toString() {
-		return owner.getName()+" Rook";
+		return "R";
 	}
 
 	@Override

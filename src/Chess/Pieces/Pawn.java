@@ -43,7 +43,7 @@ public class Pawn extends Piece {
 	}
 	
 	public String toString() {
-		return owner.getName()+" Pawn";
+		return "";
 	}
 
 	@Override

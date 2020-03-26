@@ -1,5 +1,6 @@
 package Chess;
 
+import Chess.Pieces.Pawn;
 import Chess.Pieces.Piece;
 import UI.ChessPanel;
 
@@ -46,4 +47,8 @@ public class EnPassant extends Move {
 		executeMove(chess,cp);
 	}
 	
+	public String toString() {
+		char[] x = {'a','b','c','d','e','f','g','h'};
+		return x[from.getCol()]+"x"+to.toString()+"e.p";
+	}
 }

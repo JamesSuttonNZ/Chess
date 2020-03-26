@@ -1,5 +1,6 @@
 package Chess;
 
+import Chess.Pieces.Pawn;
 import Chess.Pieces.Piece;
 import UI.ChessPanel;
 
@@ -44,6 +45,13 @@ public class Castling extends Move {
 
 	public void redoMove(Chess chess, ChessPanel cp) {
 		executeMove(chess, cp);
+	}
+	
+	public String toString() {
+		if(rookStartPos.getCol() == 0) {
+			return "0-0-0";
+		}
+		return "0-0";
 	}
 
 }

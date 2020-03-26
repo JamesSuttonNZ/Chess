@@ -40,7 +40,7 @@ public class Queen extends Piece {
 	}
 	
 	public String toString() {
-		return owner.getName()+" Queen";
+		return "Q";
 	}
 
 	@Override
