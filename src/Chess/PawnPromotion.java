@@ -85,8 +85,6 @@ public class PawnPromotion extends Move {
 		//remove piece from old square
 		from.setPiece(null);
 		
-		System.out.println("redo");
-		
 		//set piece to new square;
 		movedPiece.setPos(to);
 		p.setPos(to);
