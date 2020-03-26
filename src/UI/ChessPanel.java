@@ -99,9 +99,9 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 
 	public void redoMove() {
-		chess.getBoard().redoMove(chess, this);
-		logMoves();
-		repaint();
+////		chess.getBoard().redoMove(chess, this);
+//		logMoves();
+//		repaint();
 	}
 
 	@Override
@@ -120,26 +120,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if(selectedPiece != null) {
-			selectedPiece.cancelMove();
-			selectedPiece = null;
-			selectedSquare.setPressed(false);
-			selectedSquare = null;
-			if(validMoves.size() > 0) {
-				for(Move m : validMoves) {
-					m.setInvalid();
-				}
-				validMoves.clear();
-			}
-			repaint();
-		}
 		
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		
 		//get clicked point
 		Point p = e.getPoint();
 		int row = p.y/100;
@@ -151,7 +138,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		
 		//highlight if moveable piece
 		if(selectedPiece != null) {
-			
+
 			//white piece and whites turn or black piece and blacks turn
 			if(selectedPiece.getOwner().isWhite() == chess.isWhitesTurn()) {
 				selectedSquare.setPressed(true);
@@ -174,35 +161,55 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		//if piece selected
 		if(selectedPiece != null) {
 			
-			//get dropped square
+			
 			Point p = e.getPoint();
-			int row = p.y/100;
-			int col = p.x/100;
-			Square newSquare = chess.getBoard().getSquare(row, col);
 			
-			//check move to new square is valid
-			boolean valid = false;
-			for(Move m : validMoves) {
-				if(m.getTo() == newSquare) {
-					valid = true;
-					m.executeMove(chess, this);
-					logMoves();
-					chess.getBoard().getUndone().clear();
-					break;
-				}	
+			//check on panel
+			if(p.x >= 0 && p.x < 800 && p.y >=0 && p.y < 800) {
+				int row = p.y/100;
+				int col = p.x/100;
+				
+				//get dropped square
+				Square newSquare = chess.getBoard().getSquare(row, col);
+				
+				//check move to new square is valid
+				boolean valid = false;
+				for(Move m : validMoves) {
+					if(m.getTo() == newSquare) {
+						valid = true;
+						m.executeMove(chess, this);
+						logMoves();
+						selectedPiece = null;
+						chess.getBoard().getUndone().clear();
+						break;
+					}	
+				}
+				if(!valid) {
+					selectedPiece.cancelMove();
+				}
+				selectedSquare.setPressed(false);
+				
+				for(Move m : validMoves) {
+					m.setInvalid();
+				}
+				
+				validMoves.clear();
+				
+				repaint();
 			}
-			if(!valid) {
+			else {
 				selectedPiece.cancelMove();
+				selectedPiece = null;
+				selectedSquare.setPressed(false);
+				selectedSquare = null;
+				if(validMoves.size() > 0) {
+					for(Move m : validMoves) {
+						m.setInvalid();
+					}
+					validMoves.clear();
+				}
+				repaint();
 			}
-			selectedSquare.setPressed(false);
-			
-			for(Move m : validMoves) {
-				m.setInvalid();
-			}
-			
-			validMoves.clear();;
-			
-			repaint();
 		}
 	}
 
@@ -212,8 +219,12 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		//if piece selected, stick to cursor
 		if(selectedPiece != null) {
 			Point p = e.getPoint();
-			selectedPiece.setX(p.x-50);
-			selectedPiece.setY(p.y-50);
+//			if(p.x >= 0 && p.x <= 800) {
+				selectedPiece.setX(p.x-50);
+//			}
+//			if(p.y >= 0 && p.y <= 800) {
+				selectedPiece.setY(p.y-50);
+//			}
 			repaint();
 		}
 	}
