@@ -88,7 +88,7 @@ public class Knight extends Piece{
 				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 				moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 			}
-			else if(p != null && p.getOwner().getName() != owner.getName()) {
+			else if(p != null && p.getOwner() != owner) {
 				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 			}
 			else {

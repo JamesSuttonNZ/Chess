@@ -99,7 +99,7 @@ public class Pawn extends Piece {
 			//check diagonal
 			if(moveRow != 0 && moveCol != 0) {
 				//diag take
-				if(p != null && p.getOwner().getName() != owner.getName()) {
+				if(p != null && p.getOwner() != owner) {
 					if(owner.isWhite() && currentSquare.getRow() == 0 || !owner.isWhite() && currentSquare.getRow() == 7) {
 						validMoves.add(new PawnPromotion(this, p, this.getPos(), currentSquare));
 					}

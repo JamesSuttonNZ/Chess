@@ -73,11 +73,43 @@ public class Chess {
 	
 	public void endTurn() {
 		whitesTurn = !whitesTurn;
+		
+		//whites turn
 		if(whitesTurn) {
-			white.calculateMoves(board);
+			//in check
+			if(white.inCheck(board)) {
+				
+				//draw red square around king
+				System.out.println("white in check");
+				white.calculateMoves(board);
+				
+				//if no valid moves then checkmate
+			}
+			//not in check
+			else {
+				white.calculateMoves(board);
+				
+				//if not valid moves then stalemate
+			}
+			
 		}
+		//blacks turn
 		else {
-			black.calculateMoves(board);
+			//in check
+			if(black.inCheck(board)) {
+				System.out.println("black in check");
+				//draw red square around king
+				
+				black.calculateMoves(board);
+				
+				//if no valid moves then checkmate
+			}
+			//not in check
+			else {
+				black.calculateMoves(board);
+				
+				//if not valid moves then stalemate
+			}
 		}
 	}
 

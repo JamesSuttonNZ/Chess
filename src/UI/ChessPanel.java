@@ -58,6 +58,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	}
 	
 	public void newGame() {
+		this.selectedPiece = null;
 		this.chess = new Chess();
 		repaint();
 	}

@@ -84,7 +84,7 @@ public class Queen extends Piece {
 				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 				moveCheck(board,currentSquare,moveRow,moveCol);
 			}
-			else if(p != null && p.getOwner().getName() != owner.getName()) {
+			else if(p != null && p.getOwner() != owner) {
 				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 			}
 			else {

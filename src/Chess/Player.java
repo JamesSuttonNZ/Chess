@@ -2,11 +2,13 @@ package Chess;
 
 import java.util.ArrayList;
 
+import Chess.Pieces.King;
 import Chess.Pieces.Piece;
 
 public class Player {
 	
 	public ArrayList<Piece> ownedPieces = new ArrayList<Piece>();
+	public King king;
 	public String name;
 	public boolean white;
 	
@@ -55,4 +57,17 @@ public class Player {
 	public void addPiece(Piece piece) {
 		ownedPieces.add(piece);
 	}
+
+	public King getKing() {
+		return king;
+	}
+
+	public void setKing(King king) {
+		this.king = king;
+	}
+
+	public boolean inCheck(Board board) {
+		return king.inCheck(board);
+	}
+
 }
