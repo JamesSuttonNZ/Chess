@@ -192,7 +192,7 @@ public class King extends Piece {
 				//diagonal and queen, bishop, king or pawn
 				else if((Math.abs(moveCol) == 1 && Math.abs(moveRow) == 1) && (p instanceof Queen || p instanceof Bishop || p instanceof King || p instanceof Pawn)) {	
 					//king or pawn and 1 step
-					if(p instanceof King || p instanceof Pawn && moves == 0) {
+					if((p instanceof King || p instanceof Pawn) && moves == 0) {
 						if(p instanceof Pawn) {
 							int rowDiff = p.getPos().getRow() - this.getPos().getRow();
 							if(p.getOwner().isWhite() && rowDiff > 0) {
