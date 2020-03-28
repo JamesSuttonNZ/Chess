@@ -23,6 +23,8 @@ public class Chess {
 		//create pieces and assign to players
 		setupPieces();
 		
+		white.calculateMoves(board);
+		
 		//run game loop
 //		GameLoop();
 	}
@@ -68,6 +70,16 @@ public class Chess {
 			pieces.add(new Pawn(black, board.getSquare(1,col)));
 		}
 	}
+	
+	public void endTurn() {
+		whitesTurn = !whitesTurn;
+		if(whitesTurn) {
+			white.calculateMoves(board);
+		}
+		else {
+			black.calculateMoves(board);
+		}
+	}
 
 	public Board getBoard() {
 		return board;
@@ -85,6 +97,14 @@ public class Chess {
 
 	public void setWhitesTurn(boolean whitesTurn) {
 		this.whitesTurn = whitesTurn;
+	}
+
+	public ArrayList<Piece> getPieces() {
+		return pieces;
+	}
+
+	public void setPieces(ArrayList<Piece> pieces) {
+		this.pieces = pieces;
 	}
 	
 }

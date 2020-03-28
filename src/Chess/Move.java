@@ -14,11 +14,51 @@ public class Move {
 		this.takenPiece = takenPiece;
 		this.from = from;
 		this.to = to;
-		to.setValid(true);
 	}
 	
-	public void setInvalid() {
-		to.setValid(false);
+	public void executeMove(Chess chess, ChessPanel cp) {
+		//set piece to new square;
+		movedPiece.movePiece(from,to);
+		
+		if(takenPiece != null) {
+			takenPiece.setTaken(true);
+		}
+		movedPiece.getMoves().add(this);
+		chess.getBoard().getMoves().add(this);
+		chess.endTurn();
+	}
+
+	public void undoMove(Chess chess) {
+		//return moved piece to previous square
+		movedPiece.movePiece(to, from);
+		//remove move from piece
+		movedPiece.getMoves().pop();
+		
+		if(takenPiece != null) {
+			takenPiece.setTaken(false);
+			takenPiece.getCurrentSquare().setPiece(takenPiece);
+		}
+		chess.getBoard().getUndone().add(this);
+		chess.endTurn();
+	}
+	
+	public void redoMove(Chess chess, ChessPanel cp) {
+		executeMove(chess, cp);
+	}
+	
+	public String toString() {
+		if(takenPiece == null) {
+			return movedPiece.toString()+to.toString();
+		}
+		if(movedPiece instanceof Pawn) {
+			char[] x = {'a','b','c','d','e','f','g','h'};
+			return x[from.getCol()]+"x"+to.toString();
+		}
+		return movedPiece.toString()+"x"+to.toString();
+	}
+	
+	public void setValid(Boolean valid) {
+		to.setValid(valid);
 	}
 	
 	public int getRowsMoved() {
@@ -55,50 +95,6 @@ public class Move {
 
 	public void setTo(Square to) {
 		this.to = to;
-	}
-	
-	public void executeMove(Chess chess, ChessPanel cp) {
-		//remove piece from old square
-		from.setPiece(null);
-		//set piece to new square;
-		movedPiece.setPos(to);
-		if(takenPiece != null) {
-			takenPiece.setTaken(true);
-		}
-		movedPiece.getMoves().add(this);
-		chess.getBoard().getMoves().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
-	}
-
-	public void undoMove(Chess chess) {
-		//return moved piece to previous square
-		movedPiece.setPos(from);;
-		//set to square piece to null
-		to.setPiece(null);
-		//remove move from piece
-		movedPiece.getMoves().pop();
-		
-		if(takenPiece != null) {
-			takenPiece.setTaken(false);
-			takenPiece.getCurrentSquare().setPiece(takenPiece);
-		}
-		chess.getBoard().getUndone().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
-	}
-	
-	public void redoMove(Chess chess, ChessPanel cp) {
-		executeMove(chess, cp);
-	}
-	
-	public String toString() {
-		if(takenPiece == null) {
-			return movedPiece.toString()+to.toString();
-		}
-		if(movedPiece instanceof Pawn) {
-			char[] x = {'a','b','c','d','e','f','g','h'};
-			return x[from.getCol()]+"x"+to.toString();
-		}
-		return movedPiece.toString()+"x"+to.toString();
 	}
 	
 }

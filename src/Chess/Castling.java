@@ -14,33 +14,28 @@ public class Castling extends Move {
 		this.rookStartPos = rookStartPos;
 	}
 	
-	public void executeMove(Chess chess, ChessPanel cp) {
-		//remove piece from old square
-		from.setPiece(null);
+	public void executeMove(Chess chess, ChessPanel cp) {;
 		//set piece to new square
-		movedPiece.setPos(to);
+		movedPiece.movePiece(from, to);
 
-		//remove piece from old square
-		rookStartPos.setPiece(null);
 		//set piece to new square
-		takenPiece.setPos(rookNewPos);
+		takenPiece.movePiece(rookStartPos, rookNewPos);
 		
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 
 	public void undoMove(Chess chess) {
 		//return moved piece to previous square
-		movedPiece.setPos(from);
-		takenPiece.setPos(rookStartPos);
-		rookNewPos.setPiece(null);
-		to.setPiece(null);
+		movedPiece.movePiece(to, from);
+		takenPiece.movePiece(rookNewPos, rookStartPos);
+
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
 		chess.getBoard().getUndone().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 
 	public void redoMove(Chess chess, ChessPanel cp) {

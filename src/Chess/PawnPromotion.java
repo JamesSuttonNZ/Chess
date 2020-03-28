@@ -21,14 +21,17 @@ public class PawnPromotion extends Move {
 	}
 	
 	public void executeMove(Chess chess, ChessPanel cp) {
-		//remove piece from old square
-		from.setPiece(null);
 		
 		//set piece to new square;
-		movedPiece.setPos(to);
+		movedPiece.movePiece(from, to);
+		
 		if(takenPiece != null) {
 			takenPiece.setTaken(true);
 		}
+		
+		from.setPressed(false);
+		movedPiece.drawValidMoves(false);
+		
 		cp.repaint();
 		
 		Object[] choices = {"Queen", "Rook", "Bishop", "Knight"};
@@ -40,19 +43,19 @@ public class PawnPromotion extends Move {
 		switch(choice) {
 			case 0:
 				p = new Queen(movedPiece.getOwner(), to);
-				cp.chess.pieces.add(p);
+				cp.getChess().getPieces().add(p);
 				break;
 			case 1:
 				p = new Rook(movedPiece.getOwner(), to);
-				cp.chess.pieces.add(p);
+				cp.getChess().getPieces().add(p);
 				break;
 			case 2:
 				p = new Bishop(movedPiece.getOwner(), to);
-				cp.chess.pieces.add(p);
+				cp.getChess().getPieces().add(p);
 				break;
 			case 3:
 				p = new Knight(movedPiece.getOwner(), to);
-				cp.chess.pieces.add(p);
+				cp.getChess().getPieces().add(p);
 				break;
 		}
 		
@@ -60,15 +63,14 @@ public class PawnPromotion extends Move {
 		
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 
 	public void undoMove(Chess chess) {
 		//return moved piece to previous square
-		movedPiece.setPos(from);
+		movedPiece.movePiece(to, from);
 		movedPiece.setTaken(false);
-		//set to square piece to null
-		to.setPiece(null);
+		
 		p.setTaken(true);
 		//remove move from piece
 		movedPiece.getMoves().pop();
@@ -78,7 +80,7 @@ public class PawnPromotion extends Move {
 			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
 		chess.getBoard().getUndone().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 	
 	public void redoMove(Chess chess, ChessPanel cp) {
@@ -86,18 +88,19 @@ public class PawnPromotion extends Move {
 		from.setPiece(null);
 		
 		//set piece to new square;
-		movedPiece.setPos(to);
-		p.setPos(to);
-		p.setTaken(false);
-		
+		movedPiece.movePiece(from, to);
 		movedPiece.setTaken(true);
 		
+		p.getCurrentSquare().setPiece(p);
+		p.setTaken(false);
+			
 		if(takenPiece != null) {
 			takenPiece.setTaken(true);
 		}
+		
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 	
 	public String toString() {

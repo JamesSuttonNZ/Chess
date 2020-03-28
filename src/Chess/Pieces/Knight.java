@@ -49,33 +49,27 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public void cancelMove() {
-		super.setPos(currentSquare);
-	}
-
-	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
-		ArrayList<Move> vm = new ArrayList<Move>();
+	public void validMoves(Board board) {
+		validMoves.clear();
 		//recurse left
-		moveCheck(board, selectedSquare, 2, 1, vm, 1);
+		moveCheck(board, currentSquare, 2, 1, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, 2, -1, vm, 1);
+		moveCheck(board, currentSquare, 2, -1, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, -2, 1, vm, 1);
+		moveCheck(board, currentSquare, -2, 1, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, -2, -1, vm, 1);
+		moveCheck(board, currentSquare, -2, -1, 1);
 		//
-		moveCheck(board, selectedSquare, 1, 2, vm, 1);
+		moveCheck(board, currentSquare, 1, 2, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, -1, 2, vm, 1);
+		moveCheck(board, currentSquare, -1, 2, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, 1, -2, vm, 1);
+		moveCheck(board, currentSquare, 1, -2, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, -1, -2, vm, 1);
-		return vm;
+		moveCheck(board, currentSquare, -1, -2, 1);
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
 		if(moves == 0) {
 			return;
 		}
@@ -91,11 +85,11 @@ public class Knight extends Piece{
 			currentSquare = board.getSquare(row+moveRow, col+moveCol);
 			Piece p = currentSquare.getPiece();
 			if(p == null) {
-				vm.add(new Move(this,p,this.getPos(),currentSquare));
-				moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName()) {
-				vm.add(new Move(this,p,this.getPos(),currentSquare));
+				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 			}
 			else {
 				return;

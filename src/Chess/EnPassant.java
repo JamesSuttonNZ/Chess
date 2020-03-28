@@ -14,24 +14,21 @@ public class EnPassant extends Move {
 	}
 	
 	public void executeMove(Chess chess, ChessPanel cp) {
-		//remove piece from old square
-		from.setPiece(null);
 		//set piece to new square
-		movedPiece.setPos(to);
+		movedPiece.movePiece(from, to);
+		
 		if(takenPiece != null) {
 			takenPiece.setTaken(true);
 			enPassant.setPiece(null);
 		}
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 
 	public void undoMove(Chess chess) {
 		//return moved piece to previous square
-		movedPiece.setPos(from);
-		//set to square piece to null
-		to.setPiece(null);
+		movedPiece.movePiece(to,from);
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
@@ -40,7 +37,7 @@ public class EnPassant extends Move {
 			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
 		chess.getBoard().getUndone().add(this);
-		chess.setWhitesTurn(!chess.isWhitesTurn());
+		chess.endTurn();
 	}
 	
 	public void redoMove(Chess chess, ChessPanel cp) {

@@ -3,6 +3,7 @@ package Chess.Pieces;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Stack;
 
 import Chess.Board;
@@ -18,12 +19,19 @@ public abstract class Piece {
 	public int x,y;
 	public boolean taken = false;
 	public Stack<Move> moves = new Stack<Move>();
+	public ArrayList<Move> validMoves = new ArrayList<Move>();
 	
 	public Piece(Player owner, Square currentSquare) {
 		this.owner = owner;
 		this.currentSquare = currentSquare;
 		setPos(currentSquare);
 		owner.addPiece(this);
+	}
+	
+	public void drawValidMoves(Boolean valid) {
+		for(Move m : validMoves) {
+			m.setValid(valid);
+		}
 	}
 
 	public Player getOwner() {
@@ -37,12 +45,31 @@ public abstract class Piece {
 	public Square getPos() {
 		return currentSquare;
 	}
-
+	
 	public void setPos(Square pos) {
-		this.currentSquare = pos;
+		//move piece
 		pos.setPiece(this);
+		this.currentSquare = pos;
+		
+		//draw at correct position
 		this.x = pos.getX();
 		this.y = pos.getY();
+	}
+
+	public void movePiece(Square from, Square to) {
+		//move piece
+		from.setPiece(null);
+		to.setPiece(this);
+		this.currentSquare = to;
+		
+		//draw at correct position
+		this.x = to.getX();
+		this.y = to.getY();
+	}
+	
+	public void resetPos() {
+		this.x = currentSquare.getX();
+		this.y = currentSquare.getY();
 	}
 	
 	public boolean isTaken() {
@@ -51,6 +78,7 @@ public abstract class Piece {
 
 	public void setTaken(boolean taken) {
 		this.taken = taken;
+		validMoves.clear();
 	}
 
 	public int getX() {
@@ -91,11 +119,17 @@ public abstract class Piece {
 		}
 	}
 	
+	public ArrayList<Move> getValidMoves() {
+		return validMoves;
+	}
+
+	public void setValidMoves(ArrayList<Move> validMoves) {
+		this.validMoves = validMoves;
+	}
+
 	public abstract Image getSprite();
 	
 	public abstract String toString();
-	
-	public abstract void cancelMove();
 
-	public abstract ArrayList<Move> validMoves(Board board, Square selectedSquare);	
+	public abstract void validMoves(Board board);	
 }

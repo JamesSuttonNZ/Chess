@@ -59,11 +59,6 @@ public class Board {
 	public Square getSquare(int row, int col) {
 		return board[row][col];
 	}
-
-	public ArrayList<Move> getValidMoves(Square selectedSquare, Piece selectedPiece) {
-		ArrayList<Move> validMoves = selectedPiece.validMoves(this, selectedSquare);
-		return validMoves;
-	}
 	
 	public boolean undoMove(Chess chess) {
 		if(moves.size() > 0) {
@@ -116,5 +111,4 @@ public class Board {
 			}
 		}
 	}
-
 }

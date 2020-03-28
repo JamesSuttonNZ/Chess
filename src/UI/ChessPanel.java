@@ -18,16 +18,26 @@ import Chess.Pieces.Piece;
 
 public class ChessPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
-	public Chess chess;
+	//chess game
+	public Chess chess = new Chess();
+	//clicked on square
 	public Square selectedSquare;
+	//clicked on piece
 	public Piece selectedPiece;
+	//valid moves for clicked piece
 	public ArrayList<Move> validMoves;
+	//options side bar
 	public ChessOptions options;
 	
 	public ChessPanel(ChessOptions options) {
-		this.options = options;
+		
+		//set size
 		setPreferredSize(new Dimension(800,800));
-		this.chess = new Chess();
+		
+		//initialise options bar
+		this.options = options;
+		
+		//add mouse listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -141,10 +151,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 
 			//white piece and whites turn or black piece and blacks turn
 			if(selectedPiece.getOwner().isWhite() == chess.isWhitesTurn()) {
+				
 				selectedSquare.setPressed(true);
 				
+				selectedPiece.drawValidMoves(true);
+				
 				//set valid moves and draw green circle at valid squares
-				validMoves = chess.getBoard().getValidMoves(selectedSquare, selectedPiece);
+				validMoves = selectedPiece.getValidMoves();
 			}
 			//wrong colour piece selected
 			else {
@@ -176,40 +189,26 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				boolean valid = false;
 				for(Move m : validMoves) {
 					if(m.getTo() == newSquare) {
-						valid = true;
 						m.executeMove(chess, this);
 						logMoves();
-						selectedPiece = null;
 						chess.getBoard().getUndone().clear();
+						valid = true;
 						break;
 					}	
 				}
 				if(!valid) {
-					selectedPiece.cancelMove();
+					selectedPiece.resetPos();
 				}
-				selectedSquare.setPressed(false);
-				
-				for(Move m : validMoves) {
-					m.setInvalid();
-				}
-				
-				validMoves.clear();
-				
-				repaint();
+
 			}
+			//not on panel
 			else {
-				selectedPiece.cancelMove();
-				selectedPiece = null;
-				selectedSquare.setPressed(false);
-				selectedSquare = null;
-				if(validMoves.size() > 0) {
-					for(Move m : validMoves) {
-						m.setInvalid();
-					}
-					validMoves.clear();
-				}
-				repaint();
+				selectedPiece.resetPos();
 			}
+			
+			selectedSquare.setPressed(false);
+			selectedPiece.drawValidMoves(false);
+			repaint();
 		}
 	}
 
@@ -219,6 +218,8 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		//if piece selected, stick to cursor
 		if(selectedPiece != null) {
 			Point p = e.getPoint();
+			
+			//keep piece within panel
 			if(p.x >= 0 && p.x <= 800) {
 				selectedPiece.setX(p.x-50);
 			}
@@ -234,6 +235,16 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public Chess getChess() {
+		return chess;
+	}
+
+
+	public void setChess(Chess chess) {
+		this.chess = chess;
 	}
 
 }

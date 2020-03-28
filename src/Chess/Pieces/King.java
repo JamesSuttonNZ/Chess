@@ -50,33 +50,27 @@ public class King extends Piece {
 	}
 
 	@Override
-	public void cancelMove() {
-		super.setPos(currentSquare);
-	}
-
-	@Override
-	public ArrayList<Move> validMoves(Board board, Square selectedSquare) {
-		ArrayList<Move> vm = new ArrayList<Move>();
+	public void validMoves(Board board) {
+		validMoves.clear();
 		//recurse left
-		moveCheck(board, selectedSquare, 0, -1, vm, 1);
+		moveCheck(board, currentSquare, 0, -1, 1);
 		//recurse right
-		moveCheck(board, selectedSquare, 0, 1, vm, 1);
+		moveCheck(board, currentSquare, 0, 1, 1);
 		//recurse up
-		moveCheck(board, selectedSquare, -1, 0, vm, 1);
+		moveCheck(board, currentSquare, -1, 0, 1);
 		//recurse down
-		moveCheck(board, selectedSquare, 1, 0, vm, 1);
+		moveCheck(board, currentSquare, 1, 0, 1);
 		//recurse northwest
-		moveCheck(board, selectedSquare, -1, -1, vm, 1);
+		moveCheck(board, currentSquare, -1, -1, 1);
 		//recurse northeast
-		moveCheck(board, selectedSquare, 1, -1, vm, 1);
+		moveCheck(board, currentSquare, 1, -1, 1);
 		//recurse southeast
-		moveCheck(board, selectedSquare, 1, 1, vm, 1);
+		moveCheck(board, currentSquare, 1, 1, 1);
 		//recurse southwest
-		moveCheck(board, selectedSquare, -1, 1, vm, 1);
-		return vm;
+		moveCheck(board, currentSquare, -1, 1, 1);
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<Move> vm, int moves) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
 		
 		//row and col of current square
 		int row = currentSquare.getRow();
@@ -91,18 +85,18 @@ public class King extends Piece {
 			
 			if(p == null) {
 				if(moves > 0) {
-					vm.add(new Move(this,p,this.getPos(),currentSquare));
+					validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 				}
 				if(moveRow == 0 && moveCol == 1 || moveRow == 0 && moveCol == -1) {
-					moveCheck(board,currentSquare,moveRow,moveCol,vm,moves-1);
+					moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 				}
 			}
 			else if(p != null && p.getOwner().getName() != owner.getName() && moves > 0) {
-				vm.add(new Move(this,p,this.getPos(),currentSquare));
+				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
 			}
 			else if(p != null && p.getOwner().getName() == owner.getName() && p instanceof Rook) {
 				if(this.moves.size() == 0 && p.getMoves().size() == 0) {
-					vm.add(new Castling(this,p,this.getPos(), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+(moveCol*2)), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+moveCol), currentSquare));
+					validMoves.add(new Castling(this,p,this.getPos(), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+(moveCol*2)), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+moveCol), currentSquare));
 				}
 			}
 			else {

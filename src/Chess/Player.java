@@ -19,6 +19,14 @@ public class Player {
 			this.white = false;
 		}
 	}
+	
+	public void calculateMoves(Board b) {
+		for(Piece p : ownedPieces) {
+			if(!p.isTaken()) {
+				p.validMoves(b);
+			}
+		}
+	}
 
 	public String getName() {
 		return name;
