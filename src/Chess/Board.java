@@ -99,13 +99,21 @@ public class Board {
 		ml.setText("");
 		boolean turn = true;
 		int turnNum = 1;
+		
+		String format = "%1$3s %2$9s";
+		String format2 = "%1$11s";
+		String line;
+		
+		
 		for(Move m : moves) {
 			if(turn) {
-				ml.append(turnNum+".   "+m.toString());
+				line = String.format(format, turnNum+".", m.toString());
+				ml.append(line);
 				turn = !turn;
 			}
 			else {
-				ml.append("     "+m.toString()+"\n");
+				line = String.format(format2, m.toString());
+				ml.append(line+"\n");
 				turn = !turn;
 				turnNum++;
 			}

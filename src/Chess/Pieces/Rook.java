@@ -49,7 +49,7 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public void validMoves(Board board) {
+	public boolean validMoves(Board board) {
 		validMoves.clear();
 		//recurse left
 		moveCheck(board, currentSquare, 0, -1);
@@ -59,6 +59,7 @@ public class Rook extends Piece{
 		moveCheck(board, currentSquare, -1, 0);
 		//recurse down
 		moveCheck(board, currentSquare, 1, 0);
+		return validMoves.size() > 0;
 	}
 	
 	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol) {
@@ -73,11 +74,17 @@ public class Rook extends Piece{
 			currentSquare = board.getSquare(row+moveRow, col+moveCol);
 			Piece p = currentSquare.getPiece();
 			if(p == null) {
-				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				Move move = new Move(this,p,this.getPos(),currentSquare);
+				if(move.validMove(board)) {
+					validMoves.add(move);
+				}
 				moveCheck(board,currentSquare,moveRow,moveCol);
 			}
 			else if(p != null && p.getOwner() != owner) {
-				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				Move move = new Move(this,p,this.getPos(),currentSquare);
+				if(move.validMove(board)) {
+					validMoves.add(move);
+				}
 			}
 			else {
 				return;

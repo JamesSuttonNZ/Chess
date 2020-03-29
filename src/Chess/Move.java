@@ -16,6 +16,22 @@ public class Move {
 		this.to = to;
 	}
 	
+	public boolean validMove(Board board) {
+		//move piece
+		movedPiece.movePiece(from,to);
+		
+		//test for check
+		Boolean check = movedPiece.getOwner().inCheck(board);
+		
+		//undo move
+		movedPiece.movePiece(to, from);
+		if(takenPiece != null) {
+			takenPiece.getCurrentSquare().setPiece(takenPiece);
+		}
+		
+		return !check;
+	}
+	
 	public void executeMove(Chess chess, ChessPanel cp) {
 		//set piece to new square;
 		movedPiece.movePiece(from,to);

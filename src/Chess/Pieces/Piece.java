@@ -78,7 +78,6 @@ public abstract class Piece {
 
 	public void setTaken(boolean taken) {
 		this.taken = taken;
-		validMoves.clear();
 	}
 
 	public int getX() {
@@ -131,5 +130,5 @@ public abstract class Piece {
 	
 	public abstract String toString();
 
-	public abstract void validMoves(Board board);	
+	public abstract boolean validMoves(Board board);	
 }

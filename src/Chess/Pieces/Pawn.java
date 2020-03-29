@@ -52,7 +52,7 @@ public class Pawn extends Piece {
 	}
 	
 	@Override
-	public void validMoves(Board board) {
+	public boolean validMoves(Board board) {
 		validMoves.clear();
 		if(owner.getName() == "Black") {
 			if(moves.size() == 0) {
@@ -74,6 +74,7 @@ public class Pawn extends Piece {
 			moveCheck(board, currentSquare, -1, 1, 1);
 			moveCheck(board, currentSquare, -1, -1, 1);
 		}
+		return validMoves.size() > 0;
 	}
 	
 	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
@@ -101,15 +102,27 @@ public class Pawn extends Piece {
 				//diag take
 				if(p != null && p.getOwner() != owner) {
 					if(owner.isWhite() && currentSquare.getRow() == 0 || !owner.isWhite() && currentSquare.getRow() == 7) {
-						validMoves.add(new PawnPromotion(this, p, this.getPos(), currentSquare));
+						
+						PawnPromotion move = new PawnPromotion(this, p, this.getPos(), currentSquare);
+						if(move.validMove(board)) {
+							validMoves.add(move);
+						}
 					}
 					else {
-						validMoves.add(new Move(this, p, this.getPos(), currentSquare));
+						
+						Move move = new Move(this, p, this.getPos(), currentSquare);
+						if(move.validMove(board)) {
+							validMoves.add(move);
+						}
 					}
 				}
 				//en passant
 				else if(enPassant(p,adjP,board)) {
-					validMoves.add(new EnPassant(this, adjP, this.getPos(), currentSquare, adjacentSquare));
+					
+					EnPassant move = new EnPassant(this, adjP, this.getPos(), currentSquare, adjacentSquare);
+					if(move.validMove(board)) {
+						validMoves.add(move);
+					}
 				}
 			}
 			//check forward
@@ -117,10 +130,18 @@ public class Pawn extends Piece {
 				//empty square
 				if(p == null) {
 					if(owner.isWhite() && currentSquare.getRow() == 0 || !owner.isWhite() && currentSquare.getRow() == 7) {
-						validMoves.add(new PawnPromotion(this, p, this.getPos(), currentSquare));
+						
+						PawnPromotion move = new PawnPromotion(this, p, this.getPos(), currentSquare);
+						if(move.validMove(board)) {
+							validMoves.add(move);
+						}
 					}
 					else {
-						validMoves.add(new Move(this, p, this.getPos(), currentSquare));
+						
+						Move move = new Move(this, p, this.getPos(), currentSquare);
+						if(move.validMove(board)) {
+							validMoves.add(move);
+						}
 						moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 					}
 				}

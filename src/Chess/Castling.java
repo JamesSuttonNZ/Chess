@@ -14,6 +14,23 @@ public class Castling extends Move {
 		this.rookStartPos = rookStartPos;
 	}
 	
+	public boolean validMove(Board board) {
+		//move piece
+		movedPiece.movePiece(from,to);
+		//set piece to new square
+		takenPiece.movePiece(rookStartPos, rookNewPos);
+		
+		//test for check
+		Boolean check = movedPiece.getOwner().inCheck(board);
+		
+		//undo move
+		//return moved piece to previous square
+		movedPiece.movePiece(to, from);
+		takenPiece.movePiece(rookNewPos, rookStartPos);
+		
+		return !check;
+	}
+	
 	public void executeMove(Chess chess, ChessPanel cp) {;
 		//set piece to new square
 		movedPiece.movePiece(from, to);

@@ -81,13 +81,19 @@ public class Chess {
 				
 				//draw red square around king
 				System.out.println("white in check");
-				white.calculateMoves(board);
+				if(!white.calculateMoves(board)) {
+					System.out.println("Checkmate");
+					//game over
+				}
 				
 				//if no valid moves then checkmate
 			}
 			//not in check
 			else {
-				white.calculateMoves(board);
+				if(!white.calculateMoves(board)) {
+					System.out.println("Stalemate");
+					//game over
+				}
 				
 				//if not valid moves then stalemate
 			}
@@ -100,13 +106,19 @@ public class Chess {
 				System.out.println("black in check");
 				//draw red square around king
 				
-				black.calculateMoves(board);
+				if(!black.calculateMoves(board)){
+					System.out.println("Checkmate");
+					//game over
+				}
 				
 				//if no valid moves then checkmate
 			}
 			//not in check
 			else {
-				black.calculateMoves(board);
+				if(!black.calculateMoves(board)) {
+					System.out.println("Stalemate");
+					//game over
+				}
 				
 				//if not valid moves then stalemate
 			}

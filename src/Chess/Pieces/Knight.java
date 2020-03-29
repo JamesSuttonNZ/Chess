@@ -49,7 +49,7 @@ public class Knight extends Piece{
 	}
 
 	@Override
-	public void validMoves(Board board) {
+	public boolean validMoves(Board board) {
 		validMoves.clear();
 		//recurse left
 		moveCheck(board, currentSquare, 2, 1, 1);
@@ -67,6 +67,7 @@ public class Knight extends Piece{
 		moveCheck(board, currentSquare, 1, -2, 1);
 		//recurse down
 		moveCheck(board, currentSquare, -1, -2, 1);
+		return validMoves.size() > 0;
 	}
 	
 	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
@@ -85,11 +86,17 @@ public class Knight extends Piece{
 			currentSquare = board.getSquare(row+moveRow, col+moveCol);
 			Piece p = currentSquare.getPiece();
 			if(p == null) {
-				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				Move move = new Move(this,p,this.getPos(),currentSquare);
+				if(move.validMove(board)) {
+					validMoves.add(move);
+				}
 				moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 			}
 			else if(p != null && p.getOwner() != owner) {
-				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				Move move = new Move(this,p,this.getPos(),currentSquare);
+				if(move.validMove(board)) {
+					validMoves.add(move);
+				}
 			}
 			else {
 				return;

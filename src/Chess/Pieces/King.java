@@ -52,7 +52,7 @@ public class King extends Piece {
 	}
 
 	@Override
-	public void validMoves(Board board) {
+	public boolean validMoves(Board board) {
 		validMoves.clear();
 		//recurse left
 		moveCheck(board, currentSquare, 0, -1, 1);
@@ -70,6 +70,7 @@ public class King extends Piece {
 		moveCheck(board, currentSquare, 1, 1, 1);
 		//recurse southwest
 		moveCheck(board, currentSquare, -1, 1, 1);
+		return validMoves.size() > 0;
 	}
 	
 	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
@@ -87,18 +88,27 @@ public class King extends Piece {
 			
 			if(p == null) {
 				if(moves > 0) {
-					validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+					Move move = new Move(this,p,this.getPos(),currentSquare);
+					if(move.validMove(board)) {
+						validMoves.add(move);
+					}
 				}
 				if(moveRow == 0 && moveCol == 1 || moveRow == 0 && moveCol == -1) {
 					moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
 				}
 			}
 			else if(p != null && p.getOwner() != owner && moves > 0) {
-				validMoves.add(new Move(this,p,this.getPos(),currentSquare));
+				Move move = new Move(this,p,this.getPos(),currentSquare);
+				if(move.validMove(board)) {
+					validMoves.add(move);
+				}
 			}
 			else if(p != null && p.getOwner() == owner && p instanceof Rook) {
 				if(this.moves.size() == 0 && p.getMoves().size() == 0) {
-					validMoves.add(new Castling(this,p,this.getPos(), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+(moveCol*2)), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+moveCol), currentSquare));
+					Castling move = new Castling(this,p,this.getPos(), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+(moveCol*2)), board.getSquare(this.currentSquare.getRow(), this.currentSquare.getCol()+moveCol), currentSquare);
+					if(move.validMove(board)) {
+						validMoves.add(move);
+					}
 				}
 			}
 			else {
@@ -111,8 +121,6 @@ public class King extends Piece {
 	}
 
 	public boolean inCheck(Board board) {
-
-		boolean check = false;
 		
 		//recurse left
 		if(checkSearch(board, currentSquare, 0, -1, 0)) return true;
@@ -148,7 +156,7 @@ public class King extends Piece {
 		//recurse down
 		if(checkSearch(board, currentSquare, -1, -2, 0)) return true;
 		
-		return check;
+		return false;
 	}
 
 	private boolean checkSearch(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {

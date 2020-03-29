@@ -13,6 +13,25 @@ public class EnPassant extends Move {
 		this.enPassant = enPassant;
 	}
 	
+	public boolean validMove(Board board) {
+		//move piece
+		movedPiece.movePiece(from,to);
+		if(takenPiece != null) {
+			enPassant.setPiece(null);
+		}
+		
+		//test for check
+		Boolean check = movedPiece.getOwner().inCheck(board);
+		
+		//undo move
+		movedPiece.movePiece(to, from);
+		if(takenPiece != null) {
+			enPassant.setPiece(takenPiece);
+		}
+		
+		return !check;
+	}
+	
 	public void executeMove(Chess chess, ChessPanel cp) {
 		//set piece to new square
 		movedPiece.movePiece(from, to);
@@ -34,7 +53,7 @@ public class EnPassant extends Move {
 		
 		if(takenPiece != null) {
 			takenPiece.setTaken(false);
-			takenPiece.getCurrentSquare().setPiece(takenPiece);
+			enPassant.setPiece(takenPiece);
 		}
 		chess.getBoard().getUndone().add(this);
 		chess.endTurn();

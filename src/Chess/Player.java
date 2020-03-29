@@ -22,12 +22,14 @@ public class Player {
 		}
 	}
 	
-	public void calculateMoves(Board b) {
+	public boolean calculateMoves(Board b) {
+		Boolean validMove = false;
 		for(Piece p : ownedPieces) {
 			if(!p.isTaken()) {
-				p.validMoves(b);
+				if(p.validMoves(b)) validMove = true;
 			}
 		}
+		return validMove;
 	}
 
 	public String getName() {
