@@ -4,9 +4,15 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import Chess.Pieces.*;
+import UI.ChessPanel;
 
 public class Chess {
+	
+	//chess panel
+	ChessPanel chessPanel;
 	
 	//players
 	public Player white = new Player("White");
@@ -18,8 +24,10 @@ public class Chess {
 	//turn
 	boolean whitesTurn = true;
 
-	public Chess() {
+	public Chess(ChessPanel chessPanel) {
 
+		this.chessPanel = chessPanel;
+		
 		//create pieces and assign to players
 		setupPieces();
 		
@@ -76,14 +84,21 @@ public class Chess {
 		
 		//whites turn
 		if(whitesTurn) {
+			black.setCheck(false);
 			//in check
 			if(white.inCheck(board)) {
 				
 				//draw red square around king
 				System.out.println("white in check");
+				
+				white.setCheck(true);
+				
 				if(!white.calculateMoves(board)) {
 					System.out.println("Checkmate");
 					//game over
+					Object[] choices = {"New Game"};
+					JOptionPane.showOptionDialog(chessPanel,"Checkmate: Black Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+					chessPanel.newGame();
 				}
 				
 				//if no valid moves then checkmate
@@ -93,6 +108,9 @@ public class Chess {
 				if(!white.calculateMoves(board)) {
 					System.out.println("Stalemate");
 					//game over
+					Object[] choices = {"New Game"};
+					JOptionPane.showOptionDialog(chessPanel,"Stalemate: Draw!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+					chessPanel.newGame();
 				}
 				
 				//if not valid moves then stalemate
@@ -101,14 +119,22 @@ public class Chess {
 		}
 		//blacks turn
 		else {
+			white.setCheck(false);
+			
 			//in check
 			if(black.inCheck(board)) {
 				System.out.println("black in check");
 				//draw red square around king
 				
+				black.setCheck(true);
+				
 				if(!black.calculateMoves(board)){
 					System.out.println("Checkmate");
 					//game over
+					
+					Object[] choices = {"New Game"};
+					JOptionPane.showOptionDialog(chessPanel,"Checkmate: White Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+					chessPanel.newGame();
 				}
 				
 				//if no valid moves then checkmate
@@ -118,6 +144,9 @@ public class Chess {
 				if(!black.calculateMoves(board)) {
 					System.out.println("Stalemate");
 					//game over
+					Object[] choices = {"New Game"};
+					JOptionPane.showOptionDialog(chessPanel,"Stalemate: Draw!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+					chessPanel.newGame();
 				}
 				
 				//if not valid moves then stalemate

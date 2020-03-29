@@ -1,5 +1,7 @@
 package Chess.Pieces;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -39,6 +41,19 @@ public class King extends Piece {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void drawPiece(Graphics g) {
+		if(owner.isCheck()) {
+			g.setColor(new Color(255,0,0));
+			g.fillRect(currentSquare.getX(), currentSquare.getY(), 100, 100);
+			g.setColor(currentSquare.getColor());
+			g.fillRect(currentSquare.getX()+7, currentSquare.getY()+7, 86, 86);
+		}
+		
+		if(!taken) {
+			g.drawImage(this.getSprite(), x, y, 100, 100, null);
 		}
 	}
 	
@@ -162,7 +177,7 @@ public class King extends Piece {
 	private boolean checkSearch(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
 		
 		//stop looking for knight after 1 move
-		if(moves == 1 && Math.abs(moveRow) == 2 || Math.abs(moveCol) == 2) {
+		if(moves == 1 && (Math.abs(moveRow) == 2 || Math.abs(moveCol) == 2)) {
 			return false;
 		}
 

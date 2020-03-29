@@ -40,7 +40,10 @@ public class Move {
 			takenPiece.setTaken(true);
 		}
 		movedPiece.getMoves().add(this);
+		
+		movedPiece.drawValidMoves(false);
 		chess.getBoard().getMoves().add(this);
+		cp.repaint();
 		chess.endTurn();
 	}
 

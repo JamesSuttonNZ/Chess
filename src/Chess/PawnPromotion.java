@@ -76,9 +76,10 @@ public class PawnPromotion extends Move {
 		}
 		
 		movedPiece.setTaken(true);
-		
+		movedPiece.drawValidMoves(false);
 		movedPiece.getMoves().add(this);
 		chess.getBoard().getMoves().add(this);
+		cp.repaint();
 		chess.endTurn();
 	}
 

@@ -19,7 +19,7 @@ import Chess.Pieces.Piece;
 public class ChessPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
 	//chess game
-	public Chess chess = new Chess();
+	public Chess chess;
 	//clicked on square
 	public Square selectedSquare;
 	//clicked on piece
@@ -36,6 +36,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		
 		//initialise options bar
 		this.options = options;
+		this.chess = new Chess(this);
 		
 		//add mouse listeners
 		addMouseListener(this);
@@ -59,7 +60,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	
 	public void newGame() {
 		this.selectedPiece = null;
-		this.chess = new Chess();
+		this.chess = new Chess(this);
 		repaint();
 	}
 	
@@ -208,7 +209,9 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 			}
 			
 			selectedSquare.setPressed(false);
-			selectedPiece.drawValidMoves(false);
+			if(selectedPiece != null) {
+				selectedPiece.drawValidMoves(false);
+			}
 			repaint();
 		}
 	}

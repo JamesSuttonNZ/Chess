@@ -10,7 +10,7 @@ public class Player {
 	public ArrayList<Piece> ownedPieces = new ArrayList<Piece>();
 	public King king;
 	public String name;
-	public boolean white;
+	public boolean white, check;
 	
 	public Player(String name) {
 		this.name = name;
@@ -70,6 +70,14 @@ public class Player {
 
 	public boolean inCheck(Board board) {
 		return king.inCheck(board);
+	}
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 
 }
