@@ -17,6 +17,7 @@ import Chess.Chess;
 public class MainFrame extends JFrame {
 	
 	public ChessPanel chessPanel;
+	public CheckersPanel checkersPanel;
 	public ChessOptions options;
 	
 	public JMenuBar menuBar = new JMenuBar();
@@ -40,19 +41,28 @@ public class MainFrame extends JFrame {
 		c.add(options, BorderLayout.EAST);
 		
 		chessPanel = new ChessPanel(options);
-		c.add(chessPanel, BorderLayout.CENTER);
+		checkersPanel = new CheckersPanel(options);
+		c.add(checkersPanel, BorderLayout.CENTER);
 		
 		setJMenuBar(menuBar);
 		menuBar.add(chess);
-//		menuBar.add(checkers);
+		menuBar.add(checkers);
 		
 		chess.add(newChess);
-//		checkers.add(newCheckers);
+		checkers.add(newCheckers);
 		
 		newChess.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				chessPanel.newGame();
+				options.getMoveLog().setText("");
+			}
+		});
+		
+		newCheckers.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkersPanel.newGame();
 				options.getMoveLog().setText("");
 			}
 		});
