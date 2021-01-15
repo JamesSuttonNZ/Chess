@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -42,7 +43,7 @@ public class MainFrame extends JFrame {
 		
 		chessPanel = new ChessPanel(options);
 		checkersPanel = new CheckersPanel(options);
-		c.add(checkersPanel, BorderLayout.CENTER);
+		//c.add(checkersPanel, BorderLayout.CENTER);
 		
 		setJMenuBar(menuBar);
 		menuBar.add(chess);
@@ -51,11 +52,23 @@ public class MainFrame extends JFrame {
 		chess.add(newChess);
 		checkers.add(newCheckers);
 		
+		
+		//card layout
+		JPanel cards = new JPanel(new CardLayout());
+		cards.add(chessPanel, "chess");
+		cards.add(checkersPanel, "checkers");
+		
+		c.add(cards, BorderLayout.CENTER);
+		
+		CardLayout cl = (CardLayout)(cards.getLayout());
+        cl.show(cards, "chess");
+		
 		newChess.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				chessPanel.newGame();
 				options.getMoveLog().setText("");
+				cl.show(cards, "chess");
 			}
 		});
 		
@@ -64,6 +77,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				checkersPanel.newGame();
 				options.getMoveLog().setText("");
+				cl.show(cards, "checkers");
 			}
 		});
 		

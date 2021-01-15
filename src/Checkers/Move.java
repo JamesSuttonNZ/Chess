@@ -19,7 +19,6 @@ public class Move {
 	}
 	
 	public boolean validMove(Board board) {
-		System.out.println("test");
 		return to.isEmpty();
 	}
 	
