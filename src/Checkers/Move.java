@@ -28,6 +28,7 @@ public class Move {
 		
 		if(takenPiece != null) {
 			takenPiece.setTaken(true);
+			takenPiece.getCurrentSquare().setPiece(null);
 		}
 		movedPiece.getMoves().add(this);
 		

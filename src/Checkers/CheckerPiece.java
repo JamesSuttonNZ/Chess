@@ -38,14 +38,17 @@ public class CheckerPiece {
 
 	public boolean validMoves(Board board) {
 		validMoves.clear();
-		//recurse northwest
-		moveCheck(board, currentSquare, -1, -1);
-		//recurse northeast
-		moveCheck(board, currentSquare, 1, -1);
-		//recurse southeast
-		moveCheck(board, currentSquare, 1, 1);
-		//recurse southwest
-		moveCheck(board, currentSquare, -1, 1);
+		if(owner.isWhite()) {
+			//recurse northwest
+			moveCheck(board, currentSquare, -1, -1);
+			//recurse northeast
+			moveCheck(board, currentSquare, -1, 1);
+		} else {
+			//recurse southeast
+			moveCheck(board, currentSquare, 1, 1);
+			//recurse southwest
+			moveCheck(board, currentSquare, 1, -1);
+		}
 		return validMoves.size() > 0;
 	}
 	
@@ -68,9 +71,14 @@ public class CheckerPiece {
 				//moveCheck(board,currentSquare,moveRow,moveCol);
 			}
 			else if(p != null && p.getOwner() != owner) {
-				Move move = new Move(this,p,this.getPos(),currentSquare);
-				if(move.validMove(board)) {
-					validMoves.add(move);
+				
+				//check if gone off board
+				if(row+(moveRow*2) >= 0 && row+(moveRow*2) < 8 && col+(moveCol*2) >= 0 && col+(moveCol*2) < 8) {
+					currentSquare = board.getSquare(row+(moveRow*2), col+(moveCol*2));
+					Move move = new Move(this,p,this.getPos(),currentSquare);
+					if(move.validMove(board)) {
+						validMoves.add(move);
+					}
 				}
 			}
 			else {
