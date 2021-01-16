@@ -1,5 +1,7 @@
 package Checkers;
 
+import java.util.ArrayList;
+
 import Checkers.Board;
 import Checkers.Checkers;
 import Checkers.Square;
@@ -8,16 +10,24 @@ import UI.CheckersPanel;
 
 public class Move {
 	
-	public CheckerPiece movedPiece, takenPiece;
+	public CheckerPiece movedPiece;
+	public ArrayList<CheckerPiece> takenPieces;
 	public Square from, to;
 	
-	public Move(CheckerPiece movedPiece, CheckerPiece takenPiece, Square from, Square to) {
+	public Move(CheckerPiece movedPiece, ArrayList<CheckerPiece> takenPieces, Square from, Square to) {
 		this.movedPiece = movedPiece;
-		this.takenPiece = takenPiece;
+		this.takenPieces = takenPieces;
 		this.from = from;
 		this.to = to;
 	}
 	
+	public Move(CheckerPiece movedPiece, Square from, Square to) {
+		this.movedPiece = movedPiece;
+		this.takenPieces = new ArrayList<CheckerPiece>();
+		this.from = from;
+		this.to = to;
+	}
+
 	public boolean validMove(Board board) {
 		return to.isEmpty();
 	}
@@ -26,9 +36,11 @@ public class Move {
 		//set piece to new square;
 		movedPiece.movePiece(from,to);
 		
-		if(takenPiece != null) {
-			takenPiece.setTaken(true);
-			takenPiece.getCurrentSquare().setPiece(null);
+		if(!takenPieces.isEmpty()) {
+			for(CheckerPiece p: takenPieces) {
+				p.setTaken(true);
+				p.getCurrentSquare().setPiece(null);
+			}
 		}
 		movedPiece.getMoves().add(this);
 		
@@ -44,9 +56,11 @@ public class Move {
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
-		if(takenPiece != null) {
-			takenPiece.setTaken(false);
-			takenPiece.getCurrentSquare().setPiece(takenPiece);
+		if(!takenPieces.isEmpty()) {
+			for(CheckerPiece p: takenPieces) {
+				p.setTaken(false);
+				p.getCurrentSquare().setPiece(p);
+			}
 		}
 		checkers.getBoard().getUndone().add(this);
 		checkers.endTurn();
@@ -57,7 +71,7 @@ public class Move {
 	}
 	
 	public String toString() {
-		if(takenPiece == null) {
+		if(takenPieces.isEmpty()) {
 			return movedPiece.toString()+to.toString();
 		}
 		return movedPiece.toString()+"x"+to.toString();
@@ -79,12 +93,12 @@ public class Move {
 		this.movedPiece = movedPiece;
 	}
 
-	public CheckerPiece getTakenPiece() {
-		return takenPiece;
+	public ArrayList<CheckerPiece> getTakenPieces() {
+		return takenPieces;
 	}
 
-	public void setTakenPiece(CheckerPiece takenPiece) {
-		this.takenPiece = takenPiece;
+	public void setTakenPieces(ArrayList<CheckerPiece> takenPieces) {
+		this.takenPieces = takenPieces;
 	}
 
 	public Square getFrom() {
