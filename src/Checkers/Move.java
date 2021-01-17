@@ -11,35 +11,29 @@ import UI.CheckersPanel;
 public class Move {
 	
 	public CheckerPiece movedPiece;
-	public ArrayList<CheckerPiece> takenPieces;
 	public Square from, to;
+	public ArrayList<Jump> jumps = new ArrayList<Jump>();
 	
-	public Move(CheckerPiece movedPiece, ArrayList<CheckerPiece> takenPieces, Square from, Square to) {
+	public Move(CheckerPiece movedPiece, CheckerPiece takenPiece, Square from, Square to) {
+		jumps.add(new Jump(movedPiece, takenPiece, from, to));
 		this.movedPiece = movedPiece;
-		this.takenPieces = takenPieces;
 		this.from = from;
 		this.to = to;
 	}
 	
 	public Move(CheckerPiece movedPiece, Square from, Square to) {
 		this.movedPiece = movedPiece;
-		this.takenPieces = new ArrayList<CheckerPiece>();
 		this.from = from;
 		this.to = to;
-	}
-
-	public boolean validMove(Board board) {
-		return to.isEmpty();
 	}
 	
 	public void executeMove(Checkers checkers, CheckersPanel cp) {
 		//set piece to new square;
 		movedPiece.movePiece(from,to);
 		
-		if(!takenPieces.isEmpty()) {
-			for(CheckerPiece p: takenPieces) {
-				p.setTaken(true);
-				p.getCurrentSquare().setPiece(null);
+		if(!jumps.isEmpty()) {
+			for(Jump j: jumps) {
+				j.executeJump();
 			}
 		}
 		movedPiece.getMoves().add(this);
@@ -47,7 +41,18 @@ public class Move {
 		movedPiece.drawValidMoves(false);
 		checkers.getBoard().getMoves().add(this);
 		cp.repaint();
-		checkers.endTurn();
+		
+		if(!jumps.isEmpty()) {
+			if(!movedPiece.checkForJumps(checkers.getBoard(), to)){
+				checkers.endTurn();
+			}
+			else {
+				movedPiece.validMoves(checkers.getBoard());
+			}
+		}
+		else {
+			checkers.endTurn();
+		}
 	}
 
 	public void undoMove(Checkers checkers) {
@@ -56,25 +61,39 @@ public class Move {
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
-		if(!takenPieces.isEmpty()) {
-			for(CheckerPiece p: takenPieces) {
-				p.setTaken(false);
-				p.getCurrentSquare().setPiece(p);
+		if(jumps.isEmpty()) {
+			for(Jump j : jumps) {
+				j.undoJump();
 			}
 		}
 		checkers.getBoard().getUndone().add(this);
 		checkers.endTurn();
 	}
-	
+
 	public void redoMove(Checkers checkers, CheckersPanel cp) {
 		executeMove(checkers, cp);
 	}
 	
-	public String toString() {
-		if(takenPieces.isEmpty()) {
-			return movedPiece.toString()+to.toString();
+	public boolean isJump() {
+		if(jumps.isEmpty()) {
+			return false;
 		}
-		return movedPiece.toString()+"x"+to.toString();
+		else {
+			return true;
+		}
+	}
+	
+	public String toString() {
+		if(jumps.isEmpty()) {
+			return from.toString()+"-"+to.toString();
+		}
+		else {
+			String log = from.toString();
+			for(Jump j : jumps) {
+				log += j.toString();
+			}
+			return log;
+		}
 	}
 	
 	public void setValid(Boolean valid) {
@@ -93,12 +112,12 @@ public class Move {
 		this.movedPiece = movedPiece;
 	}
 
-	public ArrayList<CheckerPiece> getTakenPieces() {
-		return takenPieces;
+	public ArrayList<Jump> getJumps() {
+		return jumps;
 	}
 
-	public void setTakenPieces(ArrayList<CheckerPiece> takenPieces) {
-		this.takenPieces = takenPieces;
+	public void setJumps(ArrayList<Jump> jumps) {
+		this.jumps = jumps;
 	}
 
 	public Square getFrom() {

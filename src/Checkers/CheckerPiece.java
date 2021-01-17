@@ -33,26 +33,26 @@ public class CheckerPiece {
 	}
 	
 	public String toString() {
-		return "CheckerPiece";
+		return "Checker";
 	}
 
 	public boolean validMoves(Board board) {
 		validMoves.clear();
 		if(owner.isWhite()) {
 			//recurse northwest
-			moveCheck(board, currentSquare, -1, -1, new ArrayList<CheckerPiece>());
+			moveCheck(board, currentSquare, -1, -1);
 			//recurse northeast
-			moveCheck(board, currentSquare, -1, 1, new ArrayList<CheckerPiece>());
+			moveCheck(board, currentSquare, -1, 1);
 		} else {
 			//recurse southeast
-			moveCheck(board, currentSquare, 1, 1, new ArrayList<CheckerPiece>());
+			moveCheck(board, currentSquare, 1, 1);
 			//recurse southwest
-			moveCheck(board, currentSquare, 1, -1, new ArrayList<CheckerPiece>());
+			moveCheck(board, currentSquare, 1, -1);
 		}
 		return validMoves.size() > 0;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<CheckerPiece> takenPieces) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol) {
 		//row and col of current square
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
@@ -65,12 +65,10 @@ public class CheckerPiece {
 			
 			CheckerPiece p = currentSquare.getPiece();
 			
-			if(p == null && takenPieces.isEmpty()) {
+			if(p == null) {
 				Move move = new Move(this, this.getPos(), currentSquare);
-				if(move.validMove(board)) {
-					validMoves.add(move);
-				}
-				//moveCheck(board,currentSquare,moveRow,moveCol);
+				validMoves.add(move);
+
 			}
 			else if(p != null && p.getOwner() != owner) {
 				
@@ -80,20 +78,9 @@ public class CheckerPiece {
 					currentSquare = board.getSquare(row+(moveRow*2), col+(moveCol*2));
 					
 					if(currentSquare.isEmpty()) {
-						takenPieces.add(p);
-						if(checkForJumps(board, currentSquare)) {
-							System.out.println("test");
-							moveCheck(board,currentSquare,moveRow,moveCol,takenPieces);
-							moveCheck(board,currentSquare,moveRow,-moveCol,takenPieces);
-						}
-						else {
-							Move move = new Move(this,takenPieces,this.getPos(),currentSquare);
-							
-							if(move.validMove(board)) {
-								
-								validMoves.add(move);
-							}
-						}
+						Move move = new Move(this,p,this.getPos(),currentSquare);
+						
+						validMoves.add(move);
 					}
 				}		
 			}
@@ -144,88 +131,6 @@ public class CheckerPiece {
 			return false;
 		}
 	}
-	
-	
-	/**
-	 * this is a horrible method and needs fixing
-	 * @param board
-	 * @param currentSquare
-	 * @param moveRow
-	 * @param moveCol
-	 * @param takenPieces
-	 */
-//	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, ArrayList<CheckerPiece> takenPieces) {
-//		//row and col of current square
-//		int row = currentSquare.getRow();
-//		int col = currentSquare.getCol();
-//		
-//		//check if gone off board
-//		if(row+moveRow >= 0 && row+moveRow < 8 && col+moveCol >= 0 && col+moveCol < 8) {
-//			
-//			//move square
-//			currentSquare = board.getSquare(row+moveRow, col+moveCol);
-//			
-//			CheckerPiece p = currentSquare.getPiece();
-//			
-//			if(p == null && takenPieces.isEmpty()) {
-//				Move move = new Move(this, this.getPos(), currentSquare);
-//				if(move.validMove(board)) {
-//					validMoves.add(move);
-//				}
-//				//moveCheck(board,currentSquare,moveRow,moveCol);
-//			}
-//			else if(p == null && !takenPieces.isEmpty()) {
-//				Move move = new Move(this,takenPieces,this.getPos(), board.getSquare(row, col));
-//				
-//				if(move.validMove(board)) {
-//					
-//					validMoves.add(move);
-//				}
-//			}
-//			else if(p != null && p.getOwner() != owner) {
-//				
-//				//check hasnt gone off board
-//				if(row+(moveRow*2) >= 0 && row+(moveRow*2) < 8 && col+(moveCol*2) >= 0 && col+(moveCol*2) < 8) {
-//					
-//					currentSquare = board.getSquare(row+(moveRow*2), col+(moveCol*2));
-//					
-//					if(currentSquare.isEmpty()) {
-//						takenPieces.add(p);
-//						
-//						moveCheck(board,currentSquare,moveRow,moveCol,takenPieces);
-//					}
-//					else if(!takenPieces.isEmpty()) {
-//						System.out.println("test");
-//						Move move = new Move(this,takenPieces,this.getPos(),board.getSquare(row, col));
-//						
-//						if(move.validMove(board)) {
-//							
-//							validMoves.add(move);
-//						}
-//					}
-//					
-//				}
-//				else if(!takenPieces.isEmpty()) {
-//					Move move = new Move(this,takenPieces,this.getPos(),board.getSquare(row, col));
-//					
-//					if(move.validMove(board)) {
-//						
-//						validMoves.add(move);
-//					}
-//				}			
-//			}
-//		}
-//		else if(!takenPieces.isEmpty()) {
-//			Move move = new Move(this,takenPieces,this.getPos(),board.getSquare(row, col));
-//			
-//			if(move.validMove(board)) {
-//				
-//				validMoves.add(move);
-//			}
-//		}
-//	}
-	
-	
 	
 	
 	public void drawValidMoves(Boolean valid) {

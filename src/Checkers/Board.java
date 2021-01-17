@@ -30,10 +30,19 @@ public class Board {
 		//create board
 		boolean white = true;
 		int y = 0;
+		int w = 1;
+		int b = 1;
 		for(int row = 0; row < 8; row++) {
 			int x = 0;
 			for(int col = 0; col < 8; col++) {
-				board[row][col] = new Square(white, row, col, x, y);
+				if(white) {
+					board[row][col] = new Square(white, row, col, x, y, w);
+					w++;
+				}
+				if(!white) {
+					board[row][col] = new Square(white, row, col, x, y, b);
+					b++;
+				}
 				x += 100;
 				if(col != 7) {
 					white = !white;

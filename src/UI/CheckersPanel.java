@@ -71,31 +71,31 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	}
 
 	
-	private void drawLetters(Graphics g) {
-		//draw letters
-		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		g.setColor(Color.WHITE);
-		int x = 85;
-		int y = 795;
-		char c = 'a';
-		for(int i = 0; i < 8; i++) {
-			g.drawString(Character.toString(c), x, y);
-			x += 100;
-			c++;
-		}
-	}
-
-
-	private void drawNumbers(Graphics g) {
-		//draw numbers
-		g.setColor(Color.WHITE);
-		int x = 2;
-		int y = 720;
-		for(int i = 0; i < 8; i++) {
-			g.drawString(Integer.toString(i+1), x, y);
-			y -= 100;
-		}
-	}
+//	private void drawLetters(Graphics g) {
+//		//draw letters
+//		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+//		g.setColor(Color.WHITE);
+//		int x = 85;
+//		int y = 795;
+//		char c = 'a';
+//		for(int i = 0; i < 8; i++) {
+//			g.drawString(Character.toString(c), x, y);
+//			x += 100;
+//			c++;
+//		}
+//	}
+//
+//
+//	private void drawNumbers(Graphics g) {
+//		//draw numbers
+//		g.setColor(Color.WHITE);
+//		int x = 2;
+//		int y = 720;
+//		for(int i = 0; i < 8; i++) {
+//			g.drawString(Integer.toString(i+1), x, y);
+//			y -= 100;
+//		}
+//	}
 
 
 	private void drawSquares(Graphics g) {

@@ -7,18 +7,19 @@ import java.awt.Graphics;
 import Checkers.CheckerPiece;
 
 public class Square {
-	public int row, col, x, y;
+	public int row, col, x, y, num;
 	public boolean white, pressed, valid;
 	public CheckerPiece piece;
 	public Color color;
 	public Color oppColor;
 	
-	public Square(boolean white, int row, int col, int x, int y) {
+	public Square(boolean white, int row, int col, int x, int y, int num) {
 		this.white = white;
 		this.row = row;
 		this.col = col;
 		this.x = x;
 		this.y = y;
+		this.num = num;
 		if(white) {
 			color = new Color(225,200,175);
 			oppColor = new Color(150,100,100);
@@ -102,8 +103,7 @@ public class Square {
 	}
 
 	public String toString() {
-		char[] x = {'a','b','c','d','e','f','g','h'};
-		return ""+x[col]+(8-row);
+		return Integer.toString(num);
 	}
 
 	public void drawSquare(Graphics g) {
@@ -138,13 +138,18 @@ public class Square {
 		g.setColor(oppColor);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		//letters
-		if(row == 7) {
-			String[] c = {"a","b","c","d","e","f","g","h"};
-			g.drawString(c[col], x+87, y+95);
-		}
+//		if(row == 7) {
+//			String[] c = {"a","b","c","d","e","f","g","h"};
+//			g.drawString(c[col], x+87, y+95);
+//		}
 		//numbers
-		if(col == 0) {
-			g.drawString(Integer.toString(8-row), x+2, y+20);
+//		if(col == 0) {
+//			g.drawString(Integer.toString(8-row), x+2, y+20);
+//		}
+//		
+		//draw black square number
+		if(!white) {
+			g.drawString(Integer.toString(num), x+2, y+20);
 		}
 	}
 }
