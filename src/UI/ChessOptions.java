@@ -50,7 +50,7 @@ public class ChessOptions extends JPanel {
 		});
 		
 		JButton newGame = new JButton("New Game");
-		redo.addActionListener(new ActionListener() {
+		newGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mf.getChessPanel().newGame();

@@ -39,13 +39,7 @@ public class Move {
 		
 		movedPiece.drawValidMoves(false);
 		
-		
-		
 		checkers.addMove(this);
-		
-		
-		
-		cp.repaint();
 		
 		if(takenPiece != null) {
 			if(!movedPiece.checkForJumps(checkers.getBoard())){
