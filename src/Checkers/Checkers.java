@@ -98,6 +98,14 @@ public class Checkers {
 		if(turns.size() > 0) {
 			Turn last = turns.pop();
 			last.undo(this);
+			undoneTurns.add(last);
+			if(turns.size() > 0) {
+				currentTurn = turns.peek();
+			}
+			else {
+				currentTurn = new Turn(white, board);
+			}
+			whitesTurn = !whitesTurn;
 			return true;
 		}
 		return false;
@@ -106,6 +114,7 @@ public class Checkers {
 	public boolean redoTurn() {
 		if(undoneTurns.size() > 0) {
 			Turn last = undoneTurns.pop();
+			currentTurn = last;
 			last.redo(this, checkersPanel);
 			return true;
 		}

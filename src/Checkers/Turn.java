@@ -28,7 +28,7 @@ public class Turn {
 
 	public void redo(Checkers checkers, CheckersPanel cp) {
 		for(Move m : moves) {
-			m.executeMove(checkers, cp);
+			m.redoMove(checkers, cp);
 		}
 	}
 	

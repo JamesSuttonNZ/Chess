@@ -94,13 +94,11 @@ public class CheckerPiece {
 		
 		if(owner.isWhite()) {
 			if(checkJump(board,row,col,-1,1) || checkJump(board,row,col,-1,-1)) {
-				System.out.println("test1");
 				return true;
 			}
 		}
 		else {
 			if(checkJump(board,row,col,1,1) || checkJump(board,row,col,1,-1)) {
-				System.out.println("test2");
 				return true;
 			}
 		}

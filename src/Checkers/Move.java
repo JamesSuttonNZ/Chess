@@ -66,19 +66,34 @@ public class Move {
 			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
 		
-		
-		
-		
-//		checkers.getBoard().getUndoneTurns().add(this);
-		
-		
-		
-		
-		checkers.endTurn();
 	}
 
 	public void redoMove(Checkers checkers, CheckersPanel cp) {
-		executeMove(checkers, cp);
+		//set piece to new square;
+		movedPiece.movePiece(from,to);
+		
+		if(takenPiece != null) {
+			takenPiece.setTaken(true);
+			takenPiece.getCurrentSquare().setPiece(null);
+		}
+		movedPiece.getMoves().add(this);
+		
+		movedPiece.drawValidMoves(false);
+		
+//		checkers.addMove(this);
+		
+		if(takenPiece != null) {
+			if(!movedPiece.checkForJumps(checkers.getBoard())){
+				checkers.endTurn();
+			}
+			else {
+				
+				movedPiece.validMoves(checkers.getBoard(), true);
+			}
+		}
+		else {
+			checkers.endTurn();
+		}
 	}
 	
 	public boolean isJump() {
