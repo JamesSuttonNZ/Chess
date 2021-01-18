@@ -146,6 +146,14 @@ public class Checkers {
 			}
 		}
 	}
+	
+	public void removeMovesExcept(CheckerPiece moved) {
+		for(CheckerPiece p: pieces) {
+			if(p != moved) {
+				p.getValidMoves().clear();
+			}
+		}
+	}
 
 	public Board getBoard() {
 		return board;

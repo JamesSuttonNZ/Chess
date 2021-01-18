@@ -22,11 +22,11 @@ public class Player {
 	}
 	
 	public void calculateMoves(Board b) {
-		Boolean jumpAvailable = false;
+		boolean jumpAvailable = false;
 		
 		for(CheckerPiece p : ownedPieces) {
 			
-			if(p.checkForJumps(b)) {
+			if(p.checkForJumps(b) && !p.isTaken()) {
 				jumpAvailable = true;
 			}
 		}

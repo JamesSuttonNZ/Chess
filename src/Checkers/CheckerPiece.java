@@ -20,9 +20,15 @@ public class CheckerPiece {
 	
 	public Player owner;
 	public Square currentSquare;
+	//co-ords on graphics pane
 	public int x,y;
 	public boolean taken = false;
+	public boolean king = false;
+	public BufferedImage sprite = null;
+	
+	//moves since start of game
 	public Stack<Move> moves = new Stack<Move>();
+	//valid moves this turn
 	public ArrayList<Move> validMoves = new ArrayList<Move>();
 
 	public CheckerPiece(Player owner, Square pos) {
@@ -30,6 +36,22 @@ public class CheckerPiece {
 		this.currentSquare = pos;
 		setPos(currentSquare);
 		owner.addPiece(this);
+		//get image
+		if(owner.getName() == "White") {
+			try {
+				sprite = ImageIO.read(new File("Resources/Chess Piece Images/kingB.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				sprite = ImageIO.read(new File("Resources/Chess Piece Images/kingW.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public String toString() {
@@ -38,12 +60,13 @@ public class CheckerPiece {
 
 	public boolean validMoves(Board board, boolean jumpAvailable) {
 		validMoves.clear();
-		if(owner.isWhite()) {
+		if(owner.isWhite() || king) {
 			//recurse northwest
 			moveCheck(board, currentSquare, -1, -1, jumpAvailable);
 			//recurse northeast
 			moveCheck(board, currentSquare, -1, 1, jumpAvailable);
-		} else {
+		} 
+		if(!owner.isWhite() || king) {
 			//recurse southeast
 			moveCheck(board, currentSquare, 1, 1, jumpAvailable);
 			//recurse southwest
@@ -92,12 +115,12 @@ public class CheckerPiece {
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
 		
-		if(owner.isWhite()) {
+		if(owner.isWhite() || king) {
 			if(checkJump(board,row,col,-1,1) || checkJump(board,row,col,-1,-1)) {
 				return true;
 			}
 		}
-		else {
+		if(!owner.isWhite() || king) {
 			if(checkJump(board,row,col,1,1) || checkJump(board,row,col,1,-1)) {
 				return true;
 			}
@@ -164,6 +187,16 @@ public class CheckerPiece {
 		from.setPiece(null);
 		to.setPiece(this);
 		this.currentSquare = to;
+		if(owner.isWhite()) {
+			if(to.getRow() == 0) {
+				king = true;
+			}
+		}
+		else if(!owner.isWhite()) {
+			if(to.getRow() == 7) {
+				king = true;
+			}
+		}
 		
 		//draw at correct position
 		this.x = to.getX();
@@ -219,10 +252,17 @@ public class CheckerPiece {
 		if(!taken) {
 			if(owner.isWhite()) {
 				g.setColor(Color.WHITE);
+				
 			}else {
 				g.setColor(Color.BLACK);
 			}
 			g.fillOval(x+20, y+20, 60, 60);
+			if(king) {
+				g.fillOval(x+20, y+20, 60, 60);
+				g.drawImage(sprite, x+25, y+25, 50, 50, null);
+			}
+			
+			
 		}
 	}
 	
@@ -232,5 +272,13 @@ public class CheckerPiece {
 
 	public void setValidMoves(ArrayList<Move> validMoves) {
 		this.validMoves = validMoves;
+	}
+
+	public boolean isKing() {
+		return king;
+	}
+
+	public void setKing(boolean king) {
+		this.king = king;
 	}
 }

@@ -42,12 +42,12 @@ public class Move {
 		checkers.addMove(this);
 		
 		if(takenPiece != null) {
-			if(!movedPiece.checkForJumps(checkers.getBoard())){
-				checkers.endTurn();
+			if(movedPiece.checkForJumps(checkers.getBoard())){
+				movedPiece.validMoves(checkers.getBoard(), true);
+				checkers.removeMovesExcept(movedPiece);
 			}
 			else {
-				
-				movedPiece.validMoves(checkers.getBoard(), true);
+				checkers.endTurn();
 			}
 		}
 		else {
@@ -83,12 +83,12 @@ public class Move {
 //		checkers.addMove(this);
 		
 		if(takenPiece != null) {
-			if(!movedPiece.checkForJumps(checkers.getBoard())){
-				checkers.endTurn();
+			if(movedPiece.checkForJumps(checkers.getBoard())){
+				movedPiece.validMoves(checkers.getBoard(), true);
 			}
 			else {
+				checkers.endTurn();
 				
-				movedPiece.validMoves(checkers.getBoard(), true);
 			}
 		}
 		else {

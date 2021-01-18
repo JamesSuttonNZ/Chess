@@ -22,7 +22,7 @@ public class ChessOptions extends JPanel {
 	public JScrollPane scroll;
 	
 	public ChessOptions(MainFrame mf) {
-		setPreferredSize(new Dimension(250,800));
+		setPreferredSize(new Dimension(300,800));
 		
 //		setBorder(BorderFactory.createTitledBorder("Move Log:"));
 		
