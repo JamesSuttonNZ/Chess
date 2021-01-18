@@ -67,7 +67,7 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	}
 	
 	public void logMoves() {
-		checkers.getBoard().logMoves(options);
+		checkers.logMoves(options);
 	}
 
 	
@@ -107,13 +107,13 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	}
 
 	public void undoMove() {
-		checkers.getBoard().undoMove(checkers);
+		checkers.undoTurn();
 		logMoves();
 		repaint();
 	}
 
 	public void redoMove() {
-		checkers.getBoard().redoMove(checkers, this);
+		checkers.redoTurn();
 		logMoves();
 		repaint();
 	}
@@ -195,7 +195,7 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 					if(m.getTo() == newSquare) {
 						m.executeMove(checkers, this);
 						logMoves();
-						checkers.getBoard().getUndone().clear();
+						checkers.getUndoneTurns().clear();
 						valid = true;
 						break;
 					}	

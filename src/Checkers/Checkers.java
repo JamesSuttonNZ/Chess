@@ -2,18 +2,23 @@ package Checkers;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import Checkers.Board;
 import Checkers.Player;
 import UI.CheckersPanel;
+import UI.ChessOptions;
 
 public class Checkers {
 
 	
 	//chess panel
-	CheckersPanel checkersPanel;
+	public CheckersPanel checkersPanel;
+	//options
+	public ChessOptions chessOptions;
 	
 	//players
 	public Player white = new Player("White");
@@ -23,8 +28,18 @@ public class Checkers {
 	//pieces
 	public ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
 	//turn
-	boolean whitesTurn = true;
-
+	public boolean whitesTurn = true;
+	//current turn
+	public Turn currentTurn;
+	//Move list
+	public Stack<Turn> turns = new Stack<Turn>();	
+	//Undone Moves
+	public Stack<Turn> undoneTurns = new Stack<Turn>();
+	
+	/**
+	 * Setup game of Checkers
+	 * @param checkersPanel
+	 */
 	public Checkers(CheckersPanel checkersPanel) {
 
 		this.checkersPanel = checkersPanel;
@@ -32,26 +47,8 @@ public class Checkers {
 		//create pieces and assign to players
 		setupPieces();
 		
-		white.calculateMoves(board);
-		
-		//run game loop
-//		GameLoop();
+		currentTurn = new Turn(white, board);
 	}
-
-//	private void GameLoop() {
-//		boolean gameOver = false;
-//		boolean whitesTurn = true;
-//		while(!gameOver) {	
-//			//white's turn
-//			if(whitesTurn) {
-//				whitesTurn = !whitesTurn;
-//			}
-//			//black's turn
-//			else {
-//				whitesTurn = !whitesTurn;
-//			}
-//		}
-//	}
 
 	public void setupPieces() {
 		//white
@@ -84,12 +81,59 @@ public class Checkers {
 	}
 	
 	public void endTurn() {
+		
+		turns.add(currentTurn);
+		
 		whitesTurn = !whitesTurn;
 		if(whitesTurn) {
-			white.calculateMoves(board);
+			currentTurn = new Turn(white, board);
 		}
 		else {
-			black.calculateMoves(board);
+			currentTurn = new Turn(black, board);
+		}
+	}
+	
+	public boolean undoTurn() {
+		if(turns.size() > 0) {
+			Turn last = turns.pop();
+			last.undo(this);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean redoTurn() {
+		if(undoneTurns.size() > 0) {
+			Turn last = undoneTurns.pop();
+			last.redo(this, checkersPanel);
+			return true;
+		}
+		return false;
+	}
+	
+	public void logMoves(ChessOptions options) {
+		JTextArea ml = options.getMoveLog();
+		ml.setText("");
+		boolean turn = true;
+		int turnNum = 1;
+		
+		String format = "%1$3s %2$9s";
+		String format2 = "%1$11s";
+		String line;
+		
+		
+		for(Turn t : turns) {
+			if(turn) {
+				line = String.format(format, turnNum+".", t.toString());
+				ml.append(line);
+				turn = !turn;
+			}
+			else {
+				line = String.format(format2, t.toString());
+				ml.append(line+"\n");
+				turn = !turn;
+				turnNum++;
+			}
 		}
 	}
 
@@ -118,6 +162,32 @@ public class Checkers {
 	public void setPieces(ArrayList<CheckerPiece> pieces) {
 		this.pieces = pieces;
 	}
-	
+	public Stack<Turn> getTurns() {
+		return turns;
+	}
+
+	public void setTurns(Stack<Turn> turns) {
+		this.turns = turns;
+	}
+
+	public Stack<Turn> getUndoneTurns() {
+		return undoneTurns;
+	}
+
+	public void setUndoneTurns(Stack<Turn> undoneTurns) {
+		this.undoneTurns = undoneTurns;
+	}
+
+	public Turn getCurrentTurn() {
+		return currentTurn;
+	}
+
+	public void setCurrentTurn(Turn currentTurn) {
+		this.currentTurn = currentTurn;
+	}
+
+	public void addMove(Move m) {
+		currentTurn.addMove(m);
+	}
 
 }

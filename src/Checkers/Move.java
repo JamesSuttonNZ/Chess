@@ -11,12 +11,12 @@ import UI.CheckersPanel;
 public class Move {
 	
 	public CheckerPiece movedPiece;
+	public CheckerPiece takenPiece;
 	public Square from, to;
-	public ArrayList<Jump> jumps = new ArrayList<Jump>();
 	
 	public Move(CheckerPiece movedPiece, CheckerPiece takenPiece, Square from, Square to) {
-		jumps.add(new Jump(movedPiece, takenPiece, from, to));
 		this.movedPiece = movedPiece;
+		this.takenPiece = takenPiece;
 		this.from = from;
 		this.to = to;
 	}
@@ -31,18 +31,23 @@ public class Move {
 		//set piece to new square;
 		movedPiece.movePiece(from,to);
 		
-		if(!jumps.isEmpty()) {
-			for(Jump j: jumps) {
-				j.executeJump();
-			}
+		if(takenPiece != null) {
+			takenPiece.setTaken(true);
+			takenPiece.getCurrentSquare().setPiece(null);
 		}
 		movedPiece.getMoves().add(this);
 		
 		movedPiece.drawValidMoves(false);
-		checkers.getBoard().getMoves().add(this);
+		
+		
+		
+		checkers.addMove(this);
+		
+		
+		
 		cp.repaint();
 		
-		if(!jumps.isEmpty()) {
+		if(takenPiece != null) {
 			if(!movedPiece.checkForJumps(checkers.getBoard(), to)){
 				checkers.endTurn();
 			}
@@ -61,12 +66,19 @@ public class Move {
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
-		if(jumps.isEmpty()) {
-			for(Jump j : jumps) {
-				j.undoJump();
-			}
+		if(takenPiece != null) {
+			takenPiece.setTaken(false);
+			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
-		checkers.getBoard().getUndone().add(this);
+		
+		
+		
+		
+//		checkers.getBoard().getUndoneTurns().add(this);
+		
+		
+		
+		
 		checkers.endTurn();
 	}
 
@@ -75,7 +87,7 @@ public class Move {
 	}
 	
 	public boolean isJump() {
-		if(jumps.isEmpty()) {
+		if(takenPiece == null) {
 			return false;
 		}
 		else {
@@ -84,15 +96,11 @@ public class Move {
 	}
 	
 	public String toString() {
-		if(jumps.isEmpty()) {
-			return from.toString()+"-"+to.toString();
+		if(takenPiece == null) {
+			return "-"+to.toString();
 		}
 		else {
-			String log = from.toString();
-			for(Jump j : jumps) {
-				log += j.toString();
-			}
-			return log;
+			return "x"+to.toString();
 		}
 	}
 	
@@ -112,12 +120,12 @@ public class Move {
 		this.movedPiece = movedPiece;
 	}
 
-	public ArrayList<Jump> getJumps() {
-		return jumps;
+	public CheckerPiece getTakenPiece() {
+		return takenPiece;
 	}
 
-	public void setJumps(ArrayList<Jump> jumps) {
-		this.jumps = jumps;
+	public void setTakenPiece(CheckerPiece takenPiece) {
+		this.takenPiece = takenPiece;
 	}
 
 	public Square getFrom() {
