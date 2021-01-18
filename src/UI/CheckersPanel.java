@@ -29,9 +29,9 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	//valid moves for clicked piece
 	public ArrayList<Move> validMoves;
 	//options side bar
-	public ChessOptions options;
+	public CheckersOptions options;
 	
-	public CheckersPanel(ChessOptions options) {
+	public CheckersPanel(CheckersOptions options) {
 		
 		//set size
 		setPreferredSize(new Dimension(800,800));
@@ -69,33 +69,6 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	public void logMoves() {
 		checkers.logMoves(options);
 	}
-
-	
-//	private void drawLetters(Graphics g) {
-//		//draw letters
-//		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-//		g.setColor(Color.WHITE);
-//		int x = 85;
-//		int y = 795;
-//		char c = 'a';
-//		for(int i = 0; i < 8; i++) {
-//			g.drawString(Character.toString(c), x, y);
-//			x += 100;
-//			c++;
-//		}
-//	}
-//
-//
-//	private void drawNumbers(Graphics g) {
-//		//draw numbers
-//		g.setColor(Color.WHITE);
-//		int x = 2;
-//		int y = 720;
-//		for(int i = 0; i < 8; i++) {
-//			g.drawString(Integer.toString(i+1), x, y);
-//			y -= 100;
-//		}
-//	}
 
 
 	private void drawSquares(Graphics g) {

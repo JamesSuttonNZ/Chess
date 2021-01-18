@@ -36,23 +36,23 @@ public class CheckerPiece {
 		return "Checker";
 	}
 
-	public boolean validMoves(Board board) {
+	public boolean validMoves(Board board, boolean jumpAvailable) {
 		validMoves.clear();
 		if(owner.isWhite()) {
 			//recurse northwest
-			moveCheck(board, currentSquare, -1, -1);
+			moveCheck(board, currentSquare, -1, -1, jumpAvailable);
 			//recurse northeast
-			moveCheck(board, currentSquare, -1, 1);
+			moveCheck(board, currentSquare, -1, 1, jumpAvailable);
 		} else {
 			//recurse southeast
-			moveCheck(board, currentSquare, 1, 1);
+			moveCheck(board, currentSquare, 1, 1, jumpAvailable);
 			//recurse southwest
-			moveCheck(board, currentSquare, 1, -1);
+			moveCheck(board, currentSquare, 1, -1, jumpAvailable);
 		}
 		return validMoves.size() > 0;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol) {
+	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, boolean jumpAvailable) {
 		//row and col of current square
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();
@@ -65,7 +65,7 @@ public class CheckerPiece {
 			
 			CheckerPiece p = currentSquare.getPiece();
 			
-			if(p == null) {
+			if(p == null && !jumpAvailable) {
 				Move move = new Move(this, this.getPos(), currentSquare);
 				validMoves.add(move);
 
@@ -87,7 +87,7 @@ public class CheckerPiece {
 		}
 	}
 	
-	public boolean checkForJumps(Board board, Square currentSquare) {
+	public boolean checkForJumps(Board board) {
 		
 		int row = currentSquare.getRow();
 		int col = currentSquare.getCol();

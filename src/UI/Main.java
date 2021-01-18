@@ -11,7 +11,7 @@ public class Main {
 
 			@Override
 			public void run() {
-				JFrame frame = new MainFrame("Chess");
+				JFrame frame = new MainFrame("5 Games in Java");
 				frame.setResizable(false);
 //				frame.setSize(1200, 1000);
 				frame.pack();

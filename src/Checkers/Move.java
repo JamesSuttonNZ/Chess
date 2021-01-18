@@ -48,11 +48,12 @@ public class Move {
 		cp.repaint();
 		
 		if(takenPiece != null) {
-			if(!movedPiece.checkForJumps(checkers.getBoard(), to)){
+			if(!movedPiece.checkForJumps(checkers.getBoard())){
 				checkers.endTurn();
 			}
 			else {
-				movedPiece.validMoves(checkers.getBoard());
+				
+				movedPiece.validMoves(checkers.getBoard(), true);
 			}
 		}
 		else {

@@ -16,12 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class ChessOptions extends JPanel {
+public class CheckersOptions extends JPanel {
 	
 	public JTextArea moveLog;
 	public JScrollPane scroll;
 	
-	public ChessOptions(MainFrame mf) {
+	public CheckersOptions(MainFrame mf) {
 		setPreferredSize(new Dimension(250,800));
 		
 //		setBorder(BorderFactory.createTitledBorder("Move Log:"));
@@ -37,7 +37,7 @@ public class ChessOptions extends JPanel {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mf.getChessPanel().undoMove();
+				mf.getCheckersPanel().undoMove();
 			}
 		});
 		
@@ -45,7 +45,7 @@ public class ChessOptions extends JPanel {
 		redo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mf.getChessPanel().redoMove();
+				mf.getCheckersPanel().redoMove();
 			}
 		});
 		
@@ -53,7 +53,7 @@ public class ChessOptions extends JPanel {
 		redo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mf.getChessPanel().newGame();
+				mf.getCheckersPanel().newGame();
 				getMoveLog().setText("");
 			}
 		});

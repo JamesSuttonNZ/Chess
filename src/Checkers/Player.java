@@ -21,14 +21,21 @@ public class Player {
 		}
 	}
 	
-	public boolean calculateMoves(Board b) {
-		Boolean validMove = false;
+	public void calculateMoves(Board b) {
+		Boolean jumpAvailable = false;
+		
 		for(CheckerPiece p : ownedPieces) {
-			if(!p.isTaken()) {
-				if(p.validMoves(b)) validMove = true;
+			
+			if(p.checkForJumps(b)) {
+				jumpAvailable = true;
 			}
 		}
-		return validMove;
+		
+		for(CheckerPiece p : ownedPieces) {
+			if(!p.isTaken()) {
+				p.validMoves(b, jumpAvailable);
+			}
+		}
 	}
 
 	public String getName() {

@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 
 import Checkers.Board;
 import Checkers.Player;
+import UI.CheckersOptions;
 import UI.CheckersPanel;
 import UI.ChessOptions;
 
@@ -18,7 +19,7 @@ public class Checkers {
 	//chess panel
 	public CheckersPanel checkersPanel;
 	//options
-	public ChessOptions chessOptions;
+	public CheckersOptions checkersOptions;
 	
 	//players
 	public Player white = new Player("White");
@@ -111,7 +112,7 @@ public class Checkers {
 		return false;
 	}
 	
-	public void logMoves(ChessOptions options) {
+	public void logMoves(CheckersOptions options) {
 		JTextArea ml = options.getMoveLog();
 		ml.setText("");
 		boolean turn = true;
