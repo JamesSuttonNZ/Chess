@@ -14,12 +14,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
 
 public class CheckersOptions extends JPanel {
 	
 	public JTextArea moveLog;
 	public JScrollPane scroll;
+	
+	public JTable table;
 	
 	public CheckersOptions(MainFrame mf) {
 		setPreferredSize(new Dimension(300,800));
@@ -30,14 +34,18 @@ public class CheckersOptions extends JPanel {
 		moveLog.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		moveLog.setEditable(false);
 		
+		table = new JTable(new MoveLog(mf.getCheckersPanel().getCheckers().getTurns()));
+		
+		
 		//move log
-		scroll = new JScrollPane(moveLog, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		JButton undo = new JButton("Undo Move");
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mf.getCheckersPanel().undoMove();
+				updateTable();
 			}
 		});
 		
@@ -46,6 +54,7 @@ public class CheckersOptions extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mf.getCheckersPanel().redoMove();
+				updateTable();
 			}
 		});
 		
@@ -89,6 +98,10 @@ public class CheckersOptions extends JPanel {
 
 	public void setMoveLog(JTextArea moveLog) {
 		this.moveLog = moveLog;
+	}
+	
+	public void updateTable() {
+		((AbstractTableModel) table.getModel()).fireTableDataChanged();
 	}
 
 }

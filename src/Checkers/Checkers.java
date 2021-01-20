@@ -92,6 +92,8 @@ public class Checkers {
 		else {
 			currentTurn = new Turn(black, board);
 		}
+		
+		checkersOptions.updateTable();
 	}
 	
 	public boolean undoTurn() {
@@ -206,6 +208,14 @@ public class Checkers {
 
 	public void addMove(Move m) {
 		currentTurn.addMove(m);
+	}
+
+	public CheckersOptions getCheckersOptions() {
+		return checkersOptions;
+	}
+
+	public void setCheckersOptions(CheckersOptions checkersOptions) {
+		this.checkersOptions = checkersOptions;
 	}
 
 }

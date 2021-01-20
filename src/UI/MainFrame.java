@@ -28,6 +28,8 @@ public class MainFrame extends JFrame {
 	public ChessOptions chessOptions;
 	public CheckersOptions checkersOptions;
 	
+	//games
+	
 	public Container c;
 	
 	public MainFrame(String title) {
@@ -37,11 +39,17 @@ public class MainFrame extends JFrame {
 		
 		c = getContentPane();
 		
+		checkersPanel = new CheckersPanel(/*checkersOptions*/);
+		
 		chessOptions = new ChessOptions(this);
 		checkersOptions = new CheckersOptions(this);
 		
+		checkersPanel.setOptions(checkersOptions);
+		
 		chessPanel = new ChessPanel(chessOptions);
-		checkersPanel = new CheckersPanel(checkersOptions);
+		
+		checkersPanel.getCheckers().setCheckersOptions(checkersOptions);
+		
 		
 		JPanel chessContainer = new JPanel();
 		chessContainer.add(chessPanel);

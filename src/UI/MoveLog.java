@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import javax.swing.table.AbstractTableModel;
 
+import Checkers.Turn;
 import Chess.Move;
 
 public class MoveLog extends AbstractTableModel {
@@ -12,16 +13,17 @@ public class MoveLog extends AbstractTableModel {
             "White",
             "Black"};
 	
-	private Stack<Move> whiteMoves = new Stack<Move>();
-	private Stack<Move> blackMoves = new Stack<Move>();
+	Object[][] data = {
+		    {"Kathy", "Smith",
+		     "Snowboarding"}};
 	
-	public void addMove(Move m, boolean white) {
-		if(white) {
-			whiteMoves.add(m);
-		}else {
-			blackMoves.add(m);
-		}
-		System.out.println(m.toString());
+	private Stack<Turn> turns = new Stack<Turn>();
+	
+	public MoveLog(Stack<Turn> turns) {
+		this.turns = turns;
+	}
+	
+	public void updateTable() {
 		fireTableDataChanged();
 	}
 	
@@ -34,7 +36,7 @@ public class MoveLog extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return whiteMoves.size();
+		return (turns.size()+1)/2;
 	}
 	
 	@Override
@@ -48,29 +50,18 @@ public class MoveLog extends AbstractTableModel {
 		if(col == 0) {
 			return (row+1)+".";
 		}else if(col == 1){
-			if(row < whiteMoves.size()) {
-				return whiteMoves.get(row).toString();
-			}else {
-				return null;
-			}
+			
+			return turns.get(row*2).toString();
 			
 		}else {
-			if(row < blackMoves.size()) {
-				return blackMoves.get(row).toString();
-			}else {
+			if((row*2)+1 < turns.size()) {
+				return turns.get((row*2)+1).toString();
+			}
+			else {
 				return null;
 			}
 		}
 	}
-	
-//	@Override
-//	public void setValueAt(Object m, int row, int col) {
-//		if(col == 1) {
-//			
-//		}else if(col == 2) {
-//			
-//		}
-//	}
 
 	public boolean isCellEditable(int row, int col) {
 		return false;

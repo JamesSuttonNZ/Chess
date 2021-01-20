@@ -31,13 +31,13 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	//options side bar
 	public CheckersOptions options;
 	
-	public CheckersPanel(CheckersOptions options) {
+	public CheckersPanel(/*CheckersOptions options*/) {
 		
 		//set size
 		setPreferredSize(new Dimension(800,800));
 		
 		//initialise options bar
-		this.options = options;
+//		this.options = options;
 		this.checkers = new Checkers(this);
 		
 		//add mouse listeners
@@ -224,6 +224,16 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 
 	public void setCheckers(Checkers checkers) {
 		this.checkers = checkers;
+	}
+
+
+	public CheckersOptions getOptions() {
+		return options;
+	}
+
+
+	public void setOptions(CheckersOptions options) {
+		this.options = options;
 	}
 
 }
