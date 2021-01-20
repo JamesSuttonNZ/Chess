@@ -12,17 +12,17 @@ import UI.ChessPanel;
 public class Chess {
 	
 	//chess panel
-	ChessPanel chessPanel;
+	private ChessPanel chessPanel;
 	
 	//players
-	public Player white = new Player("White");
-	public Player black = new Player("Black");
+	private Player white = new Player("White");
+	private Player black = new Player("Black");
 	//board
-	public Board board = new Board();
+	private Board board = new Board();
 	//pieces
-	public ArrayList<Piece> pieces = new ArrayList<Piece>();
+	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	//turn
-	boolean whitesTurn = true;
+	private boolean whitesTurn = true;
 
 	public Chess(ChessPanel chessPanel) {
 

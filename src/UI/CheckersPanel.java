@@ -21,24 +21,23 @@ import Checkers.CheckerPiece;
 public class CheckersPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
 	//chess game
-	public Checkers checkers;
-	//clicked on square
-	public Square selectedSquare;
-	//clicked on piece
-	public CheckerPiece selectedPiece;
-	//valid moves for clicked piece
-	public ArrayList<Move> validMoves;
-	//options side bar
-	public CheckersOptions options;
+	private Checkers checkers;
 	
-	public CheckersPanel(/*CheckersOptions options*/) {
+	//clicked on square
+	private Square selectedSquare;
+	
+	//clicked on piece
+	private CheckerPiece selectedPiece;
+	
+	//valid moves for clicked piece
+	private ArrayList<Move> validMoves;
+	
+	public CheckersPanel(Checkers checkers) {
+		
+		this.checkers = checkers;
 		
 		//set size
 		setPreferredSize(new Dimension(800,800));
-		
-		//initialise options bar
-//		this.options = options;
-		this.checkers = new Checkers(this);
 		
 		//add mouse listeners
 		addMouseListener(this);
@@ -59,36 +58,16 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 		}
 		
 	}
-	
-	public void newGame() {
-		this.selectedPiece = null;
-		this.checkers = new Checkers(this);
-		repaint();
-	}
-	
-	public void logMoves() {
-		checkers.logMoves(options);
-	}
-
 
 	private void drawSquares(Graphics g) {
 		checkers.getBoard().drawBoard(g);
 	}
 	
 	private void drawPieces(Graphics g) {
-		checkers.drawPieces(g);
-	}
-
-	public void undoMove() {
-		checkers.undoTurn();
-		logMoves();
-		repaint();
-	}
-
-	public void redoMove() {
-		checkers.redoTurn();
-		logMoves();
-		repaint();
+		ArrayList<CheckerPiece> pieces = checkers.getPieces();
+		for(CheckerPiece p : pieces) {
+			p.drawPiece(g);
+		}
 	}
 
 	@Override
@@ -167,7 +146,6 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 				for(Move m : validMoves) {
 					if(m.getTo() == newSquare) {
 						m.executeMove(checkers, this);
-						logMoves();
 						checkers.getUndoneTurns().clear();
 						valid = true;
 						break;
@@ -214,26 +192,6 @@ public class CheckersPanel extends JPanel implements MouseListener, MouseMotionL
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-	public Checkers getCheckers() {
-		return checkers;
-	}
-
-
-	public void setCheckers(Checkers checkers) {
-		this.checkers = checkers;
-	}
-
-
-	public CheckersOptions getOptions() {
-		return options;
-	}
-
-
-	public void setOptions(CheckersOptions options) {
-		this.options = options;
 	}
 
 }

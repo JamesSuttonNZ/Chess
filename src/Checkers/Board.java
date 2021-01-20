@@ -14,7 +14,7 @@ import UI.CheckersPanel;
 
 public class Board {
 	//8x8 board of squares
-	public Square[][] board = new Square[8][8];
+	private Square[][] board = new Square[8][8];
 	
 	/**
 	 * setup board

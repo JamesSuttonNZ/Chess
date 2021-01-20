@@ -14,7 +14,7 @@ import UI.ChessPanel;
 
 public class PawnPromotion extends Move {
 	
-	public Piece p;
+	private Piece p;
 
 	public PawnPromotion(Piece movedPiece, Piece takenPiece, Square from, Square to) {
 		super(movedPiece, takenPiece, from, to);

@@ -16,7 +16,7 @@ import UI.ChessPanel;
 
 public class Rook extends Piece{
 
-	public BufferedImage sprite = null;
+	private BufferedImage sprite = null;
 	
 	public Rook(Player owner, Square currentSquare) {
 		super(owner, currentSquare);

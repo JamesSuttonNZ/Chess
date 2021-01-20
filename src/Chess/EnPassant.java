@@ -6,7 +6,7 @@ import UI.ChessPanel;
 
 public class EnPassant extends Move {
 	
-	public Square enPassant;
+	private Square enPassant;
 	
 	public EnPassant(Piece movedPiece, Piece takenPiece, Square from, Square to, Square enPassant) {
 		super(movedPiece, takenPiece, from, to);

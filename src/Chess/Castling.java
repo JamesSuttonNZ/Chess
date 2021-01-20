@@ -6,7 +6,7 @@ import UI.ChessPanel;
 
 public class Castling extends Move {
 	
-	public Square rookNewPos, rookStartPos;
+	private Square rookNewPos, rookStartPos;
 
 	public Castling(Piece movedPiece, Piece takenPiece, Square from, Square to, Square rookNewPos, Square rookStartPos) {
 		super(movedPiece, takenPiece, from, to);

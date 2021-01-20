@@ -23,14 +23,15 @@ public class MainFrame extends JFrame {
     final static String CHECKERS = "Checkers";
 	
     //ui
-	public ChessPanel chessPanel;
-	public CheckersPanel checkersPanel;
-	public ChessOptions chessOptions;
-	public CheckersOptions checkersOptions;
+	private ChessPanel chessPanel;
+	private ChessOptions chessOptions;
 	
 	//games
+	private CheckersTab checkersTab;
 	
-	public Container c;
+	private JTabbedPane tp;
+	
+	private Container c;
 	
 	public MainFrame(String title) {
 		super(title);
@@ -39,30 +40,20 @@ public class MainFrame extends JFrame {
 		
 		c = getContentPane();
 		
-		checkersPanel = new CheckersPanel(/*checkersOptions*/);
-		
-		chessOptions = new ChessOptions(this);
-		checkersOptions = new CheckersOptions(this);
-		
-		checkersPanel.setOptions(checkersOptions);
-		
+		chessOptions = new ChessOptions(this);	
 		chessPanel = new ChessPanel(chessOptions);
-		
-		checkersPanel.getCheckers().setCheckersOptions(checkersOptions);
 		
 		
 		JPanel chessContainer = new JPanel();
 		chessContainer.add(chessPanel);
 		chessContainer.add(chessOptions);
 		
-		JPanel checkersContainer = new JPanel();
-		checkersContainer.add(checkersPanel);
-		checkersContainer.add(checkersOptions);
+		checkersTab = new CheckersTab(this);
 		
 		//tabbed pane
-		JTabbedPane tp = new JTabbedPane();
+		tp = new JTabbedPane();
 		tp.addTab(CHESS, chessContainer);
-		tp.addTab(CHECKERS, checkersContainer);
+		tp.addTab(CHECKERS, checkersTab);
 		c.add(tp,BorderLayout.CENTER);
 		
 	}
@@ -75,12 +66,9 @@ public class MainFrame extends JFrame {
 		this.chessPanel = chessPanel;
 	}
 
-	public CheckersPanel getCheckersPanel() {
-		return checkersPanel;
-	}
-
-	public void setCheckersPanel(CheckersPanel checkersPanel) {
-		this.checkersPanel = checkersPanel;
+	public void newCheckers() {
+		this.checkersTab = new CheckersTab(this);
+		this.tp.setComponentAt(1, checkersTab);
 	}
 
 

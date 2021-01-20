@@ -6,9 +6,9 @@ import UI.CheckersPanel;
 
 public class Turn {
 	
-	public ArrayList<Move> moves = new ArrayList<Move>();
-	public Player p;
-	public Board b;
+	private ArrayList<Move> moves = new ArrayList<Move>();
+	private Player p;
+	private Board b;
 	
 	public Turn(Player p, Board b) {
 		this.p = p;

@@ -7,10 +7,10 @@ import Chess.Pieces.Piece;
 
 public class Player {
 	
-	public ArrayList<Piece> ownedPieces = new ArrayList<Piece>();
-	public King king;
-	public String name;
-	public boolean white, check;
+	private ArrayList<Piece> ownedPieces = new ArrayList<Piece>();
+	private King king;
+	private String name;
+	private boolean white, check;
 	
 	public Player(String name) {
 		this.name = name;

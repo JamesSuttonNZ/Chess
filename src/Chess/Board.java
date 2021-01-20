@@ -15,13 +15,13 @@ import UI.ChessPanel;
 public class Board {
 	
 	//8x8 board of squares
-	public Square[][] board = new Square[8][8];
+	private Square[][] board = new Square[8][8];
 	
 	//Move list
-	public Stack<Move> moves = new Stack<Move>();
+	private Stack<Move> moves = new Stack<Move>();
 	
 	//Undone Moves
-	public Stack<Move> undone = new Stack<Move>();
+	private Stack<Move> undone = new Stack<Move>();
 	
 	/**
 	 * setup board

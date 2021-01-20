@@ -8,11 +8,11 @@ import Chess.Pieces.Piece;
 
 public class Square {
 	
-	public int row, col, x, y;
-	public boolean white, pressed, valid;
-	public Piece piece;
-	public Color color;
-	public Color oppColor;
+	private int row, col, x, y;
+	private boolean white, pressed, valid;
+	private Piece piece;
+	private Color color;
+	private Color oppColor;
 	
 	public Square(boolean white, int row, int col, int x, int y) {
 		this.white = white;

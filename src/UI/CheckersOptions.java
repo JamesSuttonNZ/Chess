@@ -1,5 +1,6 @@
 package UI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -18,54 +19,27 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 
+import Checkers.Checkers;
+
 public class CheckersOptions extends JPanel {
 	
-	public JTextArea moveLog;
-	public JScrollPane scroll;
+	private Checkers checkers;
+	private MainFrame mf;
+	private JScrollPane scroll;
+	private JTable table;
+	private JButton undo, redo, newGame;
 	
-	public JTable table;
-	
-	public CheckersOptions(MainFrame mf) {
+	public CheckersOptions(Checkers checkers, MainFrame mf) {
+		
+		this.checkers = checkers;
+		
 		setPreferredSize(new Dimension(300,800));
 		
-//		setBorder(BorderFactory.createTitledBorder("Move Log:"));
+		setupTable(checkers);
+	
+		setupScrollPane();
 		
-		moveLog = new JTextArea();
-		moveLog.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		moveLog.setEditable(false);
-		
-		table = new JTable(new MoveLog(mf.getCheckersPanel().getCheckers().getTurns()));
-		
-		
-		//move log
-		scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
-		JButton undo = new JButton("Undo Move");
-		undo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mf.getCheckersPanel().undoMove();
-				updateTable();
-			}
-		});
-		
-		JButton redo = new JButton("Redo Move");
-		redo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mf.getCheckersPanel().redoMove();
-				updateTable();
-			}
-		});
-		
-		JButton newGame = new JButton("New Game");
-		newGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mf.getCheckersPanel().newGame();
-				getMoveLog().setText("");
-			}
-		});
+		setupButtons(checkers, mf);
 		
 		setLayout(new GridBagLayout());
 		
@@ -75,33 +49,79 @@ public class CheckersOptions extends JPanel {
 		c.weightx = 0.5;
 		c.weighty = 10;
 		
+		//scrollpane
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 0;
 		add(scroll, c);
 		
+		//undo button
 		c.weighty = 0.5;
 		c.gridwidth = 1;
 		c.gridy = 1;
 		add(undo, c);
+		
+		//redo button
 		c.gridx = 1;
 		add(redo, c);
+		
+		//new game button
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		add(newGame,c);
 	}
 
-	public JTextArea getMoveLog() {
-		return moveLog;
+	private void setupScrollPane() {
+		scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.getViewport().setBackground(Color.WHITE);
 	}
 
-	public void setMoveLog(JTextArea moveLog) {
-		this.moveLog = moveLog;
+	private void setupButtons(Checkers checkers, MainFrame mf) {
+		undo = new JButton("Undo Move");
+		undo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkers.undoTurn();
+				updateTable();
+			}
+		});
+		
+		redo = new JButton("Redo Move");
+		redo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkers.redoTurn();
+				updateTable();
+			}
+		});
+		
+		newGame = new JButton("New Game");
+		newGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mf.newCheckers();
+			}
+		});
 	}
-	
+
+	private void setupTable(Checkers checkers) {
+		table = new JTable(new CheckersTable(checkers.getTurns()));
+		table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		table.getColumnModel().getColumn(1).setPreferredWidth(125);
+		table.getColumnModel().getColumn(2).setPreferredWidth(125);
+	}
+
 	public void updateTable() {
 		((AbstractTableModel) table.getModel()).fireTableDataChanged();
+	}
+
+	public MainFrame getMf() {
+		return mf;
+	}
+
+	public void setMf(MainFrame mf) {
+		this.mf = mf;
 	}
 
 }

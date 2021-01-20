@@ -19,7 +19,7 @@ import UI.ChessPanel;
 
 public class Pawn extends Piece {
 	
-	public BufferedImage sprite = null;
+	private BufferedImage sprite = null;
 	
 	public Pawn(Player owner, Square currentSquare) {
 		super(owner, currentSquare);

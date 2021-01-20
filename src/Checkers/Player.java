@@ -7,9 +7,9 @@ import Checkers.CheckerPiece;
 
 public class Player {
 	
-	public ArrayList<CheckerPiece> ownedPieces = new ArrayList<CheckerPiece>();
-	public String name;
-	public boolean white;
+	private ArrayList<CheckerPiece> ownedPieces = new ArrayList<CheckerPiece>();
+	private String name;
+	private boolean white;
 	
 	public Player(String name) {
 		this.name = name;

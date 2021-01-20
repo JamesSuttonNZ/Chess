@@ -10,9 +10,9 @@ import UI.CheckersPanel;
 
 public class Move {
 	
-	public CheckerPiece movedPiece;
-	public CheckerPiece takenPiece;
-	public Square from, to;
+	private CheckerPiece movedPiece;
+	private CheckerPiece takenPiece;
+	private Square from, to;
 	
 	public Move(CheckerPiece movedPiece, CheckerPiece takenPiece, Square from, Square to) {
 		this.movedPiece = movedPiece;

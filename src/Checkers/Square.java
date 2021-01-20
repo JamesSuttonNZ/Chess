@@ -7,11 +7,12 @@ import java.awt.Graphics;
 import Checkers.CheckerPiece;
 
 public class Square {
-	public int row, col, x, y, num;
-	public boolean white, pressed, valid;
-	public CheckerPiece piece;
-	public Color color;
-	public Color oppColor;
+	
+	private int row, col, x, y, num;
+	private boolean white, pressed, valid;
+	private CheckerPiece piece;
+	private Color color;
+	private Color oppColor;
 	
 	public Square(boolean white, int row, int col, int x, int y, int num) {
 		this.white = white;

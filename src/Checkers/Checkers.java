@@ -17,33 +17,31 @@ public class Checkers {
 
 	
 	//chess panel
-	public CheckersPanel checkersPanel;
+	private CheckersPanel checkersPanel;
 	//options
-	public CheckersOptions checkersOptions;
+	private CheckersOptions checkersOptions;
 	
 	//players
-	public Player white = new Player("White");
-	public Player black = new Player("Black");
+	private Player white = new Player("White");
+	private Player black = new Player("Black");
 	//board
-	public Board board = new Board();
+	private Board board = new Board();
 	//pieces
-	public ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
+	private ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
 	//turn
-	public boolean whitesTurn = true;
+	private boolean whitesTurn = true;
 	//current turn
-	public Turn currentTurn;
+	private Turn currentTurn;
 	//Move list
-	public Stack<Turn> turns = new Stack<Turn>();	
+	private Stack<Turn> turns = new Stack<Turn>();	
 	//Undone Moves
-	public Stack<Turn> undoneTurns = new Stack<Turn>();
+	private Stack<Turn> undoneTurns = new Stack<Turn>();
 	
 	/**
 	 * Setup game of Checkers
 	 * @param checkersPanel
 	 */
-	public Checkers(CheckersPanel checkersPanel) {
-
-		this.checkersPanel = checkersPanel;
+	public Checkers() {
 		
 		//create pieces and assign to players
 		setupPieces();
@@ -108,6 +106,7 @@ public class Checkers {
 				currentTurn = new Turn(white, board);
 			}
 			whitesTurn = !whitesTurn;
+			checkersPanel.repaint();
 			return true;
 		}
 		return false;
@@ -118,35 +117,10 @@ public class Checkers {
 			Turn last = undoneTurns.pop();
 			currentTurn = last;
 			last.redo(this, checkersPanel);
+			checkersPanel.repaint();
 			return true;
 		}
 		return false;
-	}
-	
-	public void logMoves(CheckersOptions options) {
-		JTextArea ml = options.getMoveLog();
-		ml.setText("");
-		boolean turn = true;
-		int turnNum = 1;
-		
-		String format = "%1$3s %2$9s";
-		String format2 = "%1$11s";
-		String line;
-		
-		
-		for(Turn t : turns) {
-			if(turn) {
-				line = String.format(format, turnNum+".", t.toString());
-				ml.append(line);
-				turn = !turn;
-			}
-			else {
-				line = String.format(format2, t.toString());
-				ml.append(line+"\n");
-				turn = !turn;
-				turnNum++;
-			}
-		}
 	}
 	
 	public void removeMovesExcept(CheckerPiece moved) {
@@ -157,14 +131,12 @@ public class Checkers {
 		}
 	}
 
+	public void addMove(Move m) {
+		currentTurn.addMove(m);
+	}
+	
 	public Board getBoard() {
 		return board;
-	}
-
-	public void drawPieces(Graphics g) {
-		for(CheckerPiece p : pieces) {
-			p.drawPiece(g);
-		}
 	}
 
 	public boolean isWhitesTurn() {
@@ -206,16 +178,20 @@ public class Checkers {
 		this.currentTurn = currentTurn;
 	}
 
-	public void addMove(Move m) {
-		currentTurn.addMove(m);
-	}
-
 	public CheckersOptions getCheckersOptions() {
 		return checkersOptions;
 	}
 
 	public void setCheckersOptions(CheckersOptions checkersOptions) {
 		this.checkersOptions = checkersOptions;
+	}
+
+	public CheckersPanel getCheckersPanel() {
+		return checkersPanel;
+	}
+
+	public void setCheckersPanel(CheckersPanel checkersPanel) {
+		this.checkersPanel = checkersPanel;
 	}
 
 }

@@ -18,8 +18,8 @@ import javax.swing.JTextArea;
 
 public class ChessOptions extends JPanel {
 	
-	public JTextArea moveLog;
-	public JScrollPane scroll;
+	private JTextArea moveLog;
+	private JScrollPane scroll;
 	
 	public ChessOptions(MainFrame mf) {
 		setPreferredSize(new Dimension(300,800));

@@ -7,26 +7,19 @@ import javax.swing.table.AbstractTableModel;
 import Checkers.Turn;
 import Chess.Move;
 
-public class MoveLog extends AbstractTableModel {
+public class CheckersTable extends AbstractTableModel {
 
 	private String[] columnNames = {"Turn",
             "White",
             "Black"};
 	
-	Object[][] data = {
-		    {"Kathy", "Smith",
-		     "Snowboarding"}};
-	
 	private Stack<Turn> turns = new Stack<Turn>();
 	
-	public MoveLog(Stack<Turn> turns) {
+	public CheckersTable(Stack<Turn> turns) {
 		this.turns = turns;
+		
 	}
-	
-	public void updateTable() {
-		fireTableDataChanged();
-	}
-	
+
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub

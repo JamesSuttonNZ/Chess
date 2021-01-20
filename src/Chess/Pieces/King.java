@@ -19,7 +19,7 @@ import UI.ChessPanel;
 
 public class King extends Piece {
 
-	public BufferedImage sprite = null;
+	private BufferedImage sprite = null;
 
 	public King(Player owner, Square pos) {
 		super(owner, pos);

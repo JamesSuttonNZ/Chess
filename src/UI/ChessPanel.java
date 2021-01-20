@@ -19,15 +19,15 @@ import Chess.Pieces.Piece;
 public class ChessPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
 	//chess game
-	public Chess chess;
+	private Chess chess;
 	//clicked on square
-	public Square selectedSquare;
+	private Square selectedSquare;
 	//clicked on piece
-	public Piece selectedPiece;
+	private Piece selectedPiece;
 	//valid moves for clicked piece
-	public ArrayList<Move> validMoves;
+	private ArrayList<Move> validMoves;
 	//options side bar
-	public ChessOptions options;
+	private ChessOptions options;
 	
 	public ChessPanel(ChessOptions options) {
 		

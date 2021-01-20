@@ -16,7 +16,7 @@ import UI.ChessPanel;
 
 public class Knight extends Piece{
 	
-	public BufferedImage sprite = null;
+	private BufferedImage sprite = null;
 
 	public Knight(Player owner, Square pos) {
 		super(owner, pos);

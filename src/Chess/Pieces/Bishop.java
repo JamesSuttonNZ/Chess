@@ -16,7 +16,7 @@ import UI.ChessPanel;
 
 public class Bishop extends Piece {
 	
-	public BufferedImage sprite = null;
+	private BufferedImage sprite = null;
 
 	public Bishop(Player owner, Square pos) {
 		super(owner, pos);

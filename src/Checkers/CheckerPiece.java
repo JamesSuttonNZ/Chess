@@ -18,18 +18,18 @@ import Checkers.Square;
 
 public class CheckerPiece {
 	
-	public Player owner;
-	public Square currentSquare;
+	private Player owner;
+	private Square currentSquare;
 	//co-ords on graphics pane
-	public int x,y;
-	public boolean taken = false;
-	public boolean king = false;
-	public BufferedImage sprite = null;
+	private int x,y;
+	private boolean taken = false;
+	private boolean king = false;
+	private BufferedImage sprite = null;
 	
 	//moves since start of game
-	public Stack<Move> moves = new Stack<Move>();
+	private Stack<Move> moves = new Stack<Move>();
 	//valid moves this turn
-	public ArrayList<Move> validMoves = new ArrayList<Move>();
+	private ArrayList<Move> validMoves = new ArrayList<Move>();
 
 	public CheckerPiece(Player owner, Square pos) {
 		this.owner = owner;
