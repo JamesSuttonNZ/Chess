@@ -40,7 +40,7 @@ public class Castling extends Move {
 		
 		movedPiece.getMoves().add(this);
 		movedPiece.drawValidMoves(false);
-		chess.getBoard().getMoves().add(this);
+		chess.getMoves().add(this);
 		cp.repaint();
 		chess.endTurn();
 	}
@@ -53,7 +53,7 @@ public class Castling extends Move {
 		//remove move from piece
 		movedPiece.getMoves().pop();
 		
-		chess.getBoard().getUndone().add(this);
+		chess.getUndone().add(this);
 		chess.endTurn();
 	}
 

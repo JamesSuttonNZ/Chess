@@ -26,17 +26,13 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	private Piece selectedPiece;
 	//valid moves for clicked piece
 	private ArrayList<Move> validMoves;
-	//options side bar
-	private ChessOptions options;
 	
-	public ChessPanel(ChessOptions options) {
+	public ChessPanel(Chess chess) {
+		
+		this.chess = chess;
 		
 		//set size
 		setPreferredSize(new Dimension(800,800));
-		
-		//initialise options bar
-		this.options = options;
-		this.chess = new Chess(this);
 		
 		//add mouse listeners
 		addMouseListener(this);
@@ -57,63 +53,16 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 		}
 		
 	}
-	
-	public void newGame() {
-		this.selectedPiece = null;
-		this.chess = new Chess(this);
-		repaint();
-	}
-	
-	public void logMoves() {
-		chess.getBoard().logMoves(options);
-	}
-
-	
-	private void drawLetters(Graphics g) {
-		//draw letters
-		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		g.setColor(Color.WHITE);
-		int x = 85;
-		int y = 795;
-		char c = 'a';
-		for(int i = 0; i < 8; i++) {
-			g.drawString(Character.toString(c), x, y);
-			x += 100;
-			c++;
-		}
-	}
-
-
-	private void drawNumbers(Graphics g) {
-		//draw numbers
-		g.setColor(Color.WHITE);
-		int x = 2;
-		int y = 720;
-		for(int i = 0; i < 8; i++) {
-			g.drawString(Integer.toString(i+1), x, y);
-			y -= 100;
-		}
-	}
-
 
 	private void drawSquares(Graphics g) {
 		chess.getBoard().drawBoard(g);
 	}
 	
 	private void drawPieces(Graphics g) {
-		chess.drawPieces(g);
-	}
-
-	public void undoMove() {
-		chess.getBoard().undoMove(chess);
-		logMoves();
-		repaint();
-	}
-
-	public void redoMove() {
-		chess.getBoard().redoMove(chess, this);
-		logMoves();
-		repaint();
+		ArrayList<Piece> pieces = chess.getPieces();
+		for(Piece p : pieces) {
+			p.drawPiece(g);
+		}
 	}
 
 	@Override
@@ -192,8 +141,7 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 				for(Move m : validMoves) {
 					if(m.getTo() == newSquare) {
 						m.executeMove(chess, this);
-						logMoves();
-						chess.getBoard().getUndone().clear();
+						chess.getUndone().clear();
 						valid = true;
 						break;
 					}	
@@ -239,16 +187,6 @@ public class ChessPanel extends JPanel implements MouseListener, MouseMotionList
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-	public Chess getChess() {
-		return chess;
-	}
-
-
-	public void setChess(Chess chess) {
-		this.chess = chess;
 	}
 
 }

@@ -59,26 +59,26 @@ public class PawnPromotion extends Move {
 		switch(choice) {
 			case 0:
 				p = new Queen(movedPiece.getOwner(), to);
-				cp.getChess().getPieces().add(p);
+				chess.getPieces().add(p);
 				break;
 			case 1:
 				p = new Rook(movedPiece.getOwner(), to);
-				cp.getChess().getPieces().add(p);
+				chess.getPieces().add(p);
 				break;
 			case 2:
 				p = new Bishop(movedPiece.getOwner(), to);
-				cp.getChess().getPieces().add(p);
+				chess.getPieces().add(p);
 				break;
 			case 3:
 				p = new Knight(movedPiece.getOwner(), to);
-				cp.getChess().getPieces().add(p);
+				chess.getPieces().add(p);
 				break;
 		}
 		
 		movedPiece.setTaken(true);
 		movedPiece.drawValidMoves(false);
 		movedPiece.getMoves().add(this);
-		chess.getBoard().getMoves().add(this);
+		chess.getMoves().add(this);
 		cp.repaint();
 		chess.endTurn();
 	}
@@ -96,7 +96,7 @@ public class PawnPromotion extends Move {
 			takenPiece.setTaken(false);
 			takenPiece.getCurrentSquare().setPiece(takenPiece);
 		}
-		chess.getBoard().getUndone().add(this);
+		chess.getUndone().add(this);
 		chess.endTurn();
 	}
 	
@@ -116,7 +116,7 @@ public class PawnPromotion extends Move {
 		}
 		
 		movedPiece.getMoves().add(this);
-		chess.getBoard().getMoves().add(this);
+		chess.getMoves().add(this);
 		chess.endTurn();
 	}
 	

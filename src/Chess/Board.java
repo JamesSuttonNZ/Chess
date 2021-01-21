@@ -17,12 +17,6 @@ public class Board {
 	//8x8 board of squares
 	private Square[][] board = new Square[8][8];
 	
-	//Move list
-	private Stack<Move> moves = new Stack<Move>();
-	
-	//Undone Moves
-	private Stack<Move> undone = new Stack<Move>();
-	
 	/**
 	 * setup board
 	 */
@@ -59,64 +53,5 @@ public class Board {
 	public Square getSquare(int row, int col) {
 		return board[row][col];
 	}
-	
-	public boolean undoMove(Chess chess) {
-		if(moves.size() > 0) {
-			Move last = moves.pop();
-			last.undoMove(chess);
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean redoMove(Chess chess, ChessPanel cp) {
-		if(undone.size() > 0) {
-			Move last = undone.pop();
-			last.redoMove(chess, cp);
-			return true;
-		}
-		return false;
-	}
 
-	public Stack<Move> getMoves() {
-		return moves;
-	}
-
-	public void setMoves(Stack<Move> moves) {
-		this.moves = moves;
-	}
-
-	public Stack<Move> getUndone() {
-		return undone;
-	}
-
-	public void setUndone(Stack<Move> undone) {
-		this.undone = undone;
-	}
-
-	public void logMoves(ChessOptions options) {
-		JTextArea ml = options.getMoveLog();
-		ml.setText("");
-		boolean turn = true;
-		int turnNum = 1;
-		
-		String format = "%1$3s %2$9s";
-		String format2 = "%1$11s";
-		String line;
-		
-		
-		for(Move m : moves) {
-			if(turn) {
-				line = String.format(format, turnNum+".", m.toString());
-				ml.append(line);
-				turn = !turn;
-			}
-			else {
-				line = String.format(format2, m.toString());
-				ml.append(line+"\n");
-				turn = !turn;
-				turnNum++;
-			}
-		}
-	}
 }

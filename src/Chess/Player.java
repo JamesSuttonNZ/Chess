@@ -22,11 +22,11 @@ public class Player {
 		}
 	}
 	
-	public boolean calculateMoves(Board b) {
+	public boolean calculateMoves(Chess chess) {
 		Boolean validMove = false;
 		for(Piece p : ownedPieces) {
 			if(!p.isTaken()) {
-				if(p.validMoves(b)) validMove = true;
+				if(p.validMoves(chess)) validMove = true;
 			}
 		}
 		return validMove;

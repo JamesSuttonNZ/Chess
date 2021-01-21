@@ -43,7 +43,7 @@ public class EnPassant extends Move {
 		movedPiece.getMoves().add(this);
 		
 		movedPiece.drawValidMoves(false);
-		chess.getBoard().getMoves().add(this);
+		chess.getMoves().add(this);
 		cp.repaint();
 		chess.endTurn();
 	}
@@ -58,7 +58,7 @@ public class EnPassant extends Move {
 			takenPiece.setTaken(false);
 			enPassant.setPiece(takenPiece);
 		}
-		chess.getBoard().getUndone().add(this);
+		chess.getUndone().add(this);
 		chess.endTurn();
 	}
 	

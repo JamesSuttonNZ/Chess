@@ -85,9 +85,25 @@ public class Checkers {
 		
 		whitesTurn = !whitesTurn;
 		if(whitesTurn) {
+			
+			if(!white.piecesLeft()) {
+				checkersPanel.repaint();
+				Object[] choices = {"New Game"};
+				JOptionPane.showOptionDialog(checkersPanel,"Black Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+				checkersOptions.newGame();
+			}
+			
 			currentTurn = new Turn(white, board);
 		}
 		else {
+			
+			if(!black.piecesLeft()) {
+				checkersPanel.repaint();
+				Object[] choices = {"New Game"};
+				JOptionPane.showOptionDialog(checkersPanel,"White Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
+				checkersOptions.newGame();
+			}
+			
 			currentTurn = new Turn(black, board);
 		}
 		

@@ -3,16 +3,20 @@ package Chess;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
 import Chess.Pieces.*;
+import UI.ChessOptions;
 import UI.ChessPanel;
 
 public class Chess {
 	
 	//chess panel
 	private ChessPanel chessPanel;
+	//chess options
+	private ChessOptions chessOptions;
 	
 	//players
 	private Player white = new Player("White");
@@ -23,34 +27,18 @@ public class Chess {
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	//turn
 	private boolean whitesTurn = true;
+	//Move list
+	private Stack<Move> moves = new Stack<Move>();
+	//Undone Moves
+	private Stack<Move> undone = new Stack<Move>();
 
-	public Chess(ChessPanel chessPanel) {
+	public Chess() {
 
-		this.chessPanel = chessPanel;
-		
 		//create pieces and assign to players
 		setupPieces();
 		
-		white.calculateMoves(board);
-		
-		//run game loop
-//		GameLoop();
+		white.calculateMoves(this);
 	}
-
-//	private void GameLoop() {
-//		boolean gameOver = false;
-//		boolean whitesTurn = true;
-//		while(!gameOver) {	
-//			//white's turn
-//			if(whitesTurn) {
-//				whitesTurn = !whitesTurn;
-//			}
-//			//black's turn
-//			else {
-//				whitesTurn = !whitesTurn;
-//			}
-//		}
-//	}
 
 	public void setupPieces() {
 		//white
@@ -93,24 +81,24 @@ public class Chess {
 				
 				white.setCheck(true);
 				
-				if(!white.calculateMoves(board)) {
+				if(!white.calculateMoves(this)) {
 					System.out.println("Checkmate");
 					//game over
 					Object[] choices = {"New Game"};
 					JOptionPane.showOptionDialog(chessPanel,"Checkmate: Black Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
-					chessPanel.newGame();
+					chessOptions.newGame();
 				}
 				
 				//if no valid moves then checkmate
 			}
 			//not in check
 			else {
-				if(!white.calculateMoves(board)) {
+				if(!white.calculateMoves(this)) {
 					System.out.println("Stalemate");
 					//game over
 					Object[] choices = {"New Game"};
 					JOptionPane.showOptionDialog(chessPanel,"Stalemate: Draw!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
-					chessPanel.newGame();
+					chessOptions.newGame();
 				}
 				
 				//if not valid moves then stalemate
@@ -128,40 +116,56 @@ public class Chess {
 				
 				black.setCheck(true);
 				
-				if(!black.calculateMoves(board)){
+				if(!black.calculateMoves(this)){
 					System.out.println("Checkmate");
 					//game over
 					
 					Object[] choices = {"New Game"};
 					JOptionPane.showOptionDialog(chessPanel,"Checkmate: White Wins!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
-					chessPanel.newGame();
+					chessOptions.newGame();
 				}
 				
 				//if no valid moves then checkmate
 			}
 			//not in check
 			else {
-				if(!black.calculateMoves(board)) {
+				if(!black.calculateMoves(this)) {
 					System.out.println("Stalemate");
 					//game over
 					Object[] choices = {"New Game"};
 					JOptionPane.showOptionDialog(chessPanel,"Stalemate: Draw!","Game Over!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,null,choices,choices[0]);
-					chessPanel.newGame();
+					chessOptions.newGame();
 				}
 				
 				//if not valid moves then stalemate
 			}
 		}
+		System.out.println("test");
+		chessOptions.updateTable();
+	}
+	
+	public boolean undoMove() {
+		if(moves.size() > 0) {
+			Move last = moves.pop();
+			last.undoMove(this);
+			chessPanel.repaint();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean redoMove() {
+		if(undone.size() > 0) {
+			Move last = undone.pop();
+			last.redoMove(this, chessPanel);
+			chessPanel.repaint();
+			return true;
+		}
+		return false;
 	}
 
 	public Board getBoard() {
 		return board;
-	}
-
-	public void drawPieces(Graphics g) {
-		for(Piece p : pieces) {
-			p.drawPiece(g);
-		}
 	}
 
 	public boolean isWhitesTurn() {
@@ -178,6 +182,38 @@ public class Chess {
 
 	public void setPieces(ArrayList<Piece> pieces) {
 		this.pieces = pieces;
+	}
+
+	public ChessPanel getChessPanel() {
+		return chessPanel;
+	}
+
+	public void setChessPanel(ChessPanel chessPanel) {
+		this.chessPanel = chessPanel;
+	}
+
+	public ChessOptions getChessOptions() {
+		return chessOptions;
+	}
+
+	public void setChessOptions(ChessOptions chessOptions) {
+		this.chessOptions = chessOptions;
+	}
+
+	public Stack<Move> getMoves() {
+		return moves;
+	}
+
+	public void setMoves(Stack<Move> moves) {
+		this.moves = moves;
+	}
+
+	public Stack<Move> getUndone() {
+		return undone;
+	}
+
+	public void setUndone(Stack<Move> undone) {
+		this.undone = undone;
 	}
 	
 }

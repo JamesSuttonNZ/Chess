@@ -32,6 +32,7 @@ public class CheckersOptions extends JPanel {
 	public CheckersOptions(Checkers checkers, MainFrame mf) {
 		
 		this.checkers = checkers;
+		this.mf = mf;
 		
 		setPreferredSize(new Dimension(300,800));
 		
@@ -122,6 +123,10 @@ public class CheckersOptions extends JPanel {
 
 	public void setMf(MainFrame mf) {
 		this.mf = mf;
+	}
+
+	public void newGame() {
+		mf.newCheckers();
 	}
 
 }

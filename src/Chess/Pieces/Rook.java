@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import Chess.Board;
+import Chess.Chess;
 import Chess.Move;
 import Chess.Player;
 import Chess.Square;
@@ -49,8 +50,10 @@ public class Rook extends Piece{
 	}
 
 	@Override
-	public boolean validMoves(Board board) {
+	public boolean validMoves(Chess chess) {
 		validMoves.clear();
+		
+		Board board = chess.getBoard();
 		//recurse left
 		moveCheck(board, currentSquare, 0, -1);
 		//recurse right

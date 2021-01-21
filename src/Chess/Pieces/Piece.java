@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import Chess.Board;
+import Chess.Chess;
 import Chess.Move;
 import Chess.Player;
 import Chess.Square;
@@ -130,5 +131,5 @@ public abstract class Piece {
 	
 	public abstract String toString();
 
-	public abstract boolean validMoves(Board board);	
+	public abstract boolean validMoves(Chess chess);	
 }

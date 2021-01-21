@@ -22,11 +22,8 @@ public class MainFrame extends JFrame {
 	final static String CHESS = "Chess";
     final static String CHECKERS = "Checkers";
 	
-    //ui
-	private ChessPanel chessPanel;
-	private ChessOptions chessOptions;
-	
 	//games
+	private ChessTab chessTab;
 	private CheckersTab checkersTab;
 	
 	private JTabbedPane tp;
@@ -40,32 +37,23 @@ public class MainFrame extends JFrame {
 		
 		c = getContentPane();
 		
-		chessOptions = new ChessOptions(this);	
-		chessPanel = new ChessPanel(chessOptions);
-		
-		
-		JPanel chessContainer = new JPanel();
-		chessContainer.add(chessPanel);
-		chessContainer.add(chessOptions);
+		chessTab = new ChessTab(this);
 		
 		checkersTab = new CheckersTab(this);
 		
 		//tabbed pane
 		tp = new JTabbedPane();
-		tp.addTab(CHESS, chessContainer);
+		tp.addTab(CHESS, chessTab);
 		tp.addTab(CHECKERS, checkersTab);
 		c.add(tp,BorderLayout.CENTER);
 		
 	}
 
-	public ChessPanel getChessPanel() {
-		return chessPanel;
+	public void newChess() {
+		this.chessTab = new ChessTab(this);
+		this.tp.setComponentAt(0, chessTab);
 	}
-
-	public void setChessPanel(ChessPanel chessPanel) {
-		this.chessPanel = chessPanel;
-	}
-
+	
 	public void newCheckers() {
 		this.checkersTab = new CheckersTab(this);
 		this.tp.setComponentAt(1, checkersTab);

@@ -66,4 +66,13 @@ public class Player {
 		ownedPieces.add(piece);
 	}
 
+	public boolean piecesLeft() {
+		for(CheckerPiece p: ownedPieces) {
+			if(!p.isTaken()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

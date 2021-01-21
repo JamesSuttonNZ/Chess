@@ -10,6 +10,7 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 
 import Chess.Board;
+import Chess.Chess;
 import Chess.EnPassant;
 import Chess.Move;
 import Chess.PawnPromotion;
@@ -52,32 +53,34 @@ public class Pawn extends Piece {
 	}
 	
 	@Override
-	public boolean validMoves(Board board) {
+	public boolean validMoves(Chess chess) {
 		validMoves.clear();
+		
+		Board board = chess.getBoard();
 		if(owner.getName() == "Black") {
 			if(moves.size() == 0) {
-				moveCheck(board, currentSquare, 1, 0, 2);
+				moveCheck(chess, board, currentSquare, 1, 0, 2);
 			}
 			else {
-				moveCheck(board, currentSquare, 1, 0, 1);
+				moveCheck(chess, board, currentSquare, 1, 0, 1);
 			}
-			moveCheck(board, currentSquare, 1, 1, 1);
-			moveCheck(board, currentSquare, 1, -1, 1);
+			moveCheck(chess, board, currentSquare, 1, 1, 1);
+			moveCheck(chess, board, currentSquare, 1, -1, 1);
 		}
 		else {
 			if(moves.size() == 0) {
-				moveCheck(board, currentSquare, -1, 0, 2);
+				moveCheck(chess, board, currentSquare, -1, 0, 2);
 			}
 			else {
-				moveCheck(board, currentSquare, -1, 0, 1);
+				moveCheck(chess, board, currentSquare, -1, 0, 1);
 			}
-			moveCheck(board, currentSquare, -1, 1, 1);
-			moveCheck(board, currentSquare, -1, -1, 1);
+			moveCheck(chess, board, currentSquare, -1, 1, 1);
+			moveCheck(chess, board, currentSquare, -1, -1, 1);
 		}
 		return validMoves.size() > 0;
 	}
 	
-	public void moveCheck(Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
+	public void moveCheck(Chess chess, Board board, Square currentSquare, int moveRow, int moveCol, int moves) {
 		
 		//stop if moves used up
 		if(moves == 0) {
@@ -117,7 +120,7 @@ public class Pawn extends Piece {
 					}
 				}
 				//en passant
-				else if(enPassant(p,adjP,board)) {
+				else if(enPassant(p,adjP,chess,board)) {
 					
 					EnPassant move = new EnPassant(this, adjP, this.getPos(), currentSquare, adjacentSquare);
 					if(move.validMove(board)) {
@@ -142,7 +145,7 @@ public class Pawn extends Piece {
 						if(move.validMove(board)) {
 							validMoves.add(move);
 						}
-						moveCheck(board,currentSquare,moveRow,moveCol,moves-1);
+						moveCheck(chess,board,currentSquare,moveRow,moveCol,moves-1);
 					}
 				}
 				else {
@@ -155,11 +158,11 @@ public class Pawn extends Piece {
 		}
 	}
 	
-	public boolean enPassant(Piece p, Piece adjP, Board board) {
+	public boolean enPassant(Piece p, Piece adjP, Chess chess, Board board) {
 		if(p == null){
 			if(adjP != null) {
 				if(adjP instanceof Pawn) {
-					Stack<Move> boardMoves = board.getMoves();
+					Stack<Move> boardMoves = chess.getMoves();
 					Stack<Move> adjMoves = adjP.getMoves();
 					if(boardMoves.size() > 0 && adjMoves.size() > 0) {
 						//was last move and moved 2 squares
