@@ -24,12 +24,14 @@ public class Turn {
 		for (int i = moves.size() - 1; i >= 0; i--) {
 		    moves.get(i).undoMove(checkers);
 		}
+		p.calculateMoves(b);
 	}
 
 	public void redo(Checkers checkers, CheckersPanel cp) {
 		for(Move m : moves) {
 			m.redoMove(checkers, cp);
 		}
+		p.calculateMoves(b);
 	}
 	
 	public String toString() {

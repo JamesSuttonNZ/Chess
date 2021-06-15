@@ -108,6 +108,17 @@ public class Checkers {
 		}
 		
 		checkersOptions.updateTable();
+		
+		if(turns.size() > 0) {
+			checkersOptions.enableUndo(true);
+		}else {
+			checkersOptions.enableUndo(false);
+		}
+		if(undoneTurns.size() > 0) {
+			checkersOptions.enableRedo(true);
+		}else {
+			checkersOptions.enableRedo(false);
+		}
 	}
 	
 	public boolean undoTurn() {
@@ -123,6 +134,18 @@ public class Checkers {
 			}
 			whitesTurn = !whitesTurn;
 			checkersPanel.repaint();
+			
+			if(turns.size() > 0) {
+				checkersOptions.enableUndo(true);
+			}else {
+				checkersOptions.enableUndo(false);
+			}
+			if(undoneTurns.size() > 0) {
+				checkersOptions.enableRedo(true);
+			}else {
+				checkersOptions.enableRedo(false);
+			}
+			
 			return true;
 		}
 		return false;
@@ -134,6 +157,18 @@ public class Checkers {
 			currentTurn = last;
 			last.redo(this, checkersPanel);
 			checkersPanel.repaint();
+			
+			if(turns.size() > 0) {
+				checkersOptions.enableUndo(true);
+			}else {
+				checkersOptions.enableUndo(false);
+			}
+			if(undoneTurns.size() > 0) {
+				checkersOptions.enableRedo(true);
+			}else {
+				checkersOptions.enableRedo(false);
+			}
+			
 			return true;
 		}
 		return false;

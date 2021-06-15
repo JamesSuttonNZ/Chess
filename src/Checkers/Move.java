@@ -31,13 +31,12 @@ public class Move {
 		//set piece to new square;
 		movedPiece.movePiece(from,to);
 		
+		//
 		if(takenPiece != null) {
-			takenPiece.setTaken(true);
-			takenPiece.getCurrentSquare().setPiece(null);
+			takenPiece.taken(true);
 		}
-		movedPiece.getMoves().add(this);
 		
-		movedPiece.drawValidMoves(false);
+		movedPiece.getMoves().add(this);
 		
 		checkers.addMove(this);
 		
@@ -45,6 +44,8 @@ public class Move {
 			if(movedPiece.checkForJumps(checkers.getBoard())){
 				movedPiece.validMoves(checkers.getBoard(), true);
 				checkers.removeMovesExcept(movedPiece);
+				checkers.getCheckersOptions().enableUndo(false);
+				checkers.getCheckersOptions().enableRedo(false);
 			}
 			else {
 				checkers.endTurn();
@@ -62,8 +63,7 @@ public class Move {
 		movedPiece.getMoves().pop();
 		
 		if(takenPiece != null) {
-			takenPiece.setTaken(false);
-			takenPiece.getCurrentSquare().setPiece(takenPiece);
+			takenPiece.taken(false);
 		}
 		
 	}
@@ -73,27 +73,22 @@ public class Move {
 		movedPiece.movePiece(from,to);
 		
 		if(takenPiece != null) {
-			takenPiece.setTaken(true);
-			takenPiece.getCurrentSquare().setPiece(null);
+			takenPiece.taken(true);
 		}
 		movedPiece.getMoves().add(this);
 		
-		movedPiece.drawValidMoves(false);
-		
-//		checkers.addMove(this);
-		
-		if(takenPiece != null) {
-			if(movedPiece.checkForJumps(checkers.getBoard())){
-				movedPiece.validMoves(checkers.getBoard(), true);
-			}
-			else {
-				checkers.endTurn();
-				
-			}
-		}
-		else {
-			checkers.endTurn();
-		}
+//		if(takenPiece != null) {
+//			if(movedPiece.checkForJumps(checkers.getBoard())){
+//				movedPiece.validMoves(checkers.getBoard(), true);
+//			}
+//			else {
+//				checkers.endTurn();
+//				
+//			}
+//		}
+//		else {
+//			checkers.endTurn();
+//		}
 	}
 	
 	public boolean isJump() {

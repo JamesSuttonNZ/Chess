@@ -79,7 +79,8 @@ public class CheckersOptions extends JPanel {
 	}
 
 	private void setupButtons(Checkers checkers, MainFrame mf) {
-		undo = new JButton("Undo Move");
+		undo = new JButton("Undo Turn");
+		undo.setEnabled(false);
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -88,7 +89,8 @@ public class CheckersOptions extends JPanel {
 			}
 		});
 		
-		redo = new JButton("Redo Move");
+		redo = new JButton("Redo Turn");
+		redo.setEnabled(false);
 		redo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,6 +129,14 @@ public class CheckersOptions extends JPanel {
 
 	public void newGame() {
 		mf.newCheckers();
+	}
+
+	public void enableUndo(boolean enabled) {
+		undo.setEnabled(enabled);
+	}
+	
+	public void enableRedo(boolean enabled) {
+		redo.setEnabled(enabled);
 	}
 
 }

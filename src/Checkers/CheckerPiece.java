@@ -208,6 +208,17 @@ public class CheckerPiece {
 		this.y = currentSquare.getY();
 	}
 	
+	public void taken(boolean taken) {
+		if(taken) {
+			this.taken = true;
+			this.currentSquare.setPiece(null);
+		}
+		else if(!taken) {
+			this.taken = false;
+			this.currentSquare.setPiece(this);
+		}
+	}
+	
 	public boolean isTaken() {
 		return taken;
 	}
